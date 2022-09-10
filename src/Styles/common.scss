@@ -1,0 +1,81 @@
+@import './_variable.scss';
+
+/*
+ * General styles
+ */
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    background-image : "#fff";
+    background-repeat: no-repeat;
+    background-size  : cover;
+    font-family      : $fontmain;
+    font-size        : $base-size - 2px;
+    height           : 100vh;
+    overflow         : hidden;
+    line-height      : 1.5;
+    overflow         : overlay;
+    font-size        : 1.6rem;
+
+    iframe {
+        position: relative;
+    }
+}
+
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width        : 8px;
+    z-index      : 999999999999999;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius   : 4px;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index         : 999999999999999;
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius   : 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+.content-container {
+
+    .title {
+        text-align    : center;
+        text-transform: uppercase;
+        font-weight   : bold;
+        font-size     : $base-size + 4px;
+        margin-top    : 15px;
+        color         : $colormain;
+    }
+
+    .content {
+        margin            : 15px 30px;
+        box-shadow        : 2px 2px 4px 0 $box-shadow-color;
+        -webkit-box-shadow: 2px 2px 4px 0 $box-shadow-color;
+    }
+}
+
+.modal-header {
+    button {
+        border          : none;
+        background-color: transparent;
+        font-size       : 16px;
+    }
+}
+
+$grid-breakpoints: (xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px);
+
+.Toastify {
+    z-index: 999999 !important;
+}

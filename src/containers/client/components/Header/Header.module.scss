@@ -1,0 +1,85 @@
+.wrapper {
+    --border-radius-header: 92px;
+
+    height          : var(--default-layout-header-height);
+    box-shadow      : 0px 1px 1px rgb(0 0 0 / 12%);
+    display         : flex;
+    justify-content : center;
+    width           : 100%;
+    background-color: var(--white-color);
+    position        : fixed;
+    z-index         : 10;
+    top             : 0;
+    left            : 0;
+    right           : 0;
+}
+
+.inner {
+
+    max-width         : 100%;
+    height            : 100%;
+    display           : flex;
+    align-items       : center;
+    justify-content   : space-between;
+    // padding        : 0 var(--default-layout-horizontal-spacer);
+}
+
+.logo {
+    display: flex;
+}
+
+.actions {
+    display    : flex;
+    align-items: center;
+    position   : relative;
+}
+
+.icon-login {
+    font-size  : 14px;
+    margin-left: 16px;
+    width      : 20px;
+    height     : 20px;
+    padding    : 0 4px;
+
+    cursor: pointer;
+}
+
+// actions
+
+.actions {
+    display    : flex;
+    align-items: center;
+    text-align : center;
+}
+
+.btn-currentUser {
+    background-color: transparent;
+    border          : none;
+    outline         : none;
+    width           : 32px;
+    height          : 32px;
+    cursor          : pointer;
+
+    +.btn-currentUser {
+        margin-left: 16px;
+    }
+}
+
+.btn-currentUser-2 {
+    margin-top: 2px;
+}
+
+.user-avatar {
+    margin-left  : 24px;
+    width        : 32px;
+    height       : 32px;
+    border-radius: 50%;
+    cursor       : pointer;
+    object-fit   : cover;
+}
+
+.more-btn {
+    background-color: transparent;
+    outline         : none;
+    border          : none;
+}
