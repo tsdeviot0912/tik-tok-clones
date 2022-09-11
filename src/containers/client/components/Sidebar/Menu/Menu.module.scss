@@ -1,0 +1,49 @@
+.menu-item {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 8px;
+    border-radius: 4px;
+    -webkit-transition: background-color ease-in-out 200ms;
+    transition: background-color ease-in-out 200ms;
+
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.03);
+    }
+
+    .title {
+        font-family: 'IBM Plex Sans', ProximaNova, Arial, Tahoma, PingFangSC, sans-serif;
+        color: rgba(22, 24, 35, 1);
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 32px;
+
+        margin-left: 8px;
+    }
+
+    &.active {
+        svg {
+            fill: rgb(254, 44, 85);
+        }
+
+        .title {
+            color: rgba(254, 44, 85, 1);
+        }
+
+        .icon-active {
+            display: flex;
+        }
+
+        .icon {
+            display: none;
+        }
+    }
+
+    .icon {
+        display: flex;
+    }
+
+    .icon-active {
+        display: none;
+    }
+}

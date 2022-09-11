@@ -1,0 +1,126 @@
+.search,
+.search-result {
+    width: 363px;
+}
+
+.search {
+    padding: 0 0 0 16px;
+    background: rgba(22, 24, 35, 0.06);
+    border-radius: var(--border-radius-header);
+    overflow: hidden;
+    display: flex;
+    overflow-y: hidden;
+    position: relative;
+    height: 46px;
+    border: 1.5px solid transparent;
+
+    input {
+        font-family: sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        padding: 0;
+        width: 292px;
+        color: var(--black);
+        padding-right: 30px;
+        caret-color: var(--primary);
+        font-family: var(--font-family);
+    }
+
+    .search-btn {
+        color: rgba(22, 24, 35, 0.34);
+    }
+
+    input:not(:placeholder-shown) ~ .search-btn {
+        color: rgba(22, 24, 35, 0.75);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        height: 28px;
+        width: 1px;
+        right: 52px;
+        background-color: rgba(22, 24, 35, 0.12);
+        transform: translateY(-50%);
+    }
+
+    &:focus-within {
+        border-color: rgba(22, 24, 35, 0.2);
+    }
+}
+
+.clear,
+.loading {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(22, 24, 35, 0.34);
+    right: 66px;
+    svg {
+        color: rgba(22, 24, 35, 0.34);
+    }
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    right: 62px;
+    // top: 10%;
+}
+
+.loading-rotate {
+    animation: Rotate linear 0.8s infinite;
+}
+
+@keyframes Rotate {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.search-btn {
+    border: none;
+    background-color: transparent;
+    padding: 11px 16px 11px 12px;
+    display: flex;
+    align-items: center;
+    border-top-right-radius: var(--border-radius-header);
+    border-bottom-right-radius: var(--border-radius-header);
+    fill: rgba(22, 24, 35, 0.34);
+
+    &:focus-within {
+        border-color: transparent;
+    }
+
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.03);
+        cursor: pointer;
+    }
+
+    &:active {
+        background-color: rgba(22, 24, 35, 0.06);
+    }
+}
+
+.search-account-title {
+    height: 30px;
+    padding: 5px 12px;
+    font-size: 1.4rem;
+    line-height: 20px;
+    font-weight: 600;
+    color: rgba(22, 24, 35, 0.5);
+    cursor: default;
+}

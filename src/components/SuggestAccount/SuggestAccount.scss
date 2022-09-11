@@ -1,0 +1,72 @@
+.wrapper-suggest-account {
+    border-top: 1px solid #eee;
+    padding   : 8px;
+
+    .suggest-account {
+
+
+        .title {
+            color        : rgba(22, 24, 35, 0.75);
+            font-weight  : 600;
+            font-size    : 1.4rem;
+            padding      : 0 8px;
+            margin-bottom: 8px;
+        }
+
+        .suggest-account-body {
+
+            .wrapper-item {
+                display      : flex;
+                align-items  : center;
+                padding      : 8px;
+                border-radius: 4px;
+                cursor       : pointer;
+
+                img {
+                    height       : 32px;
+                    border-radius: 50%;
+                    width        : 32px;
+                    margin-right : 8px;
+                    object-fit   : cover;
+                }
+
+                p {
+                    padding    : 0;
+                    margin     : 0;
+                    line-height: 1.2;
+
+                    svg {
+                        margin-left: 4px;
+                        color      : #20D5EC;
+                    }
+
+                    &:first-child {
+                        font-size: 1.6rem;
+
+                        strong {
+                            color: #161823;
+                        }
+                    }
+
+                    &:last-child {
+                        font-size: 1.4rem;
+                        color    : #161823bf;
+                    }
+                }
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.03);
+                }
+            }
+        }
+
+        .see-more {
+            color      : rgba(22, 24, 35, 0.75);
+            font-weight: 600;
+            font-size  : 1.4rem;
+            padding    : 0 8px;
+            margin-top : 8px;
+            cursor     : pointer;
+        }
+    }
+}

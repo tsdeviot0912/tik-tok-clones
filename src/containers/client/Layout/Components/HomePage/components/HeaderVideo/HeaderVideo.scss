@@ -1,0 +1,94 @@
+.header-video-container {
+    position: relative;
+    width   : 100%;
+
+    .image-item-home {
+        width          : 56px;
+        height         : 56px;
+        object-position: center;
+        object-fit     : cover;
+        border-radius  : 50%;
+        flex-shrink    : 0;
+        cursor         : pointer;
+    }
+
+    .logo {
+        display     : inline-block;
+        margin-right: 10px;
+
+
+    }
+
+    .center {
+        display: inline-block;
+
+        .name-nick {
+            display      : flex;
+            align-items  : center;
+            gap          : 10px;
+            margin-bottom: 5px;
+
+            span {
+                display: flex;
+
+                h2 {
+                    margin      : 0;
+                    padding     : 0;
+                    font-weight : 800;
+                    font-size   : 14px;
+                    display     : inline-block;
+                    margin-right: 4px;
+                    color       : #333;
+
+
+                    &:hover {
+                        text-decoration: underline !important;
+                        cursor         : pointer;
+                    }
+                }
+
+                svg {
+                    margin-left: 4px;
+                    color      : #20D5EC;
+                }
+
+                &:last-child {
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .description {
+            margin-top: 5px;
+
+            span {
+                &:first-child {
+                    font-size   : 12px;
+                    margin-right: 8px;
+                    display     : inline-block;
+                }
+
+                a {
+                    margin: 0 2px;
+
+                    &:hover {
+                        text-decoration: underline !important;
+                    }
+                }
+            }
+        }
+
+        .music {
+            span {
+                display    : flex;
+                align-items: center;
+                font-size  : 14px;
+
+                svg {
+                    margin-right: 6px;
+                    font-size   : 14px;
+                }
+            }
+        }
+    }
+}

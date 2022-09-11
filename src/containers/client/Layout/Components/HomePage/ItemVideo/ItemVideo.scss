@@ -1,0 +1,59 @@
+.wrapper-item-video {
+    padding      : 20px 0;
+    border-bottom: 1px solid #ccc;
+
+
+    .video-container {
+        max-width  : 340px;
+        object-fit : cover;
+        overflow   : hidden;
+        margin-left: 66px;
+        margin-top : 20px;
+        position   : relative;
+        object-fit : cover;
+        width      : 500px;
+
+        video {
+            width        : 100%;
+            height       : 100%;
+            border-radius: 8px;
+        }
+
+    }
+
+    .heart-and-share-video {
+        display        : flex;
+        flex-direction : column;
+        gap            : 5px;
+        justify-content: flex-end;
+        margin-left    : 16px;
+
+
+        button {
+            width        : 38px;
+            height       : 38px;
+            border-radius: 50%;
+            outline      : none;
+            border       : none;
+            display      : block;
+        }
+
+        strong {
+            display   : block;
+            font-size : 13px;
+            text-align: center;
+            margin-top: 4px;
+        }
+    }
+
+    .hover {
+        display: none;
+    }
+
+    &:hover {
+        .hover {
+            display: block;
+        }
+
+    }
+}

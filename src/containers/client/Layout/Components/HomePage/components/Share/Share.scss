@@ -1,0 +1,42 @@
+.share-wrapper-container {
+
+    font-weight: 600 !important;
+    font-size  : 16px !important;
+    line-height: 22px !important;
+    width      : 280px !important;
+    max-height : 230px !important;
+    overflow   : hidden !important;
+
+    &.max-height-item {
+        max-height: 1000px !important;
+    }
+
+    .icon-next-max {
+        display        : flex !important;
+        justify-content: center !important;
+        align-items    : center !important;
+    }
+
+    a {
+        text-decoration: none;
+        margin         : 0 2px;
+        display        : block !important;
+        padding        : 11px 16px !important;
+        width          : 100% !important;
+        min-height     : 46px !important;
+        border-radius  : 0px !important;
+
+
+        svg {
+            margin-right: 8px !important;
+            width       : 26px;
+            height      : 26px;
+            display     : inline-block !important;
+            flex-shrink : 0;
+        }
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.03) !important;
+        }
+    }
+}

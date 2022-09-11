@@ -1,0 +1,21 @@
+.control-video-wrapper {
+    position: absolute;
+    bottom  : 30px;
+    left    : 0;
+    right   : 0;
+    padding : 0 14px;
+
+
+    .play-video-icon {
+
+        display    : flex;
+        align-items: flex-end;
+
+        svg {
+            color : #fff;
+            cursor: pointer;
+        }
+    }
+
+
+}
