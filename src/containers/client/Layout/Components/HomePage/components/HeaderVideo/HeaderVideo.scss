@@ -9,6 +9,7 @@
         object-fit     : cover;
         border-radius  : 50%;
         flex-shrink    : 0;
+        cursor         : pointer;
     }
 
     .logo {
@@ -69,6 +70,10 @@
 
                 a {
                     margin: 0 2px;
+
+                    &:hover {
+                        text-decoration: underline !important;
+                    }
                 }
             }
         }

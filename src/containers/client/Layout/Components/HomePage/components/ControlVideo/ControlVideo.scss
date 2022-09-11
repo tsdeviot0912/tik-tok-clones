@@ -7,6 +7,10 @@
 
 
     .play-video-icon {
+
+        display    : flex;
+        align-items: flex-end;
+
         svg {
             color : #fff;
             cursor: pointer;
@@ -18,21 +22,22 @@
 
         display        : flex;
         flex-direction : column;
-        justify-content: center;
+        justify-content: flex-end;
         align-items    : flex-end;
         width          : 30px;
+        height         : 40px;
 
 
 
         input {
             transform            : rotate(-90deg);
             position             : absolute;
-            top                  : -46px;
+            top                  : -18px;
             width                : 80px;
             right                : 0;
             left                 : -21px;
             height               : 3px;
-            bottom               : 30px;
+            bottom               : 40px;
             border-radius        : 99999999px;
             display              : block;
             // -webkit-appearance: #fff;
@@ -42,20 +47,27 @@
             color                : #fff;
             -webkit-transition   : .2s;
             transition           : opacity .2s;
-
-            // &::-moz-range-progress {
-            //     background-color: green;
-            //     height          : 1em;
-            // }
-
+            display              : none;
         }
 
+
+        &:hover {
+
+
+            input {
+                display: block;
+
+            }
+        }
 
 
 
         svg {
             color       : #fff;
             margin-right: 2px;
+            cursor      : pointer;
+
+
         }
     }
 }

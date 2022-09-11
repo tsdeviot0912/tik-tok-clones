@@ -34,8 +34,6 @@ function Sidebar() {
         });
     };
 
-    console.log('check re-render');
-
     useEffect(() => {
         disPatch(action.getSuggestedAccountLimitAction(page, 5));
 

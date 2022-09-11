@@ -10,6 +10,7 @@ function Home() {
     const disPatch = useDispatch();
 
     const ref = useRef(null);
+    const ref2 = useRef(null);
     const listVideoLimit = useSelector((state) => state.SiteReducer.listVideoLimit);
     const MetaVideoType = useSelector((state) => state.SiteReducer.MetaVideoType);
 
@@ -36,8 +37,6 @@ function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
-    const handleScrollNextPage = () => {};
-
     const listenScrollEvent = () => {
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
             setWindowScollY(Math.floor(window.innerHeight + window.scrollY));
@@ -46,10 +45,6 @@ function Home() {
         if (heightPage !== document.documentElement.scrollHeight) {
             setHeightPage(Math.floor(document.documentElement.scrollHeight));
         }
-
-        console.log('check true :', WindowScollY > 2000 && WindowScollY === heightPage);
-
-        handleScrollNextPage();
     };
 
     useEffect(() => {
@@ -73,7 +68,7 @@ function Home() {
     }, []);
 
     return (
-        <div className="home-page-container" ref={ref}>
+        <div className="home-page-container">
             {listVideo &&
                 listVideo.length > 0 &&
                 listVideo.map((data, index) => (
