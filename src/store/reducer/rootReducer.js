@@ -17,7 +17,7 @@ const persistCommonConfig = {
 const userPersistConfig = {
     ...persistCommonConfig,
     key: 'admin',
-    whitelist: ['isLoggedIn', 'userInfo', 'language'],
+    whitelist: ['isLoggedIn', 'userInfo', 'language', 'token'],
     blacklist: ['roleId'],
 };
 

@@ -3,6 +3,7 @@ import actionTypes from '../actions/actionTypes';
 const initialState = {
     listVideoLimit: [],
     MetaVideoType: {},
+    detailVideo: {},
 };
 
 export const SiteReducer = (state = initialState, action) => {
@@ -25,6 +26,20 @@ export const SiteReducer = (state = initialState, action) => {
             return {
                 ...CloneStateVideoMeta,
             };
+        }
+
+        case actionTypes.GET_ONE_VIDEO_LIMIT_UUID_SUCCESS: {
+            const ConeDetailVideo = { ...state };
+
+            ConeDetailVideo.detailVideo = action.data;
+
+            return {
+                ...ConeDetailVideo,
+            };
+        }
+
+        case actionTypes.GET_ONE_VIDEO_LIMIT_UUID_FAILED: {
+            return { ...state };
         }
 
         default:

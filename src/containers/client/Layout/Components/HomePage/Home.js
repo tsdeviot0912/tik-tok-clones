@@ -8,9 +8,6 @@ import _ from 'lodash';
 
 function Home() {
     const disPatch = useDispatch();
-
-    const ref = useRef(null);
-    const ref2 = useRef(null);
     const listVideoLimit = useSelector((state) => state.SiteReducer.listVideoLimit);
     const MetaVideoType = useSelector((state) => state.SiteReducer.MetaVideoType);
 

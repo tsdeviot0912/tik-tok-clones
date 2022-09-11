@@ -5,7 +5,7 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Button from '../../../../components/Button/Button';
 import styles from './Header.module.scss';
@@ -16,7 +16,7 @@ import Search from '../Search';
 import Image from '../../../../components/Image';
 import ModalRender from '../../../../components/Popper/Modal';
 import * as action from '../../../../store/actions';
-import { dispatch } from '../../../../redux';
+import _ from 'lodash';
 
 const cx = classNames.bind(styles);
 
@@ -53,10 +53,21 @@ const MenuItem = [
 
 function Header() {
     // user login
-    const currentUser = false;
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const userInfo = useSelector((state) => state.user.userInfo);
 
     // defined state react
     const [isOpen, setIsOpen] = useState(false);
+    const [currentUser, setCurrentUser] = useState(isLoggedIn);
+    const [user, setSetUser] = useState(userInfo);
+
+    useEffect(() => {
+        setCurrentUser(isLoggedIn);
+    }, [isLoggedIn]);
+
+    useEffect(() => {
+        setSetUser(userInfo);
+    }, [userInfo]);
 
     // handle logic
     function handleMenuChange(menuItem) {
@@ -92,6 +103,8 @@ function Header() {
     const handleToggleModal = useCallback(() => {
         setIsOpen(!isOpen);
     }, [isOpen]);
+
+    console.log('check :', currentUser);
 
     return (
         <>
@@ -140,13 +153,14 @@ function Header() {
                             )}
                             <Menu items={currentUser ? userMenu : MenuItem} onChange={handleMenuChange}>
                                 {currentUser ? (
-                                    // <Image className={cx('user-avatar')}></Image>
-                                    <Image
-                                        src="https://lh5.googleusercontent.com/QolZv_6CsQodma6fxqR98DM5Udtj7uY3cx23LcY2LxJYnrbVYNVVO6HDimuWrE2mxN4AaHya7YGLpB_Q9u7S=w1920-h928-rw"
-                                        alt="Nguyễn Trường Sơn"
-                                        className={cx('user-avatar')}
-                                        fallback="https://gcdnb.pbrd.co/images/r39nV6NMtqjW.jpg"
-                                    />
+                                    !_.isEmpty(user) && (
+                                        <Image
+                                            src={user.avatar}
+                                            alt="Nguyễn Trường Sơn"
+                                            className={cx('user-avatar')}
+                                            fallback="https://gcdnb.pbrd.co/images/r39nV6NMtqjW.jpg"
+                                        />
+                                    )
                                 ) : (
                                     <button className={cx('more-btn')}>
                                         <FontAwesomeIcon className={cx('icon-login')} icon={faEllipsisVertical} />

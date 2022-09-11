@@ -2,6 +2,8 @@ import actionTypes from './actionTypes';
 
 import { GetSuggestedAccountLimitAction } from '../../services';
 
+import _ from 'lodash';
+
 export const getSuggestedAccountLimitAction = (limit, perPage) => {
     return async (dispatch, state) => {
         try {

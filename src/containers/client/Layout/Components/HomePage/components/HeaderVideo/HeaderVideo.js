@@ -31,8 +31,6 @@ function HeaderVideo({ data }) {
         );
     };
 
-    const item = data.user;
-
     return (
         <div className="header-video-container">
             <div className="container">
@@ -77,7 +75,7 @@ function HeaderVideo({ data }) {
                                     <div className="music">
                                         <span>
                                             <FontAwesomeIcon icon={faMusic} />
-                                            <span>nhạc nền - Oppa Huy IDol</span>
+                                            <span>{data.music || 'Đang cập nhập'}</span>
                                         </span>
                                     </div>
                                 </div>
