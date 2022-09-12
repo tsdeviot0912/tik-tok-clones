@@ -208,6 +208,8 @@
                     overflow   : hidden;
                     padding    : 4px 6px;
 
+
+
                     span {
                         height     : 21px;
                         font-size  : 13px;
@@ -217,6 +219,11 @@
 
                         &::-webkit-scrollbar {
                             display: none;
+                        }
+
+                        &::selection {
+                            background-color: red;
+                            color           : #fff;
                         }
                     }
                 }
@@ -229,6 +236,7 @@
                     justify-content : center;
                     background-color: #fff;
                     margin-right    : -7px;
+                    user-select     : none;
 
                     span {
                         height       : 20px;
@@ -249,8 +257,14 @@
                 height         : 68%;
 
 
+
                 .body-comment {
-                    flex: 1;
+                    flex      : 1;
+                    overflow-y: scroll;
+
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
                 }
 
                 .input-comment {

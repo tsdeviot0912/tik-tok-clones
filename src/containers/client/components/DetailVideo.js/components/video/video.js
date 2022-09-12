@@ -11,9 +11,10 @@ import _ from 'lodash';
 
 Video.propTypes = {
     data: PropTypes.object.isRequired,
+    actions: PropTypes.bool,
 };
 
-function Video({ data }) {
+function Video({ data, actions }) {
     const ref = useRef(null);
     const [play, setPlay] = useState(true);
     const [valueVolume, setValueVolume] = useState(0.2);
@@ -35,6 +36,18 @@ function Video({ data }) {
             }
         }
     };
+
+    useEffect(() => {
+        const video = ref.current;
+
+        if (video) {
+            if (!actions) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+    }, [actions]);
 
     const handleOnchange = (e) => {
         setValueVolume(+e.target.value);

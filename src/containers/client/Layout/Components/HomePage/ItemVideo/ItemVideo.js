@@ -1,4 +1,4 @@
-import { faComment, faHeart, faShare } from '@fortawesome/free-solid-svg-icons';
+import { faShare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import Share from '../components/Share';
 import { Wrapper } from '../../../../../../components/Popper';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { faComment, faHeart } from '@fortawesome/free-regular-svg-icons';
 
 ItemVideo.propTypes = {
     data: PropTypes.object.isRequired,
