@@ -2,6 +2,7 @@ import actionTypes from '../actions/actionTypes';
 
 const initialState = {
     listVideoLimit: [],
+    listComments: [],
     MetaVideoType: {},
     detailVideo: {},
 };
@@ -39,6 +40,20 @@ export const SiteReducer = (state = initialState, action) => {
         }
 
         case actionTypes.GET_ONE_VIDEO_LIMIT_UUID_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.GET_LIST_COMMENT_SUCCESS: {
+            const CloneStateVideo = { ...state };
+
+            CloneStateVideo.listComments = action.data;
+
+            return {
+                ...CloneStateVideo,
+            };
+        }
+
+        case actionTypes.GET_LIST_COMMENT_FAILED: {
             return { ...state };
         }
 

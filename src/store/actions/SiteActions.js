@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { GetDetailVideoByUuid, GetVideoLimitType } from '../../services';
+import { GetListComment } from '../../services/AppServices';
 import actionTypes from './actionTypes';
 
 export const getVideoLimitType = (type, page) => {
@@ -67,5 +68,35 @@ export const getDetailVideoByUuidSuccess = (data) => {
 export const getDetailVideoByUuidFailed = () => {
     return {
         type: actionTypes.GET_ONE_VIDEO_LIMIT_UUID_FAILED,
+    };
+};
+
+export const getListComment = (uuid) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await GetListComment(uuid);
+
+            if (Res && Res.data && !_.isEmpty(Res.data)) {
+                dispatch(getListCommentSuccess(Res.data));
+            } else {
+                dispatch(getListCommentFailed());
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(getListCommentFailed());
+        }
+    };
+};
+
+export const getListCommentSuccess = (data) => {
+    return {
+        type: actionTypes.GET_LIST_COMMENT_SUCCESS,
+        data,
+    };
+};
+
+export const getListCommentFailed = () => {
+    return {
+        type: actionTypes.GET_LIST_COMMENT_FAILED,
     };
 };
