@@ -13,13 +13,16 @@ import { Login } from '../../../services';
 
 ModalRender.propTypes = {
     isOpen: PropTypes.bool,
+    handleToggleModal: PropTypes.func,
+    isRequired: PropTypes.bool,
 };
 
 ModalRender.defaultProps = {
     isOpen: false,
+    handleToggleModal: () => {},
 };
 
-function ModalRender({ isOpen = false, className, handleToggleModal }) {
+function ModalRender({ isOpen = false, className, handleToggleModal, isRequired = false }) {
     const disPath = useDispatch();
 
     const [isShowPassWord, setIsShowPassWord] = useState(false);
@@ -90,7 +93,7 @@ function ModalRender({ isOpen = false, className, handleToggleModal }) {
     return (
         <div className="modal-container">
             <Modal
-                isOpen={isLoggedIn ? false : isOpen}
+                isOpen={isRequired ? isOpen : isLoggedIn ? false : isOpen}
                 size="md"
                 tabIndex={-1}
                 centered={true}

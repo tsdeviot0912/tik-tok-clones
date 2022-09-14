@@ -1,12 +1,21 @@
 import _ from 'lodash';
 import { GetDetailVideoByUuid, GetVideoLimitType } from '../../services';
-import { GetListComment } from '../../services/AppServices';
+import {
+    CreateNewComment,
+    DeleteComment,
+    GetListComment,
+    LikeComment,
+    LikeOneVideo,
+    SearchUserAndVideo,
+    UnLikeComment,
+    UnLikeOneVideo,
+} from '../../services/AppServices';
 import actionTypes from './actionTypes';
 
-export const getVideoLimitType = (type, page) => {
+export const getVideoLimitType = (type, page, token) => {
     return async (dispatch, state) => {
         try {
-            const Res = await GetVideoLimitType(type, page);
+            const Res = await GetVideoLimitType(type, page, token);
 
             if (Res.data && Res.data.length > 0) {
                 dispatch(getVideoLimitTypeSuccess(Res.data));
@@ -71,10 +80,10 @@ export const getDetailVideoByUuidFailed = () => {
     };
 };
 
-export const getListComment = (uuid) => {
+export const getListComment = (uuid, token) => {
     return async (dispatch, state) => {
         try {
-            const Res = await GetListComment(uuid);
+            const Res = await GetListComment(uuid, token);
 
             if (Res && Res.data && !_.isEmpty(Res.data)) {
                 dispatch(getListCommentSuccess(Res.data));
@@ -98,5 +107,199 @@ export const getListCommentSuccess = (data) => {
 export const getListCommentFailed = () => {
     return {
         type: actionTypes.GET_LIST_COMMENT_FAILED,
+    };
+};
+
+export const createNewComment = (data, uuid, token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await CreateNewComment(data, uuid, token);
+
+            if (Res && Res.data && !_.isEmpty(Res.data)) {
+                dispatch(createNewCommentSuccess(Res.data));
+            } else {
+                dispatch(createNewCommentFailed());
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(createNewCommentFailed());
+        }
+    };
+};
+
+export const createNewCommentSuccess = (data) => {
+    return {
+        type: actionTypes.CREATE_NEW_COMMENT_SUCCESS,
+        data,
+    };
+};
+
+export const createNewCommentFailed = () => {
+    return {
+        type: actionTypes.CREATE_NEW_COMMENT_FAILED,
+    };
+};
+
+export const deleteComment = (id, token, uuid) => {
+    return async (dispatch, state) => {
+        try {
+            await DeleteComment(id, token);
+
+            setTimeout(() => {
+                dispatch(getListComment(uuid, token));
+            }, 300);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+};
+
+export const likeComment = (id, token, uuid) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await LikeComment(id, token);
+
+            console.log('check data actions :', Res);
+
+            if (Res && Res.data) {
+                dispatch(likeCommentSuccess(Res.data));
+            }
+
+            // setTimeout(() => {
+            dispatch(getListComment(uuid, token));
+            // }, 500);
+        } catch (error) {
+            console.log(error);
+            dispatch(likeCommentFailed());
+        }
+    };
+};
+
+export const likeCommentSuccess = (data) => {
+    return {
+        type: actionTypes.LIKE_COMMENT_SUCCESS,
+        data,
+    };
+};
+
+export const likeCommentFailed = () => {
+    return {
+        type: actionTypes.LIKE_COMMENT_FAILED,
+    };
+};
+
+export const unLikeComment = (id, token, uuid) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await UnLikeComment(id, token);
+
+            if (Res && Res.data) {
+                dispatch(unLikeCommentSuccess(Res.data));
+            }
+
+            // setTimeout(() => {
+            dispatch(getListComment(uuid, token));
+            // }, 500);
+        } catch (error) {
+            console.log(error);
+            dispatch(unLikeCommentFailed());
+        }
+    };
+};
+
+export const unLikeCommentSuccess = (data) => {
+    return {
+        type: actionTypes.UN_LIKE_COMMENT_SUCCESS,
+        data,
+    };
+};
+
+export const unLikeCommentFailed = () => {
+    return {
+        type: actionTypes.UN_LIKE_COMMENT_FAILED,
+    };
+};
+
+export const likeOneVideo = (uuid, token, type, page) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await LikeOneVideo(uuid, token);
+
+            if (Res && Res.data) {
+                dispatch(likeOneVideoSuccess(Res.data));
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(likeOneVideoFailed());
+        }
+    };
+};
+
+export const likeOneVideoSuccess = (data) => {
+    return {
+        type: actionTypes.LIKE_ONE_VIDEO_SUCCESS,
+        data,
+    };
+};
+
+export const likeOneVideoFailed = () => {
+    return {
+        type: actionTypes.LIKE_ONE_VIDEO_FAILED,
+    };
+};
+
+export const unLikeOneVideo = (uuid, token, type, page) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await UnLikeOneVideo(uuid, token);
+
+            if (Res && Res.data) {
+                dispatch(unLikeOneVideoSuccess(Res.data));
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(unLikeOneVideoFailed());
+        }
+    };
+};
+
+export const unLikeOneVideoSuccess = (data) => {
+    return {
+        type: actionTypes.LIKE_ONE_VIDEO_SUCCESS,
+        data,
+    };
+};
+
+export const unLikeOneVideoFailed = () => {
+    return {
+        type: actionTypes.LIKE_ONE_VIDEO_FAILED,
+    };
+};
+
+export const searchUserAndVideo = (q, type, token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await SearchUserAndVideo(q, type);
+
+            if (Res && Res.data) {
+                dispatch(searchUserAndVideoSuccess(Res.data));
+            }
+        } catch (error) {
+            console.log(error);
+            dispatch(searchUserAndVideoFailed());
+        }
+    };
+};
+
+export const searchUserAndVideoSuccess = (data) => {
+    return {
+        type: actionTypes.SEARCH_USER_SUCCESS,
+        data,
+    };
+};
+
+export const searchUserAndVideoFailed = () => {
+    return {
+        type: actionTypes.SEARCH_USER_FAILED,
     };
 };

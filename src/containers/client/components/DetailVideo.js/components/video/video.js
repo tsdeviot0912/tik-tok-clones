@@ -17,7 +17,7 @@ Video.propTypes = {
 function Video({ data, actions }) {
     const ref = useRef(null);
     const [play, setPlay] = useState(true);
-    const [valueVolume, setValueVolume] = useState(0.2);
+    const [valueVolume, setValueVolume] = useState(0);
     const [duration, setDuration] = useState('00:00');
     const [currentTime, setCurrentTime] = useState('00:00');
     const [seek, setSeek] = useState(0);

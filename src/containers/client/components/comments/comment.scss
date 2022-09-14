@@ -1,5 +1,23 @@
 .comment-wrapper {
 
+    .comment-body {
+
+        .comment-not-comment {
+            display        : block;
+            height         : 100%;
+            position       : absolute;
+            top            : 0;
+            right          : 0;
+            left           : 0;
+            bottom         : 0;
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+            font-size      : 16px;
+            font-weight    : 600;
+        }
+    }
+
     .comment-rep {
 
         margin-left: 40px;

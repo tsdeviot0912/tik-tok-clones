@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import _ from 'lodash';
 
 import ItemVideo from './ItemVideo';
 import './Home.scss';
 import * as actions from '../../../../.././store/actions';
-import _ from 'lodash';
+import useGetToken from '../../../../../components/hooks/useGetToken';
+import ModalRender from '../../../../../components/Popper/Modal';
 
 function Home() {
     const disPatch = useDispatch();
@@ -17,6 +19,7 @@ function Home() {
     const [WindowScollY, setWindowScollY] = useState(+0);
     const [type, setType] = useState('for-you');
     const [page, setPage] = useState(1);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         setListVideo((prev) => {
@@ -28,8 +31,10 @@ function Home() {
         setMetaVideo(MetaVideoType);
     }, [MetaVideoType]);
 
+    const token = useGetToken();
+
     useEffect(() => {
-        disPatch(actions.getVideoLimitType(type, page));
+        disPatch(actions.getVideoLimitType(type, page, token));
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
@@ -64,14 +69,34 @@ function Home() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleClickHeart = (uuid, token, toggle) => {
+        if (!toggle) {
+            disPatch(actions.likeOneVideo(uuid, token, type, page));
+        } else {
+            disPatch(actions.unLikeOneVideo(uuid, token));
+        }
+    };
+
+    const handleToggleModal = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
-        <div className="home-page-container">
-            {listVideo &&
-                listVideo.length > 0 &&
-                listVideo.map((data, index) => (
-                    <ItemVideo data={data} key={!_.isEqual(data) && !_.isEqual(data.user) && index} />
-                ))}
-        </div>
+        <>
+            <div className="home-page-container">
+                {listVideo &&
+                    listVideo.length > 0 &&
+                    listVideo.map((data, index) => (
+                        <ItemVideo
+                            handleToggleModal={handleToggleModal}
+                            data={data}
+                            handleClickHeart={handleClickHeart}
+                            key={!_.isEqual(data) && !_.isEqual(data.user) && index}
+                        />
+                    ))}
+            </div>
+            {isOpen && <ModalRender handleToggleModal={handleToggleModal} isOpen={isOpen} />}
+        </>
     );
 }
 export default Home;

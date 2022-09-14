@@ -10,6 +10,7 @@ import { SearchIcon, LoadingIcon } from '../../../../components/Icons';
 import { useDebounce } from '../../../../components/hooks';
 // import * as searchService from '../../../services/searchService';
 import Renderresult from './RenderResult';
+import { SearchUserAndVideo } from '../../../../services/AppServices';
 
 const cx = className.bind(styles);
 
@@ -51,11 +52,15 @@ function Search() {
         const fetchApi = async () => {
             setLoading(true);
 
-            // const results = await searchService.search(debounceValue);
+            const results = await SearchUserAndVideo(debounceValue, 'less');
 
             setLoading(false);
 
-            // setSearchResults(results);
+            if (results && results.data.length > 0) {
+                setSearchResults(results.data);
+            } else {
+                setSearchResults([]);
+            }
         };
 
         fetchApi();

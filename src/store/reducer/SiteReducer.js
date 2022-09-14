@@ -5,6 +5,11 @@ const initialState = {
     listComments: [],
     MetaVideoType: {},
     detailVideo: {},
+    detailComments: {},
+    detailCommentsLike: {},
+    detailUnCommentsLike: {},
+    detailOneVideo: {},
+    listUserSearch: [],
 };
 
 export const SiteReducer = (state = initialState, action) => {
@@ -54,6 +59,76 @@ export const SiteReducer = (state = initialState, action) => {
         }
 
         case actionTypes.GET_LIST_COMMENT_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.CREATE_NEW_COMMENT_SUCCESS: {
+            const cloneStateDetailComment = { ...state };
+
+            cloneStateDetailComment.detailComments = action.data;
+
+            return {
+                ...cloneStateDetailComment,
+            };
+        }
+
+        case actionTypes.CREATE_NEW_COMMENT_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.LIKE_COMMENT_SUCCESS: {
+            const CloneStateLikeComment = { ...state };
+
+            CloneStateLikeComment.detailCommentsLike = action.data;
+
+            return {
+                ...CloneStateLikeComment,
+            };
+        }
+
+        case actionTypes.LIKE_COMMENT_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.UN_LIKE_COMMENT_SUCCESS: {
+            const CloneStateUnLikeComment = { ...state };
+
+            CloneStateUnLikeComment.detailUnCommentsLike = action.data;
+
+            return {
+                ...CloneStateUnLikeComment,
+            };
+        }
+
+        case actionTypes.UN_LIKE_COMMENT_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.LIKE_ONE_VIDEO_SUCCESS: {
+            const cloneStateLikeOeVideo = { ...state };
+
+            cloneStateLikeOeVideo.detailOneVideo = action.data;
+
+            return {
+                ...cloneStateLikeOeVideo,
+            };
+        }
+
+        case actionTypes.LIKE_ONE_VIDEO_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.SEARCH_USER_SUCCESS: {
+            const cloneStateSearchUser = { ...state };
+
+            cloneStateSearchUser.listUserSearch = action.data;
+
+            return {
+                ...cloneStateSearchUser,
+            };
+        }
+
+        case actionTypes.SEARCH_USER_FAILED: {
             return { ...state };
         }
 

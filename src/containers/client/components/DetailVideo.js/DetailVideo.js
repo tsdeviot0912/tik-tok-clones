@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
-import Cookies from 'universal-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 
 import './DetailVideo.scss';
@@ -12,6 +11,7 @@ import { GetDetailVideoByUuid } from '../../../../services';
 import RenderRightConent from './components/Render.js/RenderRightContent';
 import Comment from '../comments/comment';
 import * as Actions from '../../../.././store/actions';
+import useGetToken from '../../../../components/hooks/useGetToken';
 
 let hidden = null;
 let visibilityChange = null;
@@ -27,19 +27,23 @@ if (typeof document.hidden !== 'undefined') {
     visibilityChange = 'webkitvisibilitychange';
 }
 
-const cookies = new Cookies();
-
 function DetailVideo() {
+    const token = useGetToken();
+
     const [linkCopy, setLinkCopy] = useState('http://localhost:3000/customer/home');
     const [DetailVideoState, setDetailVideoState] = useState({});
     const [isLoading, setIsloading] = useState(false);
     const [actions, setActions] = useState(false);
     const [listComment, setComment] = useState([]);
+    const [commentText, setCommentText] = useState('');
+    const [commentDetail, setCommentDetail] = useState({});
     const uuidParams = useParams();
 
     const disPatch = useDispatch();
 
     const listComments = useSelector((state) => state.SiteReducer.listComments);
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const detailComments = useSelector((state) => state.SiteReducer.detailComments);
 
     useEffect(() => {
         const fetCh = async () => {
@@ -82,12 +86,26 @@ function DetailVideo() {
     }, [listComments]);
 
     useEffect(() => {
-        disPatch(Actions.getListComment(uuidParams.uuid));
+        disPatch(Actions.getListComment(uuidParams.uuid, token));
+    }, [uuidParams.uuid, isLoggedIn, disPatch, token, detailComments]);
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [uuidParams.uuid]);
+    useEffect(() => {
+        setCommentText('');
+        setCommentDetail(detailComments);
+    }, [detailComments]);
 
-    console.log('check :', listComment);
+    const handleSubmitComment = () => {
+        if (!commentText) {
+            alert('Bạn hãy nhập nội dung comments của bạn !');
+            return;
+        }
+
+        const dataBuild = {
+            comment: commentText,
+        };
+
+        disPatch(Actions.createNewComment(dataBuild, uuidParams.uuid, token));
+    };
 
     return (
         <div className="detail-video-container">
@@ -105,13 +123,26 @@ function DetailVideo() {
                             </div>
                             <div className="body down">
                                 <div className="body-comment">
-                                    <Comment listComment={listComment} />
+                                    <Comment
+                                        uuid={uuidParams.uuid ? uuidParams.uuid : ''}
+                                        listComment={listComment}
+                                        commentDetail={commentDetail}
+                                    />
                                 </div>
                                 <div className="input-comment">
                                     <div className="input">
-                                        <input placeholder="Nhập comment của bạn" />
+                                        <input
+                                            value={commentText}
+                                            onChange={(e) => setCommentText(e.target.value)}
+                                            placeholder="Nhập comment của bạn"
+                                            onKeyDown={(e) => {
+                                                if (e.keyCode === 13) {
+                                                    handleSubmitComment();
+                                                }
+                                            }}
+                                        />
                                     </div>
-                                    <div className="button-submit">
+                                    <div className="button-submit" onClick={handleSubmitComment}>
                                         <button className="btn">Đăng</button>
                                     </div>
                                 </div>

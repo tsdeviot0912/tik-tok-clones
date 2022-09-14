@@ -1,9 +1,12 @@
-import { faShare } from '@fortawesome/free-solid-svg-icons';
+import { faShare, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Tippy from '@tippyjs/react/headless';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { faComment, faHeart } from '@fortawesome/free-regular-svg-icons';
 
 import ControlVideo from '../components/ControlVideo';
 import HeaderVideo from '../components/HeaderVideo';
@@ -11,23 +14,27 @@ import './ItemVideo.scss';
 import { useOnScreen } from '../../../../../../components/hooks';
 import Share from '../components/Share';
 import { Wrapper } from '../../../../../../components/Popper';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { faComment, faHeart } from '@fortawesome/free-regular-svg-icons';
+import useGetToken from '../../../../../../components/hooks/useGetToken';
 
 ItemVideo.propTypes = {
     data: PropTypes.object.isRequired,
+    handleClickHeart: PropTypes.func,
+    handleToggleModal: PropTypes.func,
 };
 
-function ItemVideo({ data }) {
+function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
     const userInfo = useSelector((state) => state.user.userInfo);
+    const detailOneVideo = useSelector((state) => state.SiteReducer.detailOneVideo);
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
     const [play, setPlay] = useState(false);
     const [valueVolume, setValueVolume] = useState(+0);
     const [Check, setCheck] = useState(false);
     const ref = useRef(null);
-    const history = useNavigate();
     const [user, setUser] = useState(userInfo);
+    const [dataLike, setDataLike] = useState({});
+
+    const history = useNavigate();
 
     const PreviewAccount = () => {
         return <Wrapper>{<Share />}</Wrapper>;
@@ -100,6 +107,20 @@ function ItemVideo({ data }) {
         history(`/customer/video-details-with-id-and-user/${item.uuid}`);
     };
 
+    const Token = useGetToken();
+
+    useEffect(() => {
+        setDataLike(detailOneVideo);
+    }, [detailOneVideo]);
+
+    const handleClickCommentBtn = (uuid, token) => {
+        if (isLoggedIn) {
+            handleClickRedirect({ uuid });
+        } else {
+            handleToggleModal();
+        }
+    };
+
     return (
         <div className="wrapper-item-video">
             {!_.isEmpty(data) && (
@@ -109,11 +130,9 @@ function ItemVideo({ data }) {
                     </div>
                     <div className="d-flex">
                         <div className="video-container">
-                            {/* <Link to={`/customer/video-details-with-id-and-user/${data.uuid}`}> */}
                             <video ref={ref} onClick={() => handleClickRedirect(data)} loop>
                                 <source src={data.file_url} />
                             </video>
-                            {/* </Link> */}
                             <div className="hover">
                                 <ControlVideo
                                     play={play}
@@ -126,13 +145,31 @@ function ItemVideo({ data }) {
                         </div>
                         <div className="heart-and-share-video">
                             <div>
-                                <button>
-                                    <FontAwesomeIcon icon={faHeart} />
+                                <button
+                                    onClick={() =>
+                                        handleClickHeart(
+                                            data.uuid,
+                                            Token,
+                                            !_.isEmpty(dataLike) ? dataLike.is_liked : data.is_liked,
+                                        )
+                                    }
+                                >
+                                    {!_.isEmpty(dataLike) ? (
+                                        dataLike.is_liked ? (
+                                            <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
+                                        ) : (
+                                            <FontAwesomeIcon icon={faHeart} />
+                                        )
+                                    ) : data.is_liked ? (
+                                        <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
+                                    ) : (
+                                        <FontAwesomeIcon icon={faHeart} />
+                                    )}
                                 </button>
-                                <strong>{data.likes_count}</strong>
+                                <strong>{!_.isEmpty(dataLike) ? dataLike.likes_count : data.likes_count}</strong>
                             </div>
                             <div>
-                                <button>
+                                <button onClick={() => handleClickCommentBtn(data.uuid, Token)}>
                                     <FontAwesomeIcon icon={faComment} />
                                 </button>
                                 <strong>{data.comments_count}</strong>

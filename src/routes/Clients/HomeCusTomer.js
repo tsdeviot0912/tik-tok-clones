@@ -6,6 +6,9 @@ import PageClient from '../../containers/client/Layout/Page';
 import { path } from '../../utils/constant';
 
 class HomeCusTomer extends Component {
+
+    
+    
     render() {
         return (
             <div>

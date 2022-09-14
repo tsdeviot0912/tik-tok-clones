@@ -171,7 +171,7 @@ function Header() {
                     </div>
                 </div>
             </header>
-            <ModalRender handleToggleModal={handleToggleModal} isOpen={isOpen} />
+            {isOpen && <ModalRender handleToggleModal={handleToggleModal} isOpen={isOpen} />}
         </>
     );
 }

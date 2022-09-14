@@ -1,16 +1,77 @@
-import Cookies from 'universal-cookie';
 import axios from '../axios';
 
-const cookies = new Cookies();
-
-const Token = cookies.get('token') || ' ';
-
-const config = {
-    headers: {
-        Authorization: `Bearer ${Token}`,
-    },
+export const GetListComment = (uuid, token) => {
+    return axios.get(`/api/videos/${uuid}/comments`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 };
 
-export const GetListComment = (uuid) => {
-    return axios.get(`/api/videos/${uuid}/comments`, config);
+export const CreateNewComment = (data, uuid, token) => {
+    return axios.post(`/api/videos/${uuid}/comments`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
+
+export const DeleteComment = (id, token) => {
+    return axios.delete(`/api/comments/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
+
+export const LikeComment = (id, token) => {
+    return axios.post(
+        `/api/comments/${id}/like`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+};
+
+export const UnLikeComment = (id, token) => {
+    return axios.post(
+        `/api/comments/${id}/unlike`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+};
+
+export const LikeOneVideo = (uuid, token) => {
+    return axios.post(
+        `/api/videos/${uuid}/like`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+};
+
+export const UnLikeOneVideo = (uuid, token) => {
+    return axios.post(
+        `/api/videos/${uuid}/unlike`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+};
+
+export const SearchUserAndVideo = (q, type = 'less') => {
+    return axios.get(`/api/users/search?q=${q}&type=${type}`);
 };
