@@ -121,6 +121,8 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
         }
     };
 
+    console.log('check  :', dataLike);
+
     return (
         <div className="wrapper-item-video">
             {!_.isEmpty(data) && (
@@ -150,12 +152,22 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
                                         handleClickHeart(
                                             data.uuid,
                                             Token,
-                                            !_.isEmpty(dataLike) ? dataLike.is_liked : data.is_liked,
+                                            !_.isEmpty(dataLike)
+                                                ? dataLike.uuid === data.uuid
+                                                    ? dataLike.is_liked
+                                                    : data.is_liked
+                                                : data.is_liked,
                                         )
                                     }
                                 >
                                     {!_.isEmpty(dataLike) ? (
-                                        dataLike.is_liked ? (
+                                        dataLike.uuid === data.uuid ? (
+                                            dataLike.is_liked ? (
+                                                <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
+                                            ) : (
+                                                <FontAwesomeIcon icon={faHeart} />
+                                            )
+                                        ) : data.is_liked ? (
                                             <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
                                         ) : (
                                             <FontAwesomeIcon icon={faHeart} />
@@ -166,7 +178,13 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
                                         <FontAwesomeIcon icon={faHeart} />
                                     )}
                                 </button>
-                                <strong>{!_.isEmpty(dataLike) ? dataLike.likes_count : data.likes_count}</strong>
+                                <strong>
+                                    {!_.isEmpty(dataLike)
+                                        ? dataLike.uuid === data.uuid
+                                            ? dataLike.likes_count
+                                            : data.likes_count
+                                        : data.likes_count}
+                                </strong>
                             </div>
                             <div>
                                 <button onClick={() => handleClickCommentBtn(data.uuid, Token)}>

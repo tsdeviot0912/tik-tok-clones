@@ -53,7 +53,7 @@ function DetailVideo() {
 
             try {
                 setIsloading(true);
-                const Res = await GetDetailVideoByUuid(uuidParams.uuid || '');
+                const Res = await GetDetailVideoByUuid(uuidParams.uuid || '', token);
                 if (Res && Res.data && !_.isEmpty(Res.data)) {
                     setDetailVideoState(Res.data);
                     setIsloading(false);

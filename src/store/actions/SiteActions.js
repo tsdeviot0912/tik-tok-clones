@@ -85,7 +85,7 @@ export const getListComment = (uuid, token) => {
         try {
             const Res = await GetListComment(uuid, token);
 
-            if (Res && Res.data && !_.isEmpty(Res.data)) {
+            if (Res && Res.data) {
                 dispatch(getListCommentSuccess(Res.data));
             } else {
                 dispatch(getListCommentFailed());

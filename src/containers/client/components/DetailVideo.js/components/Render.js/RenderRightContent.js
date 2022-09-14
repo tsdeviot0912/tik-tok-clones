@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react';
 import PropTypes from 'prop-types';
 import TippyHelles from '@tippyjs/react/headless';
@@ -40,12 +41,16 @@ function RenderRightConent({ DetailVideoState = {}, linkCopy }) {
             <div className="share d-flex justify-content-between align-items-center container">
                 <div>
                     <button className="btn">
-                        <FontAwesomeIcon icon={faHeart} />
-                        <span>11.2k</span>
+                        {DetailVideoState.is_liked ? (
+                            <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
+                        ) : (
+                            <FontAwesomeIcon icon={faHeart} />
+                        )}
+                        <span>{DetailVideoState.likes_count}</span>
                     </button>
                     <button className="btn">
                         <FontAwesomeIcon icon={faComment} />
-                        <span>11.2k</span>
+                        <span>{DetailVideoState.comments_count}</span>
                     </button>
                 </div>
                 <div
