@@ -7,11 +7,14 @@ import './Home.scss';
 import * as actions from '../../../../.././store/actions';
 import useGetToken from '../../../../../components/hooks/useGetToken';
 import ModalRender from '../../../../../components/Popper/Modal';
+import { LoadingHome } from '../../../../../components/SkelotonLoading';
+import { useCallback } from 'react';
 
 function Home() {
     const disPatch = useDispatch();
     const listVideoLimit = useSelector((state) => state.SiteReducer.listVideoLimit);
     const MetaVideoType = useSelector((state) => state.SiteReducer.MetaVideoType);
+    const detailOneVideo = useSelector((state) => state.SiteReducer.detailOneVideo);
 
     const [listVideo, setListVideo] = useState([]);
     const [metaVideo, setMetaVideo] = useState({});
@@ -20,6 +23,7 @@ function Home() {
     const [type, setType] = useState('for-you');
     const [page, setPage] = useState(1);
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenSkeloton, setIsOpenSkeloton] = useState(false);
 
     useEffect(() => {
         setListVideo((prev) => {
@@ -28,8 +32,30 @@ function Home() {
     }, [listVideoLimit]);
 
     useEffect(() => {
+        if (listVideo && listVideo.length > 0) {
+            const UpdateListVideo = listVideo.map((item) => {
+                if (item.uuid === detailOneVideo.uuid) {
+                    return detailOneVideo;
+                }
+
+                return item;
+            });
+
+            setListVideo(UpdateListVideo);
+        }
+    }, [detailOneVideo, listVideo]);
+
+    useEffect(() => {
         setMetaVideo(MetaVideoType);
     }, [MetaVideoType]);
+
+    useEffect(() => {
+        if (listVideo && listVideo.length === 0) {
+            setIsOpenSkeloton(true);
+        } else {
+            setIsOpenSkeloton(false);
+        }
+    }, [listVideo]);
 
     const token = useGetToken();
 
@@ -81,6 +107,10 @@ function Home() {
         setIsOpen(!isOpen);
     };
 
+    const Skeloton = useCallback(() => {
+        return <LoadingHome />;
+    }, []);
+
     return (
         <>
             <div className="home-page-container">
@@ -95,6 +125,7 @@ function Home() {
                         />
                     ))}
             </div>
+            {isOpenSkeloton && <Skeloton />}
             {isOpen && <ModalRender handleToggleModal={handleToggleModal} isOpen={isOpen} />}
         </>
     );

@@ -7,6 +7,7 @@ import { path } from '../../../../utils/constant';
 import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar';
 import Home from '../Components/HomePage/Home';
+import Following from '../Components/Follow/Following';
 
 function PageClient() {
     const SiderBarRender = useCallback(Sidebar, []);
@@ -27,6 +28,7 @@ function PageClient() {
                                 <Routes>
                                     <Route path={path.redirect} element={<Redirect link="/customer/home" />} />
                                     <Route path={path.home} element={<Home />} />
+                                    <Route path={path.follow} element={<Following />} />
                                 </Routes>
                             </div>
                         </div>

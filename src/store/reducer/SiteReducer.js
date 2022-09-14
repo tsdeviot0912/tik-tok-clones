@@ -2,14 +2,20 @@ import actionTypes from '../actions/actionTypes';
 
 const initialState = {
     listVideoLimit: [],
-    listComments: [],
     MetaVideoType: {},
     detailVideo: {},
+    detailOneVideo: {},
+    detailUnlikeVideo: {},
+
+    listUserSearch: [],
+
+    listComments: [],
     detailComments: {},
     detailCommentsLike: {},
     detailUnCommentsLike: {},
-    detailOneVideo: {},
-    listUserSearch: [],
+
+    listFollow: [],
+    listUserSuggestFollow: [],
 };
 
 export const SiteReducer = (state = initialState, action) => {
@@ -129,6 +135,48 @@ export const SiteReducer = (state = initialState, action) => {
         }
 
         case actionTypes.SEARCH_USER_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.UN_LIKE_ONE_VIDEO_SUCCESS: {
+            const cloneStateUnLikeVideo = { ...state };
+
+            cloneStateUnLikeVideo.detailOneVideo = action.data;
+
+            return {
+                ...cloneStateUnLikeVideo,
+            };
+        }
+
+        case actionTypes.UN_LIKE_ONE_VIDEO_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.GET_LIST_FOLLOW_SUCCESS: {
+            const cloneStateListFollow = { ...state };
+
+            cloneStateListFollow.listFollow = action.data;
+
+            return {
+                ...cloneStateListFollow,
+            };
+        }
+
+        case actionTypes.GET_LIST_FOLLOW_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.GET_LIST_USER_SUGGEST_FOLLOW_SUCCESS: {
+            const cloneStateListUserSuggestFollow = { ...state };
+
+            cloneStateListUserSuggestFollow.listUserSuggestFollow = action.data;
+
+            return {
+                ...cloneStateListUserSuggestFollow,
+            };
+        }
+
+        case actionTypes.GET_LIST_USER_SUGGEST_FOLLOW_FAILED: {
             return { ...state };
         }
 

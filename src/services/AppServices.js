@@ -72,6 +72,14 @@ export const UnLikeOneVideo = (uuid, token) => {
     );
 };
 
+export const GetListFollowings = (page, token) => {
+    return axios.get(`/api/me/followings?page=${page}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
+
 export const SearchUserAndVideo = (q, type = 'less') => {
     return axios.get(`/api/users/search?q=${q}&type=${type}`);
 };

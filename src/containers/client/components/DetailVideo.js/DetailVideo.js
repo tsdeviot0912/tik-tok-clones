@@ -28,6 +28,8 @@ if (typeof document.hidden !== 'undefined') {
 }
 
 function DetailVideo() {
+    const detailVideo = useSelector((state) => state.SiteReducer.detailVideo);
+
     const token = useGetToken();
 
     const [linkCopy, setLinkCopy] = useState('http://localhost:3000/customer/home');
@@ -65,7 +67,7 @@ function DetailVideo() {
         };
 
         fetCh();
-    }, [uuidParams.uuid]);
+    }, [token, uuidParams.uuid, detailVideo]);
 
     useEffect(() => {
         document.addEventListener(visibilityChange, handleVisibilityChange, false);

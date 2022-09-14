@@ -151,3 +151,61 @@ $grid-breakpoints: (xs: 0,
 .heart-with-me {
     color: red;
 }
+
+.test-ting-radius {
+    border-radius: 50%;
+}
+
+.height-100vh {
+    height: 100vh !important;
+}
+
+.title {
+    margin         : 10px 0;
+    display        : flex;
+    justify-content: center;
+    font-weight    : 700;
+    color          : red;
+    align-items    : center;
+
+
+    b {
+        height          : 1px;
+        flex            : 1;
+        background-color: #ccc;
+    }
+
+    span {
+        min-width    : 100px;
+        padding      : 20px;
+        border       : 1px solid #eee;
+        border-radius: 10px;
+    }
+}
+
+.title-suggest {
+    margin         : 20px 0;
+    display        : flex;
+    justify-content: center;
+    font-weight    : 700;
+    color          : red;
+    align-items    : center;
+
+
+    b {
+        height          : 1px;
+        flex            : 1;
+        background-color: #ccc;
+    }
+
+    span {
+        min-width    : 100px;
+        padding      : 20px;
+        border       : 1px solid #eee;
+        border-radius: 10px;
+    }
+}
+
+.max-w-100 {
+    max-width: 100% !important;
+}

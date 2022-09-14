@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import { useState, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import styles from './Sidebar.module.scss';
 import Menu, { MenuItem } from './Menu';
@@ -10,6 +11,7 @@ import { UserGroupActiveIcon, LiveActiveIcon } from '../../../../components/Icon
 import SuggestAccount from '../../../../components/SuggestAccount';
 import { path } from '../../../../utils/constant';
 import * as action from '../../../../store/actions';
+import { CustomScrollbars } from '../../../../components/Customs/Scrollbar';
 
 const cx = classNames.bind(styles);
 
@@ -51,20 +53,40 @@ function Sidebar() {
     }, [MetaAccount]);
 
     return (
-        <aside className={cx('wrapper')}>
-            <Menu>
-                <MenuItem title="For You" to="/customer/home" icon={<HomeIcon />} activeIcon={<HomeActiveIcon />} />
-                <MenuItem
-                    title="Following"
-                    to={path.sliDebar.follow}
-                    icon={<UserGroupIcon />}
-                    activeIcon={<UserGroupActiveIcon />}
-                />
-                <MenuItem title="Live" to={path.sliDebar.live} icon={<LiveIcon />} activeIcon={<LiveActiveIcon />} />
-            </Menu>
-            <SuggestAccount label="Tài khoản được đề xuất" data={suggestedUser} onSeeAll={handleSellMore} />
-            <SuggestAccount label="Tài khoản bạn đã theo dõi" />
-        </aside>
+        <>
+            <aside className={cx('wrapper')}>
+                <Scrollbars
+                    styles={{
+                        height: '100vh',
+                    }}
+                    autoHide={true}
+                    // onAnimationStart="none"
+                >
+                    <Menu>
+                        <MenuItem
+                            title="For You"
+                            to="/customer/home"
+                            icon={<HomeIcon />}
+                            activeIcon={<HomeActiveIcon />}
+                        />
+                        <MenuItem
+                            title="Following"
+                            to={path.sliDebar.follow}
+                            icon={<UserGroupIcon />}
+                            activeIcon={<UserGroupActiveIcon />}
+                        />
+                        <MenuItem
+                            title="Live"
+                            to={path.sliDebar.live}
+                            icon={<LiveIcon />}
+                            activeIcon={<LiveActiveIcon />}
+                        />
+                    </Menu>
+                    <SuggestAccount label="Tài khoản được đề xuất" data={suggestedUser} onSeeAll={handleSellMore} />
+                    <SuggestAccount label="Tài khoản bạn đã theo dõi" />
+                </Scrollbars>
+            </aside>
+        </>
     );
 }
 

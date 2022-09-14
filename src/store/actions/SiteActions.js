@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { GetDetailVideoByUuid, GetVideoLimitType } from '../../services';
+import { GetDetailVideoByUuid, GetSuggestedAccountLimitAction, GetVideoLimitType } from '../../services';
 import {
     CreateNewComment,
     DeleteComment,
     GetListComment,
+    GetListFollowings,
     LikeComment,
     LikeOneVideo,
     SearchUserAndVideo,
@@ -50,10 +51,10 @@ export const getVideoLimitMeta = (data) => {
     };
 };
 
-export const getDetailVideoByUuid = (type, page) => {
+export const getDetailVideoByUuid = (uuid, token) => {
     return async (dispatch, state) => {
         try {
-            const Res = await GetDetailVideoByUuid(type, page);
+            const Res = await GetDetailVideoByUuid(uuid, token);
 
             if (Res && Res.data && !_.isEmpty(Res.data)) {
                 dispatch(getDetailVideoByUuidSuccess(Res.data));
@@ -220,13 +221,17 @@ export const unLikeCommentFailed = () => {
     };
 };
 
-export const likeOneVideo = (uuid, token, type, page) => {
+export const likeOneVideo = (uuid, token, isDetail) => {
     return async (dispatch, state) => {
         try {
             const Res = await LikeOneVideo(uuid, token);
 
             if (Res && Res.data) {
                 dispatch(likeOneVideoSuccess(Res.data));
+            }
+
+            if (isDetail) {
+                dispatch(getDetailVideoByUuid(uuid, token));
             }
         } catch (error) {
             console.log(error);
@@ -248,13 +253,16 @@ export const likeOneVideoFailed = () => {
     };
 };
 
-export const unLikeOneVideo = (uuid, token, type, page) => {
+export const unLikeOneVideo = (uuid, token, isDetail) => {
     return async (dispatch, state) => {
         try {
             const Res = await UnLikeOneVideo(uuid, token);
 
             if (Res && Res.data) {
                 dispatch(unLikeOneVideoSuccess(Res.data));
+            }
+            if (isDetail) {
+                dispatch(getDetailVideoByUuid(uuid, token));
             }
         } catch (error) {
             console.log(error);
@@ -265,14 +273,14 @@ export const unLikeOneVideo = (uuid, token, type, page) => {
 
 export const unLikeOneVideoSuccess = (data) => {
     return {
-        type: actionTypes.LIKE_ONE_VIDEO_SUCCESS,
+        type: actionTypes.UN_LIKE_ONE_VIDEO_SUCCESS,
         data,
     };
 };
 
 export const unLikeOneVideoFailed = () => {
     return {
-        type: actionTypes.LIKE_ONE_VIDEO_FAILED,
+        type: actionTypes.UN_LIKE_ONE_VIDEO_FAILED,
     };
 };
 
@@ -301,5 +309,59 @@ export const searchUserAndVideoSuccess = (data) => {
 export const searchUserAndVideoFailed = () => {
     return {
         type: actionTypes.SEARCH_USER_FAILED,
+    };
+};
+
+export const getListFollowings = (page, token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await GetListFollowings(page, token);
+
+            if (Res && Res.data && Res.data.length > 0) {
+                dispatch(getListFollowingsSuccess(Res.data));
+            }
+        } catch (error) {
+            dispatch(getListFollowingsFailed());
+        }
+    };
+};
+
+export const getListFollowingsSuccess = (data) => {
+    return {
+        type: actionTypes.GET_LIST_FOLLOW_SUCCESS,
+        data,
+    };
+};
+
+export const getListFollowingsFailed = () => {
+    return {
+        type: actionTypes.GET_LIST_FOLLOW_FAILED,
+    };
+};
+
+export const getSuggestedAccountLimitActionSite = (limit, per_page) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await GetSuggestedAccountLimitAction(limit, per_page);
+
+            if (Res && Res.data && Res.data.length > 0) {
+                dispatch(getSuggestedAccountLimitActionSiteSuccess(Res.data));
+            }
+        } catch (error) {
+            dispatch(getSuggestedAccountLimitActionSiteFailed());
+        }
+    };
+};
+
+export const getSuggestedAccountLimitActionSiteSuccess = (data) => {
+    return {
+        type: actionTypes.GET_LIST_USER_SUGGEST_FOLLOW_SUCCESS,
+        data,
+    };
+};
+
+export const getSuggestedAccountLimitActionSiteFailed = () => {
+    return {
+        type: actionTypes.GET_LIST_USER_SUGGEST_FOLLOW_FAILED,
     };
 };

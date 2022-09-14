@@ -24,7 +24,6 @@ ItemVideo.propTypes = {
 
 function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
     const userInfo = useSelector((state) => state.user.userInfo);
-    const detailOneVideo = useSelector((state) => state.SiteReducer.detailOneVideo);
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
     const [play, setPlay] = useState(false);
@@ -32,7 +31,6 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
     const [Check, setCheck] = useState(false);
     const ref = useRef(null);
     const [user, setUser] = useState(userInfo);
-    const [dataLike, setDataLike] = useState({});
 
     const history = useNavigate();
 
@@ -109,10 +107,6 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
 
     const Token = useGetToken();
 
-    useEffect(() => {
-        setDataLike(detailOneVideo);
-    }, [detailOneVideo]);
-
     const handleClickCommentBtn = (uuid, token) => {
         if (isLoggedIn) {
             handleClickRedirect({ uuid });
@@ -120,8 +114,6 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
             handleToggleModal();
         }
     };
-
-    console.log('check  :', dataLike);
 
     return (
         <div className="wrapper-item-video">
@@ -148,43 +140,21 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
                         <div className="heart-and-share-video">
                             <div>
                                 <button
-                                    onClick={() =>
-                                        handleClickHeart(
-                                            data.uuid,
-                                            Token,
-                                            !_.isEmpty(dataLike)
-                                                ? dataLike.uuid === data.uuid
-                                                    ? dataLike.is_liked
-                                                    : data.is_liked
-                                                : data.is_liked,
-                                        )
-                                    }
+                                    onClick={() => {
+                                        if (isLoggedIn) {
+                                            handleClickHeart(data.uuid, Token, data.is_liked);
+                                        } else {
+                                            handleToggleModal();
+                                        }
+                                    }}
                                 >
-                                    {!_.isEmpty(dataLike) ? (
-                                        dataLike.uuid === data.uuid ? (
-                                            dataLike.is_liked ? (
-                                                <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
-                                            ) : (
-                                                <FontAwesomeIcon icon={faHeart} />
-                                            )
-                                        ) : data.is_liked ? (
-                                            <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
-                                        ) : (
-                                            <FontAwesomeIcon icon={faHeart} />
-                                        )
-                                    ) : data.is_liked ? (
+                                    {data.is_liked ? (
                                         <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
                                     ) : (
                                         <FontAwesomeIcon icon={faHeart} />
                                     )}
                                 </button>
-                                <strong>
-                                    {!_.isEmpty(dataLike)
-                                        ? dataLike.uuid === data.uuid
-                                            ? dataLike.likes_count
-                                            : data.likes_count
-                                        : data.likes_count}
-                                </strong>
+                                <strong>{data.likes_count}</strong>
                             </div>
                             <div>
                                 <button onClick={() => handleClickCommentBtn(data.uuid, Token)}>

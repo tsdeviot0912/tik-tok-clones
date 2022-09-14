@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import { memo } from 'react';
-import AccountItem from './AccountItem';
+import Skeleton from 'react-loading-skeleton';
+import { SkeLotonSlider } from '../SkelotonLoading';
 
+import AccountItem from './AccountItem';
 import './SuggestAccount.scss';
 
 SuggestAccount.propTypes = {
@@ -22,7 +24,13 @@ function SuggestAccount({ label, data, onSeeAll }) {
             <div className="suggest-account">
                 <p className="title">{label}</p>
                 <div className="suggest-account-body">
-                    {data && data.length > 0 && data.map((user, index) => <AccountItem key={index} item={user} />)}
+                    {data && data.length > 0 ? (
+                        data.map((user, index) => <AccountItem key={index} item={user} />)
+                    ) : (
+                        <>
+                            <SkeLotonSlider />
+                        </>
+                    )}
                 </div>
                 <p className="see-more" onClick={onSeeAll}>
                     Xem thêm

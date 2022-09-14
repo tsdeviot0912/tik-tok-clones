@@ -1,9 +1,9 @@
 .wrapper {
-    width      : var(--default-layout-slide);
-    padding    : 20px 0 26px 8px;
-    margin-left: -20px;
-    position   : fixed;
-    top        : var(--default-layout-header-height);
-    bottom     : 0;
-    overflow-y : scroll;
+    width         : var(--default-layout-slide);
+    padding       : 20px 0 26px 8px;
+    margin-left   : -20px;
+    position      : fixed;
+    top           : var(--default-layout-header-height);
+    bottom        : 0;
+    // overflow-y : scroll;
 }
