@@ -5,14 +5,18 @@ import './Following.scss';
 import * as actions from '../../../../../store/actions';
 import useGetToken from '../../../../../components/hooks/useGetToken';
 import { SkelotonFollow } from '../../../../../components/SkelotonLoading';
+import _ from 'lodash';
+import { emitter } from '../../../../../utils/emitter';
 
 class Following extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            listFollow: [],
+            listFollow: [...this.props.listFollow],
             listUser: [],
             listUserSuggest: [],
+
+            MetaAccount: {},
 
             page: 1,
 
@@ -21,49 +25,113 @@ class Following extends Component {
     }
 
     componentDidMount() {
-        const { getListFollowings, getSuggestedAccountLimitActionSite } = this.props;
+        const { getSuggestedAccountLimitActionSite } = this.props;
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const Token = useGetToken();
+        // const Token = useGetToken();
 
-        getListFollowings(this.state.page, Token);
-        getSuggestedAccountLimitActionSite(1, 10);
+        getSuggestedAccountLimitActionSite(this.state.page, 10);
     }
 
     async componentDidUpdate(prevProps, nextProps, next) {
         if (prevProps.listFollow !== this.props.listFollow) {
             this.setState({
                 ...this.state,
-                listFollow: this.props.listFollow,
+                listFollow: [...this.state.listFollow, ...this.props.listFollow],
                 isOpenFollowAccount: false,
+                isOpenBtnSeeMore: true,
             });
         }
 
-        if (prevProps.listUserSuggestFollow !== this.props.listUserSuggestFollow || this.state.listFollow.length > 0) {
-            if (this.props.listUserSuggestFollow.length > 0 && this.props.listFollow.length > 0) {
-                const data = await this.handleDataBuild(
-                    this.props.listUserSuggestFollow,
-                    this.props.listFollow || this.state.listFollow,
-                );
+        if (prevProps.listUserSuggestFollow !== this.props.listUserSuggestFollow) {
+            this.setState({
+                ...this.state,
+                listUserSuggest: [...this.state.listUserSuggest, ...this.props.listUserSuggestFollow],
+            });
+        }
 
-                this.setState({
-                    ...this.state,
-                    listUserSuggest: data,
-                });
-            }
+        if (prevProps.MetaAccount !== this.props.MetaAccount) {
+            this.setState({
+                MetaAccount: this.props.MetaAccount,
+            });
         }
     }
 
     handleDataBuild = (ArrOne, ArrTwo) => {
-        let Result;
+        let Result = [];
         if (ArrOne.length > 0 && ArrTwo.length > 0) {
             Result = ArrOne.filter((data) => !ArrTwo.find((item) => item.id === data.id));
         }
 
-        return Result;
+        return [...Result];
+    };
+
+    handleRenderData = (ArrOne, ArrTwo) => {
+        const data = this.handleDataBuild(ArrOne, ArrTwo);
+
+        return (
+            <>
+                {data && data.length > 0
+                    ? data.map((data) => (
+                          <div className="col-4 item-account" key={data.nickname}>
+                              <div
+                                  style={{
+                                      backgroundImage: `url(${data.avatar})`,
+                                  }}
+                                  className="following-content"
+                              >
+                                  <div className="following-overlay"></div>
+                                  <div className="avatar">
+                                      <img
+                                          src={data.avatar}
+                                          alt="https://files.fullstack.edu.vn/f8-tiktok/users/13/630267176b15c.jpg"
+                                      />
+                                  </div>
+                                  <div className="body">
+                                      <p>
+                                          <strong>{data.nickname}</strong>
+                                      </p>
+                                      <span>{`${data.first_name} ${data.last_name}`}</span>
+                                  </div>
+                                  <div className="overlay-element">
+                                      <button className="btn btn-follow mx-1">Follow</button>
+                                      <button className="btn btn-follow mx-1">xem Profile</button>
+                                  </div>
+                              </div>
+                          </div>
+                      ))
+                    : this.state.isOpenFollowAccount && <SkelotonFollow />}
+            </>
+        );
+    };
+
+    handleSeeMoreSuggest = () => {
+        const { getSuggestedAccountLimitActionSite } = this.props;
+
+        const { MetaAccount } = this.state;
+
+        if (!_.isEmpty(MetaAccount)) {
+            if (this.state.page < MetaAccount.pagination.total_pages) {
+                this.setState({
+                    page: this.state.page + 1,
+                });
+                getSuggestedAccountLimitActionSite(this.state.page + 1, 10);
+            }
+            if (this.state.page === +MetaAccount.pagination.total_pages - 1) {
+                this.setState({
+                    isOpenBtnSeeMore: false,
+                });
+            }
+        }
+    };
+
+    handleSeeMoreAccountFollow = () => {
+        emitter.emit('PAGE_CURRENT_FOLLOWS', (data) => {
+            console.log('check data emait :', data);
+        });
     };
 
     render() {
-        const { listFollow, isOpenFollowAccount, listUserSuggest } = this.state;
+        const { listFollow, isOpenBtnSeeMore, listUserSuggest } = this.state;
 
         return (
             <div className="following-wrapper">
@@ -74,46 +142,9 @@ class Following extends Component {
                         <b></b>
                     </div>
                     <div className="row">
-                        {listFollow && listFollow.length > 0
-                            ? listFollow.map((data) => (
-                                  <div className="col-4 item-account" key={data.id}>
-                                      <div
-                                          style={{
-                                              backgroundImage: `url(${data.avatar})`,
-                                          }}
-                                          className="following-content"
-                                      >
-                                          <div className="following-overlay"></div>
-                                          <div className="avatar">
-                                              <img
-                                                  src={data.avatar}
-                                                  alt="https://files.fullstack.edu.vn/f8-tiktok/users/13/630267176b15c.jpg"
-                                              />
-                                          </div>
-                                          <div className="body">
-                                              <p>
-                                                  <strong>{data.nickname}</strong>
-                                              </p>
-                                              <span>{`${data.first_name} ${data.last_name}`}</span>
-                                          </div>
-                                          <div className="overlay-element">
-                                              <button className="btn btn-follow">xem Profile</button>
-                                          </div>
-                                      </div>
-                                  </div>
-                              ))
-                            : isOpenFollowAccount && <SkelotonFollow />}
-                    </div>
-                    <div className="title-suggest">
-                        <b></b>
-                        <span>Tài khoản mà bạn có thể chưa biêt</span>
-                        <b></b>
-                    </div>
-                    <div className="row">
-                        {listUserSuggest &&
-                            listUserSuggest.length > 0 &&
-                            listUserSuggest.map((data) => (
-                                <div className="col-4 item-account" key={data.id}>
+                        {listFollow && listFollow.length > 0 ? (
+                            listFollow.map((data) => (
+                                <div className="col-4 item-account" key={data.nickname}>
                                     <div
                                         style={{
                                             backgroundImage: `url(${data.avatar})`,
@@ -134,12 +165,34 @@ class Following extends Component {
                                             <span>{`${data.first_name} ${data.last_name}`}</span>
                                         </div>
                                         <div className="overlay-element">
-                                            <button className="btn btn-follow mx-1">Follow</button>
-                                            <button className="btn btn-follow mx-1">xem Profile</button>
+                                            <button className="btn btn-follow">xem Profile</button>
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                            ))
+                        ) : (
+                            <h3>Bạn chưa follow người nào cả</h3>
+                        )}
+                        <div className="my-4 see-more-btn">
+                            <div className="text text-center" onClick={this.handleSeeMoreAccountFollow}>
+                                <span>Xem thêm</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="title-suggest">
+                        <b></b>
+                        <span>Tài khoản mà bạn có thể chưa biêt</span>
+                        <b></b>
+                    </div>
+                    <div className="row">
+                        {this.handleRenderData(listUserSuggest, listFollow)}
+                        {isOpenBtnSeeMore && (
+                            <div className="my-4 see-more-btn">
+                                <div className="text text-center" onClick={this.handleSeeMoreSuggest}>
+                                    <span>Xem thêm</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -151,6 +204,7 @@ const mapStateToProps = (state) => {
     return {
         listFollow: state.SiteReducer.listFollow,
         listUserSuggestFollow: state.SiteReducer.listUserSuggestFollow,
+        MetaAccount: state.AccountReducer.MetaAccount,
     };
 };
 

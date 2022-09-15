@@ -209,3 +209,18 @@ $grid-breakpoints: (xs: 0,
 .max-w-100 {
     max-width: 100% !important;
 }
+
+.see-more-btn {
+    border          : 1px solid red;
+    border-radius   : 4px;
+    font-weight     : 600;
+    cursor          : pointer;
+    user-select     : none;
+    color           : #fff;
+    background-color: #fe2c55;
+
+
+    &:hover {
+        opacity: 0.8;
+    }
+}

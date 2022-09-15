@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { memo } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import { SkeLotonSlider } from '../SkelotonLoading';
 
 import AccountItem from './AccountItem';
@@ -18,14 +17,14 @@ SuggestAccount.defaultProps = {
     onSeeAll: () => {},
 };
 
-function SuggestAccount({ label, data, onSeeAll }) {
+function SuggestAccount({ label, data, onSeeAll, isFollow = false }) {
     return (
         <div className="wrapper-suggest-account">
             <div className="suggest-account">
                 <p className="title">{label}</p>
                 <div className="suggest-account-body">
                     {data && data.length > 0 ? (
-                        data.map((user, index) => <AccountItem key={index} item={user} />)
+                        data.map((user, index) => <AccountItem isFollow={isFollow} key={index} item={user} />)
                     ) : (
                         <>
                             <SkeLotonSlider />

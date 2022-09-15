@@ -16,6 +16,9 @@ const initialState = {
 
     listFollow: [],
     listUserSuggestFollow: [],
+    metaFollow: {},
+
+    detailFollowAndUnFollow: {},
 };
 
 export const SiteReducer = (state = initialState, action) => {
@@ -177,6 +180,30 @@ export const SiteReducer = (state = initialState, action) => {
         }
 
         case actionTypes.GET_LIST_USER_SUGGEST_FOLLOW_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.GET_META_FOLLOW_SUCCESS: {
+            const cloneStateListUseMeta = { ...state };
+
+            cloneStateListUseMeta.metaFollow = action.data;
+
+            return {
+                ...cloneStateListUseMeta,
+            };
+        }
+
+        case actionTypes.FOLLOW_ONE_ACCOUNT_SUCCESS: {
+            const cloneStateFollowAccount = { ...state };
+
+            cloneStateFollowAccount.detailFollowAndUnFollow = action.data;
+
+            return {
+                ...cloneStateFollowAccount,
+            };
+        }
+
+        case actionTypes.FOLLOW_ONE_ACCOUNT_FAILED: {
             return { ...state };
         }
 

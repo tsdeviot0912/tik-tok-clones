@@ -3,14 +3,17 @@ import { GetDetailVideoByUuid, GetSuggestedAccountLimitAction, GetVideoLimitType
 import {
     CreateNewComment,
     DeleteComment,
+    FollowingAccount,
     GetListComment,
     GetListFollowings,
     LikeComment,
     LikeOneVideo,
     SearchUserAndVideo,
+    UnFollowingAccount,
     UnLikeComment,
     UnLikeOneVideo,
 } from '../../services/AppServices';
+import actionType from './actionTypes';
 import actionTypes from './actionTypes';
 
 export const getVideoLimitType = (type, page, token) => {
@@ -319,6 +322,7 @@ export const getListFollowings = (page, token) => {
 
             if (Res && Res.data && Res.data.length > 0) {
                 dispatch(getListFollowingsSuccess(Res.data));
+                dispatch(getMetaFollowList(Res.meta));
             }
         } catch (error) {
             dispatch(getListFollowingsFailed());
@@ -339,6 +343,13 @@ export const getListFollowingsFailed = () => {
     };
 };
 
+export const getMetaFollowList = (data) => {
+    return {
+        type: actionType.GET_META_FOLLOW_SUCCESS,
+        data,
+    };
+};
+
 export const getSuggestedAccountLimitActionSite = (limit, per_page) => {
     return async (dispatch, state) => {
         try {
@@ -346,6 +357,7 @@ export const getSuggestedAccountLimitActionSite = (limit, per_page) => {
 
             if (Res && Res.data && Res.data.length > 0) {
                 dispatch(getSuggestedAccountLimitActionSiteSuccess(Res.data));
+                dispatch(getSuggestedAccountSitePage(Res.meta));
             }
         } catch (error) {
             dispatch(getSuggestedAccountLimitActionSiteFailed());
@@ -363,5 +375,66 @@ export const getSuggestedAccountLimitActionSiteSuccess = (data) => {
 export const getSuggestedAccountLimitActionSiteFailed = () => {
     return {
         type: actionTypes.GET_LIST_USER_SUGGEST_FOLLOW_FAILED,
+    };
+};
+
+export const getSuggestedAccountSitePage = (data) => {
+    return {
+        type: actionTypes.SUGGESTED_ACCOUNTS_FAGE_SUCCESS,
+        data,
+    };
+};
+
+export const followingAccount = (id, token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await FollowingAccount(id, token);
+
+            if (Res && Res.data && !_.isEmpty(Res.data)) {
+                dispatch(followingAccountSuccess(Res.data));
+            }
+        } catch (error) {
+            dispatch(followingAccountFailed());
+        }
+    };
+};
+
+export const followingAccountSuccess = (data) => {
+    return {
+        type: actionTypes.FOLLOW_ONE_ACCOUNT_SUCCESS,
+        data,
+    };
+};
+
+export const followingAccountFailed = () => {
+    return {
+        type: actionTypes.FOLLOW_ONE_ACCOUNT_SUCCESS,
+    };
+};
+
+export const unFollowingAccount = (id, token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await UnFollowingAccount(id, token);
+
+            if (Res && Res.data && !_.isEmpty(Res.data)) {
+                dispatch(unFollowingAccountSuccess(Res.data));
+            }
+        } catch (error) {
+            dispatch(unFollowingAccountFailed());
+        }
+    };
+};
+
+export const unFollowingAccountSuccess = (data) => {
+    return {
+        type: actionTypes.FOLLOW_ONE_ACCOUNT_SUCCESS,
+        data,
+    };
+};
+
+export const unFollowingAccountFailed = () => {
+    return {
+        type: actionTypes.FOLLOW_ONE_ACCOUNT_SUCCESS,
     };
 };

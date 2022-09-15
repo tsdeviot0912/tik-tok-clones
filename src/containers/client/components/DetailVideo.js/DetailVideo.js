@@ -12,6 +12,7 @@ import RenderRightConent from './components/Render.js/RenderRightContent';
 import Comment from '../comments/comment';
 import * as Actions from '../../../.././store/actions';
 import useGetToken from '../../../../components/hooks/useGetToken';
+import ModalRender from '../../../../components/Popper/Modal';
 
 let hidden = null;
 let visibilityChange = null;
@@ -39,6 +40,7 @@ function DetailVideo() {
     const [listComment, setComment] = useState([]);
     const [commentText, setCommentText] = useState('');
     const [commentDetail, setCommentDetail] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
     const uuidParams = useParams();
 
     const disPatch = useDispatch();
@@ -67,7 +69,7 @@ function DetailVideo() {
         };
 
         fetCh();
-    }, [token, uuidParams.uuid, detailVideo]);
+    }, [token, uuidParams.uuid, detailVideo, listComments]);
 
     useEffect(() => {
         document.addEventListener(visibilityChange, handleVisibilityChange, false);
@@ -109,6 +111,10 @@ function DetailVideo() {
         disPatch(Actions.createNewComment(dataBuild, uuidParams.uuid, token));
     };
 
+    const handleToggleModal = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
         <div className="detail-video-container">
             <div className="wrapper-detail-video-content">
@@ -133,23 +139,44 @@ function DetailVideo() {
                                 </div>
                                 <div className="input-comment">
                                     <div className="input">
-                                        <input
-                                            value={commentText}
-                                            onChange={(e) => setCommentText(e.target.value)}
-                                            placeholder="Nhập comment của bạn"
-                                            onKeyDown={(e) => {
-                                                if (e.keyCode === 13) {
-                                                    handleSubmitComment();
-                                                }
-                                            }}
-                                        />
+                                        {!isOpen ? (
+                                            <input
+                                                placeholder="Vui lòng đăng nhập để comment"
+                                                onClick={handleToggleModal}
+                                                onChange={() => {
+                                                    if (!isLoggedIn) {
+                                                        handleToggleModal();
+                                                    }
+                                                }}
+                                            />
+                                        ) : (
+                                            <input
+                                                value={commentText}
+                                                onChange={(e) => setCommentText(e.target.value)}
+                                                placeholder="Nhập comment của bạn"
+                                                onKeyDown={(e) => {
+                                                    if (e.keyCode === 13) {
+                                                        handleSubmitComment();
+                                                    }
+                                                }}
+                                            />
+                                        )}
                                     </div>
-                                    <div className="button-submit" onClick={handleSubmitComment}>
-                                        <button className="btn">Đăng</button>
+                                    <div className="button-submit">
+                                        {isOpen ? (
+                                            <button className="btn" onClick={handleSubmitComment}>
+                                                Đăng
+                                            </button>
+                                        ) : (
+                                            <button className="btn" onClick={handleToggleModal}>
+                                                Đăng
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <ModalRender isOpen={isOpen} handleToggleModal={handleToggleModal} />
                     </>
                 )}
             </div>

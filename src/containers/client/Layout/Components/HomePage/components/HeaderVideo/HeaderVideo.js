@@ -23,20 +23,12 @@ function HeaderVideo({ data }) {
         );
     };
 
-    const TippyRender = ({ children }) => {
-        return (
-            <Tippy interactive delay={[800, 20]} placement="bottom-start" render={() => PreviewAccount()}>
-                {children}
-            </Tippy>
-        );
-    };
-
     return (
         <div className="header-video-container">
             <div className="container">
                 {!_.isEmpty(data) && (
                     <div className="d-flex justify-content-between">
-                        <TippyRender>
+                        <Tippy interactive delay={[800, 20]} placement="bottom-start" render={() => PreviewAccount()}>
                             <div className="d-flex">
                                 <div className="logo">
                                     <Image
@@ -80,7 +72,7 @@ function HeaderVideo({ data }) {
                                     </div>
                                 </div>
                             </div>
-                        </TippyRender>
+                        </Tippy>
                         <div>
                             <Button outLine>Follow</Button>
                         </div>

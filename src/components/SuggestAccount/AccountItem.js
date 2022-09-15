@@ -11,7 +11,7 @@ AccountItem.propTypes = {
     item: PropTypes.object.isRequired,
 };
 
-function AccountItem({ item = {} }) {
+function AccountItem({ item = {}, isFollow = false }) {
     const PreviewAccount = () => {
         return (
             <Wrapper>
@@ -21,20 +21,37 @@ function AccountItem({ item = {} }) {
     };
 
     return (
-        <Tippy interactive delay={[800, 20]} placement="bottom-start" render={PreviewAccount}>
-            <div className="wrapper-item">
-                <Image src={item.avatar} alt={item.nickname} />
-                <div>
-                    <p>
-                        <strong>
-                            {item.nickname}
-                            {item.tick && <FontAwesomeIcon icon={faCheckCircle} />}
-                        </strong>
-                    </p>
-                    <p>{`${item.first_name} ${item.last_name}`}</p>
+        <>
+            {isFollow ? (
+                <div className="wrapper-item">
+                    <Image src={item.avatar} alt={item.nickname} />
+                    <div>
+                        <p>
+                            <strong>
+                                {item.nickname}
+                                {item.tick && <FontAwesomeIcon icon={faCheckCircle} />}
+                            </strong>
+                        </p>
+                        <p>{`${item.first_name} ${item.last_name}`}</p>
+                    </div>
                 </div>
-            </div>
-        </Tippy>
+            ) : (
+                <Tippy interactive delay={[800, 20]} placement="bottom-start" render={PreviewAccount}>
+                    <div className="wrapper-item">
+                        <Image src={item.avatar} alt={item.nickname} />
+                        <div>
+                            <p>
+                                <strong>
+                                    {item.nickname}
+                                    {item.tick && <FontAwesomeIcon icon={faCheckCircle} />}
+                                </strong>
+                            </p>
+                            <p>{`${item.first_name} ${item.last_name}`}</p>
+                        </div>
+                    </div>
+                </Tippy>
+            )}
+        </>
     );
 }
 
