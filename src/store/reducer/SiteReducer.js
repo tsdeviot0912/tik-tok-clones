@@ -17,6 +17,8 @@ const initialState = {
     listFollow: [],
     listUserSuggestFollow: [],
     metaFollow: {},
+    listVideoLimitFollow: [],
+    MetaVideoTypeFollow: {},
 
     detailFollowAndUnFollow: {},
 };
@@ -40,6 +42,28 @@ export const SiteReducer = (state = initialState, action) => {
 
             return {
                 ...CloneStateVideoMeta,
+            };
+        }
+
+        case actionTypes.GET_LIST_VIDEO_LIMIT_FOLLOW_SUCCESS: {
+            console.log('check lot vao 1', action.data);
+            const CloneStateVideoFollow = { ...state };
+
+            CloneStateVideoFollow.listVideoLimitFollow = action.data;
+
+            return {
+                ...CloneStateVideoFollow,
+            };
+        }
+
+        case actionTypes.GET_META_VIDEO_LIMIT_FOLLOW_SUCCESS: {
+            console.log('check lot vao 2', action.data);
+            const CloneStateVideoMetaFollow = { ...state };
+
+            CloneStateVideoMetaFollow.MetaVideoTypeFollow = action.data;
+
+            return {
+                ...CloneStateVideoMetaFollow,
             };
         }
 

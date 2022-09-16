@@ -41,7 +41,7 @@
                     object-fit     : cover;
                     object-position: center center;
                     filter         : brightness(100%);
-                    z-index        : 99999;
+                    z-index        : 98;
 
 
                     img {
@@ -52,7 +52,7 @@
                 }
 
                 .body {
-                    z-index   : 99999;
+                    z-index   : 98;
                     text-align: center;
                     font-style: italic;
 
@@ -88,7 +88,7 @@
                 align-items     : center;
 
                 .btn-follow {
-                    z-index    : 999999;
+                    z-index    : 98;
                     margin-top : 50px;
                     transform  : translateY(200px);
                     transition : all linear 0.3s;

@@ -69,15 +69,16 @@
 }
 
 .primary {
-    padding         : 6px 0;
-    font-size       : 1.4rem;
-    margin-left     : 16px;
-    background-color: var(--primary-color);
-    color           : var(--white-color) !important;
-    min-height      : 36px;
-    border-color    : var(--primary-color);
-    border-width    : 1px;
-    border-style    : solid;
+    padding            : 6px 6px;
+    font-size          : 1.4rem;
+    margin-left        : 16px;
+    background-color   : var(--primary-color);
+    color              : var(--white-color) !important;
+    min-height         : 36px;
+    border-color       : var(--primary-color);
+    border-width       : 1px;
+    border-style       : solid;
+    // padding         : 0 6px;
 
     &:hover {
         border-color: var(--primary-color);
@@ -91,6 +92,7 @@
     color           : rgba(254, 44, 85, 1);
     border-color    : rgba(254, 44, 85, 1);
     background-color: rgba(255, 255, 255, 1);
+    padding         : 6px;
 
     &:hover {
         border-color    : rgba(254, 44, 85, 1);

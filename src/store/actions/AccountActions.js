@@ -2,10 +2,10 @@ import actionTypes from './actionTypes';
 
 import { GetSuggestedAccountLimitAction } from '../../services';
 
-export const getSuggestedAccountLimitAction = (limit, perPage) => {
+export const getSuggestedAccountLimitAction = (limit, perPage, token) => {
     return async (dispatch, state) => {
         try {
-            const Res = await GetSuggestedAccountLimitAction(limit, perPage);
+            const Res = await GetSuggestedAccountLimitAction(limit, perPage, token);
 
             const { data } = Res;
 

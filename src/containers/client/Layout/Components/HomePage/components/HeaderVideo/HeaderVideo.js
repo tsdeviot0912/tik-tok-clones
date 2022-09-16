@@ -3,18 +3,30 @@ import _ from 'lodash';
 import { faCheckCircle, faMusic } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react/headless';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import Button from '../../../../../../../components/Button';
 import Image from '../../../../../../../components/Image';
 import './HeaderVideo.scss';
 import { Wrapper } from '../../../../../../../components/Popper';
 import Preview from '../../../../../../../components/SuggestAccount/Preview';
+import ModalRender from '../../../../../../../components/Popper/Modal';
 
 HeaderVideo.propTypes = {
     data: PropTypes.object.isRequired,
+    isFollow: PropTypes.bool,
 };
 
-function HeaderVideo({ data }) {
+function HeaderVideo({ data, isFollow = false }) {
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleToggleModal = () => {
+        setIsOpen(!isOpen);
+    };
+
     const PreviewAccount = () => {
         return (
             <Wrapper>
@@ -23,12 +35,30 @@ function HeaderVideo({ data }) {
         );
     };
 
+    const TippyRender = ({ children }) => {
+        return (
+            <div>
+                <Tippy interactive delay={[800, 20]} placement="bottom-start" render={() => PreviewAccount()}>
+                    {children}
+                </Tippy>
+            </div>
+        );
+    };
+
+    const handleBtnFollowClick = () => {
+        if (isLoggedIn) {
+            //
+        } else {
+            handleToggleModal();
+        }
+    };
+
     return (
         <div className="header-video-container">
             <div className="container">
                 {!_.isEmpty(data) && (
                     <div className="d-flex justify-content-between">
-                        <Tippy interactive delay={[800, 20]} placement="bottom-start" render={() => PreviewAccount()}>
+                        <TippyRender>
                             <div className="d-flex">
                                 <div className="logo">
                                     <Image
@@ -72,13 +102,18 @@ function HeaderVideo({ data }) {
                                     </div>
                                 </div>
                             </div>
-                        </Tippy>
+                        </TippyRender>
                         <div>
-                            <Button outLine>Follow</Button>
+                            {!isFollow && (
+                                <Button outLine onClick={() => handleBtnFollowClick()}>
+                                    Follow
+                                </Button>
+                            )}
                         </div>
                     </div>
                 )}
             </div>
+            {isOpen && <ModalRender isOpen={isOpen} handleToggleModal={handleToggleModal} />}
         </div>
     );
 }

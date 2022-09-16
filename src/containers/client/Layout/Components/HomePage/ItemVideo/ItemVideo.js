@@ -20,9 +20,10 @@ ItemVideo.propTypes = {
     data: PropTypes.object.isRequired,
     handleClickHeart: PropTypes.func,
     handleToggleModal: PropTypes.func,
+    isFollow: PropTypes.bool,
 };
 
-function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
+function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false }) {
     const userInfo = useSelector((state) => state.user.userInfo);
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
@@ -120,7 +121,7 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal }) {
             {!_.isEmpty(data) && (
                 <>
                     <div className="header">
-                        <HeaderVideo data={data} />
+                        <HeaderVideo data={data} isFollow={isFollow} />
                     </div>
                     <div className="d-flex">
                         <div className="video-container">

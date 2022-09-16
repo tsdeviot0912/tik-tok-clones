@@ -224,3 +224,33 @@ $grid-breakpoints: (xs: 0,
         opacity: 0.8;
     }
 }
+
+.modal.fade {
+    z-index: 1000000000000000000000000000000000000 !important;
+}
+
+.no-login-title {
+    color        : rgba(22, 24, 35, 0.75);
+    font-weight  : 600;
+    font-size    : 1.4rem;
+    padding      : 0 8px;
+    margin-bottom: 8px;
+}
+
+.no-login-btn {
+    width           : 100%;
+    min-height      : 40px;
+    border-width    : 1px;
+    border-style    : solid;
+    color           : rgb(254, 44, 85);
+    border-color    : rgb(254, 44, 85);
+    background-color: rgb(255, 255, 255);
+    font-weight     : 600;
+    outline         : none;
+
+    &:hover {
+        color           : rgb(254, 44, 85) !important;
+        border-color    : rgb(254, 44, 85) !important;
+        background-color: rgba(254, 44, 85, 0.1) !important;
+    }
+}

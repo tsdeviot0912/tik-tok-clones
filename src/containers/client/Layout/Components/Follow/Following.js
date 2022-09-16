@@ -7,7 +7,9 @@ import useGetToken from '../../../../../components/hooks/useGetToken';
 import { SkelotonFollow } from '../../../../../components/SkelotonLoading';
 import _ from 'lodash';
 import { emitter } from '../../../../../utils/emitter';
-
+import ItemVideo from '../HomePage/ItemVideo';
+import Button from '../../../../../components/Button';
+import ModalRender from '../../../../../components/Popper/Modal';
 class Following extends Component {
     constructor(props) {
         super(props);
@@ -15,21 +17,42 @@ class Following extends Component {
             listFollow: [...this.props.listFollow],
             listUser: [],
             listUserSuggest: [],
+            listVideoLimitFollow: [],
+            MetaVideoTypeFollow: {},
+            type: 'following',
+            pageVideos: 1,
+            metaFollow: {},
 
             MetaAccount: {},
-
+            isOpenModal: false,
+            isOpenBtnSeeMore: true,
+            isOpenBtnSeeMoreFollow: true,
             page: 1,
+            isOpenModalRequired: false,
 
             isOpenFollowAccount: true,
+
+            WindowScollY: 0,
+            HeightPage: 0,
         };
     }
 
-    componentDidMount() {
-        const { getSuggestedAccountLimitActionSite } = this.props;
+    async componentDidMount() {
+        const { getSuggestedAccountLimitActionSite, getVideoLimitType, isLoggedIn } = this.props;
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        // const Token = useGetToken();
+        const Token = await useGetToken();
 
-        getSuggestedAccountLimitActionSite(this.state.page, 10);
+        console.log('check Token :', Token);
+
+        getSuggestedAccountLimitActionSite(this.state.page, 10, Token);
+
+        if (isLoggedIn) {
+            getVideoLimitType(this.state.type, this.state.pageVideos, Token);
+        }
+
+        window.addEventListener('scroll', this.listenScrollEventFollow);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }
 
     async componentDidUpdate(prevProps, nextProps, next) {
@@ -49,24 +72,67 @@ class Following extends Component {
             });
         }
 
+        if (prevProps.listVideoLimitFollow !== this.props.listVideoLimitFollow) {
+            this.setState({
+                listVideoLimitFollow: [...this.state.listVideoLimitFollow, ...this.props.listVideoLimitFollow],
+            });
+        }
+
+        if (prevProps.MetaVideoTypeFollow !== this.props.MetaVideoTypeFollow) {
+            this.setState({
+                MetaVideoTypeFollow: this.props.MetaVideoTypeFollow,
+            });
+        }
+
         if (prevProps.MetaAccount !== this.props.MetaAccount) {
             this.setState({
                 MetaAccount: this.props.MetaAccount,
             });
         }
+
+        if (prevProps.detailOneVideo !== this.props.detailOneVideo) {
+            const DataBuild =
+                this.state.listVideoLimitFollow &&
+                this.state.listVideoLimitFollow.length > 0 &&
+                this.state.listVideoLimitFollow.map((data) => {
+                    if (!_.isEmpty(data.user) && data.uuid === this.props.detailOneVideo.uuid) {
+                        return this.props.detailOneVideo;
+                    }
+
+                    return data;
+                });
+
+            this.setState({
+                listVideoLimitFollow: DataBuild,
+            });
+        }
     }
 
-    handleDataBuild = (ArrOne, ArrTwo) => {
+    listenScrollEventFollow = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            this.setState({
+                WindowScollY: Math.floor(window.innerHeight + window.scrollY),
+            });
+        }
+
+        if (this.state.HeightPage !== document.documentElement.scrollHeight) {
+            this.setState({
+                HeightPage: Math.floor(document.documentElement.scrollHeight),
+            });
+        }
+    };
+
+    handleDataBuild = (ArrOne) => {
         let Result = [];
-        if (ArrOne.length > 0 && ArrTwo.length > 0) {
-            Result = ArrOne.filter((data) => !ArrTwo.find((item) => item.id === data.id));
+        if (ArrOne && ArrOne.length > 0) {
+            Result = ArrOne.filter((data) => !data.is_followed);
         }
 
         return [...Result];
     };
 
     handleRenderData = (ArrOne, ArrTwo) => {
-        const data = this.handleDataBuild(ArrOne, ArrTwo);
+        const data = this.handleDataBuild(ArrOne);
 
         return (
             <>
@@ -130,55 +196,87 @@ class Following extends Component {
         });
     };
 
+    componentWillUnmount = () => {
+        window.removeEventListener('scroll', this.listenScrollEventFollow);
+    };
+
+    handleToggleModal = () => {
+        this.setState({
+            isOpenModal: !this.state.isOpenModal,
+        });
+    };
+
+    handleClickHeart = (uuid, token, toggle) => {
+        const { likeOneVideo, unLikeOneVideo } = this.props;
+
+        if (!toggle) {
+            likeOneVideo(uuid, token);
+        } else {
+            unLikeOneVideo(uuid, token);
+        }
+    };
+
+    handleSeeMoreAccountFollowVideo = () => {
+        const Token = useGetToken();
+
+        if (
+            !_.isEmpty(this.state.MetaVideoTypeFollow) &&
+            this.state.pageVideos === this.state.MetaVideoTypeFollow.total_pages
+        ) {
+            this.setState({
+                isOpenBtnSeeMoreFollow: true,
+            });
+        } else {
+            this.props.getVideoLimitType(this.state.type, this.state.pageVideos + 1, Token);
+        }
+    };
+
     render() {
-        const { listFollow, isOpenBtnSeeMore, listUserSuggest } = this.state;
+        const { listFollow, isOpenBtnSeeMore, listUserSuggest, listVideoLimitFollow } = this.state;
 
         return (
             <div className="following-wrapper">
                 <div className="following-container container">
-                    <div className="title">
-                        <b></b>
-                        <span>Tài khoản mà bạn đã Follow</span>
-                        <b></b>
-                    </div>
-                    <div className="row">
-                        {listFollow && listFollow.length > 0 ? (
-                            listFollow.map((data) => (
-                                <div className="col-4 item-account" key={data.nickname}>
-                                    <div
-                                        style={{
-                                            backgroundImage: `url(${data.avatar})`,
-                                        }}
-                                        className="following-content"
-                                    >
-                                        <div className="following-overlay"></div>
-                                        <div className="avatar">
-                                            <img
-                                                src={data.avatar}
-                                                alt="https://files.fullstack.edu.vn/f8-tiktok/users/13/630267176b15c.jpg"
-                                            />
-                                        </div>
-                                        <div className="body">
-                                            <p>
-                                                <strong>{data.nickname}</strong>
-                                            </p>
-                                            <span>{`${data.first_name} ${data.last_name}`}</span>
-                                        </div>
-                                        <div className="overlay-element">
-                                            <button className="btn btn-follow">xem Profile</button>
+                    {this.props.isLoggedIn ? (
+                        <>
+                            <div className="title">
+                                <b></b>
+                                <span>Video Tài khoản đã theo dõi</span>
+                                <b></b>
+                            </div>
+                            <div>
+                                {listVideoLimitFollow &&
+                                    listVideoLimitFollow.length > 0 &&
+                                    listVideoLimitFollow.map((data, index) => (
+                                        <ItemVideo
+                                            isFollow={true}
+                                            handleClickHeart={this.handleClickHeart}
+                                            handleToggleModal={this.handleToggleModal}
+                                            key={index}
+                                            data={data}
+                                        />
+                                    ))}
+                                {!_.isEmpty(this.state.MetaVideoTypeFollow) &&
+                                this.state.pageVideos === this.state.MetaVideoTypeFollow.total_pages ? (
+                                    ''
+                                ) : (
+                                    <div className="my-4 see-more-btn">
+                                        <div
+                                            className="text text-center"
+                                            onClick={this.handleSeeMoreAccountFollowVideo}
+                                        >
+                                            <span>Xem thêm</span>
                                         </div>
                                     </div>
-                                </div>
-                            ))
-                        ) : (
-                            <h3>Bạn chưa follow người nào cả</h3>
-                        )}
-                        <div className="my-4 see-more-btn">
-                            <div className="text text-center" onClick={this.handleSeeMoreAccountFollow}>
-                                <span>Xem thêm</span>
+                                )}
                             </div>
+                        </>
+                    ) : (
+                        <div className="my-4 d-flex justify-content-center" onClick={this.handleToggleModal}>
+                            <Button primary>Đăng Nhập Để Xem Video Những Người Theo Dõi</Button>
                         </div>
-                    </div>
+                    )}
+
                     <div className="title-suggest">
                         <b></b>
                         <span>Tài khoản mà bạn có thể chưa biêt</span>
@@ -195,6 +293,9 @@ class Following extends Component {
                         )}
                     </div>
                 </div>
+                {this.state.isOpenModal && (
+                    <ModalRender handleToggleModal={this.handleToggleModal} isOpen={this.state.isOpenModal} />
+                )}
             </div>
         );
     }
@@ -205,14 +306,21 @@ const mapStateToProps = (state) => {
         listFollow: state.SiteReducer.listFollow,
         listUserSuggestFollow: state.SiteReducer.listUserSuggestFollow,
         MetaAccount: state.AccountReducer.MetaAccount,
+        listVideoLimitFollow: state.SiteReducer.listVideoLimitFollow,
+        MetaVideoTypeFollow: state.SiteReducer.MetaVideoTypeFollow,
+        detailOneVideo: state.SiteReducer.detailOneVideo,
+        isLoggedIn: state.user.isLoggedIn,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getListFollowings: (page, token) => dispatch(actions.getListFollowings(page, token)),
-        getSuggestedAccountLimitActionSite: (page, per_Page) =>
-            dispatch(actions.getSuggestedAccountLimitActionSite(page, per_Page)),
+        getSuggestedAccountLimitActionSite: (page, per_Page, Token) =>
+            dispatch(actions.getSuggestedAccountLimitActionSite(page, per_Page, Token)),
+        getVideoLimitType: (type, page, token) => dispatch(actions.getVideoLimitType(type, page, token)),
+        likeOneVideo: (uuid, token, type, page) => dispatch(actions.likeOneVideo(uuid, token, type, page)),
+        unLikeOneVideo: (uuid, token) => dispatch(actions.unLikeOneVideo(uuid, token)),
     };
 };
 

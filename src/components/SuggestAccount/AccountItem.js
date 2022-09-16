@@ -36,20 +36,22 @@ function AccountItem({ item = {}, isFollow = false }) {
                     </div>
                 </div>
             ) : (
-                <Tippy interactive delay={[800, 20]} placement="bottom-start" render={PreviewAccount}>
-                    <div className="wrapper-item">
-                        <Image src={item.avatar} alt={item.nickname} />
-                        <div>
-                            <p>
-                                <strong>
-                                    {item.nickname}
-                                    {item.tick && <FontAwesomeIcon icon={faCheckCircle} />}
-                                </strong>
-                            </p>
-                            <p>{`${item.first_name} ${item.last_name}`}</p>
+                <div>
+                    <Tippy interactive delay={[800, 20]} placement="bottom-start" render={PreviewAccount}>
+                        <div className="wrapper-item">
+                            <Image src={item.avatar} alt={item.nickname} />
+                            <div>
+                                <p>
+                                    <strong>
+                                        {item.nickname}
+                                        {item.tick && <FontAwesomeIcon icon={faCheckCircle} />}
+                                    </strong>
+                                </p>
+                                <p>{`${item.first_name} ${item.last_name}`}</p>
+                            </div>
                         </div>
-                    </div>
-                </Tippy>
+                    </Tippy>
+                </div>
             )}
         </>
     );

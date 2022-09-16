@@ -97,6 +97,7 @@ function ModalRender({ isOpen = false, className, handleToggleModal, isRequired 
                 size="md"
                 tabIndex={-1}
                 centered={true}
+                toggle={() => handleToggleModal()}
                 className="modal-rendered"
             >
                 <ModalHeader>

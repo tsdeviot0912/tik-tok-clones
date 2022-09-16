@@ -9,7 +9,7 @@ import { useState } from 'react';
 import _ from 'lodash';
 
 import { IconDip, IconFB, IconShare, IconTeleGram, IconTwitter, IconWhat } from '../../../../../../components/Icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import '../../DetailVideo.scss';
 import HeaderVideo from '../../../../Layout/Components/HomePage/components/HeaderVideo';
@@ -17,6 +17,7 @@ import { Wrapper } from '../../../../../../components/Popper';
 import Share from '../../../../../client/Layout/Components/HomePage/components/Share';
 import useGetToken from '../../../../../../components/hooks/useGetToken';
 import * as actions from '../../../../../../store/actions';
+import ModalRender from '../../../../../../components/Popper/Modal';
 
 RenderRightConent.propTypes = {
     DetailVideoState: PropTypes.object.isRequired,
@@ -25,8 +26,10 @@ RenderRightConent.propTypes = {
 
 function RenderRightConent({ DetailVideoState = {}, linkCopy }) {
     const disPatch = useDispatch();
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
     const [copied, setCopied] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const PreviewAccount = () => {
         return <Wrapper>{<Share />}</Wrapper>;
@@ -40,17 +43,23 @@ function RenderRightConent({ DetailVideoState = {}, linkCopy }) {
         );
     };
 
+    const handleToggleModal = () => {
+        setIsOpen(!isOpen);
+    };
+
     const Token = useGetToken();
 
     const handleToggleHeart = (uuid, token, toggle) => {
         const isDetail = true;
 
-        console.log('check toggle :', toggle);
-
-        if (toggle) {
-            disPatch(actions.unLikeOneVideo(uuid, token, isDetail));
+        if (isLoggedIn) {
+            if (toggle) {
+                disPatch(actions.unLikeOneVideo(uuid, token, isDetail));
+            } else {
+                disPatch(actions.likeOneVideo(uuid, token, isDetail));
+            }
         } else {
-            disPatch(actions.likeOneVideo(uuid, token, isDetail));
+            handleToggleModal();
         }
     };
 
@@ -137,6 +146,7 @@ function RenderRightConent({ DetailVideoState = {}, linkCopy }) {
                     </div>
                 </>
             )}
+            {isOpen && <ModalRender isOpen={isOpen} handleToggleModal={handleToggleModal} />}
         </div>
     );
 }

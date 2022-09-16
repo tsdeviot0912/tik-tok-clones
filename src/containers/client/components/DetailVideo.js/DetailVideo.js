@@ -91,6 +91,11 @@ function DetailVideo() {
 
     useEffect(() => {
         disPatch(Actions.getListComment(uuidParams.uuid, token));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        disPatch(Actions.getListComment(uuidParams.uuid, token));
     }, [uuidParams.uuid, isLoggedIn, disPatch, token, detailComments]);
 
     useEffect(() => {
@@ -176,7 +181,7 @@ function DetailVideo() {
                                 </div>
                             </div>
                         </div>
-                        <ModalRender isOpen={isOpen} handleToggleModal={handleToggleModal} />
+                        {isOpen && <ModalRender isOpen={isOpen} handleToggleModal={handleToggleModal} />}
                     </>
                 )}
             </div>

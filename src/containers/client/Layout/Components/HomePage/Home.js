@@ -26,9 +26,11 @@ function Home() {
     const [isOpenSkeloton, setIsOpenSkeloton] = useState(false);
 
     useEffect(() => {
-        setListVideo((prev) => {
-            return [...prev, ...listVideoLimit];
-        });
+        console.log('check re-render use effect');
+        setListVideo((prev) => [...prev, ...listVideoLimit]);
+
+        return;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [listVideoLimit]);
 
     useEffect(() => {
@@ -43,7 +45,8 @@ function Home() {
 
             setListVideo(UpdateListVideo);
         }
-    }, [detailOneVideo, listVideo]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [detailOneVideo]);
 
     useEffect(() => {
         setMetaVideo(MetaVideoType);

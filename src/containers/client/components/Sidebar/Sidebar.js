@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -13,6 +13,7 @@ import { path } from '../../../../utils/constant';
 import * as action from '../../../../store/actions';
 import useGetToken from '../../../../components/hooks/useGetToken';
 import { emitter } from '../../../../utils/emitter';
+import ModalRender from '../../../../components/Popper/Modal';
 
 const cx = classNames.bind(styles);
 
@@ -26,11 +27,19 @@ function Sidebar() {
     const [listFollowAccount, setListFollowAccount] = useState([]);
     const [MetaPage, SetMetaPage] = useState({});
     const [MetaPageFollow, SetMetaPageFollow] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
+    const detailFollowAndUnFollow = useSelector((state) => state.SiteReducer.detailFollowAndUnFollow);
 
     const listUserSuggest = useSelector((state) => state.AccountReducer.listUserSuggest);
     const MetaAccount = useSelector((state) => state.AccountReducer.MetaAccount);
     const listFollow = useSelector((state) => state.SiteReducer.listFollow);
     const metaFollow = useSelector((state) => state.SiteReducer.metaFollow);
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const [DetailFollowUnFollow, setDetailFollowUnFollow] = useState({});
+
+    useEffect(() => {
+        setDetailFollowUnFollow(detailFollowAndUnFollow);
+    }, [detailFollowAndUnFollow]);
 
     const disPatch = useDispatch();
 
@@ -55,7 +64,7 @@ function Sidebar() {
     };
 
     useEffect(() => {
-        disPatch(action.getSuggestedAccountLimitAction(page, 5));
+        disPatch(action.getSuggestedAccountLimitAction(page, 5, Token));
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
@@ -65,14 +74,28 @@ function Sidebar() {
             handleSellMoreFollow();
         });
 
-        disPatch(action.getListFollowings(pageFollow, Token));
+        if (isLoggedIn) {
+            disPatch(action.getListFollowings(pageFollow, Token));
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageFollow]);
 
+    const handleToggleModal = useCallback(() => {
+        setIsOpen(!isOpen);
+    }, [isOpen]);
+
     useEffect(() => {
         SetSuggestedUser((prev) => {
-            return [...prev, ...listUserSuggest];
+            const ArrClone = [...prev, ...listUserSuggest];
+
+            let data = [];
+
+            if (ArrClone && ArrClone.length > 0) {
+                data = ArrClone.filter((item) => !item.is_followed);
+            }
+
+            return data;
         });
     }, [listUserSuggest]);
 
@@ -87,6 +110,8 @@ function Sidebar() {
     useEffect(() => {
         SetMetaPageFollow(metaFollow);
     }, [metaFollow]);
+
+    console.log('check DetailFollowUnFollow :', DetailFollowUnFollow);
 
     return (
         <>
@@ -119,14 +144,26 @@ function Sidebar() {
                         />
                     </Menu>
                     <SuggestAccount label="Tài khoản được đề xuất" data={suggestedUser} onSeeAll={handleSellMore} />
-                    <SuggestAccount
-                        label="Tài khoản bạn đã theo dõi"
-                        data={listFollowAccount}
-                        onSeeAll={handleSellMoreFollow}
-                        isFollow={true}
-                    />
+                    {isLoggedIn ? (
+                        <SuggestAccount
+                            label="Tài khoản bạn đã theo dõi"
+                            data={listFollowAccount}
+                            onSeeAll={handleSellMoreFollow}
+                            isFollow={true}
+                        />
+                    ) : (
+                        <>
+                            <p className="my-2 text-center no-login-title">Tài khoản theo dõi</p>
+                            <div className="d-flex justify-content-center my-2">
+                                <button className="btn no-login-btn" onClick={handleToggleModal}>
+                                    Đăng nhập để xem những tài khoản theo dõi
+                                </button>
+                            </div>
+                        </>
+                    )}
                 </Scrollbars>
             </aside>
+            {isOpen && <ModalRender isOpen={isOpen} handleToggleModal={handleToggleModal} />}
         </>
     );
 }

@@ -1,12 +1,18 @@
 .modal-rendered {
+    z-index: 99999999999999999;
 
     * {
         font-size : 96% !important;
         list-style: 2;
+
     }
 
 
 
+}
+
+.modal-container {
+    z-index: 999999999999999;
 }
 
 .show-password {

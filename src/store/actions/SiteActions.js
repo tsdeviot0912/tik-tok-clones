@@ -22,8 +22,15 @@ export const getVideoLimitType = (type, page, token) => {
             const Res = await GetVideoLimitType(type, page, token);
 
             if (Res.data && Res.data.length > 0) {
-                dispatch(getVideoLimitTypeSuccess(Res.data));
-                dispatch(getVideoLimitMeta(Res.meta.pagination));
+                if (type === 'for-you') {
+                    dispatch(getVideoLimitTypeSuccess(Res.data));
+                    dispatch(getVideoLimitMeta(Res.meta.pagination));
+                }
+
+                if (type === 'following') {
+                    dispatch(getVideoLimitTypeSuccessFollow(Res.data));
+                    dispatch(getVideoLimitMetaFollow(Res.meta.pagination));
+                }
             } else {
                 dispatch(getVideoLimitTypeFailed());
             }
@@ -41,6 +48,13 @@ export const getVideoLimitTypeSuccess = (data) => {
     };
 };
 
+export const getVideoLimitTypeSuccessFollow = (data) => {
+    return {
+        type: actionTypes.GET_LIST_VIDEO_LIMIT_FOLLOW_SUCCESS,
+        data,
+    };
+};
+
 export const getVideoLimitTypeFailed = () => {
     return {
         type: actionTypes.GET_VIDEO_LIMIT_FAILED,
@@ -50,6 +64,13 @@ export const getVideoLimitTypeFailed = () => {
 export const getVideoLimitMeta = (data) => {
     return {
         type: actionTypes.GET_VIDEO_META_DATA_SUCCESS,
+        data,
+    };
+};
+
+export const getVideoLimitMetaFollow = (data) => {
+    return {
+        type: actionTypes.GET_META_VIDEO_LIMIT_FOLLOW_SUCCESS,
         data,
     };
 };
@@ -350,10 +371,10 @@ export const getMetaFollowList = (data) => {
     };
 };
 
-export const getSuggestedAccountLimitActionSite = (limit, per_page) => {
+export const getSuggestedAccountLimitActionSite = (limit, per_page, Token) => {
     return async (dispatch, state) => {
         try {
-            const Res = await GetSuggestedAccountLimitAction(limit, per_page);
+            const Res = await GetSuggestedAccountLimitAction(limit, per_page, Token);
 
             if (Res && Res.data && Res.data.length > 0) {
                 dispatch(getSuggestedAccountLimitActionSiteSuccess(Res.data));

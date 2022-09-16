@@ -81,19 +81,27 @@ export const GetListFollowings = (page, token) => {
 };
 
 export const FollowingAccount = (id, token) => {
-    return axios.post(`/api/users/${id}/follow`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
+    return axios.post(
+        `/api/users/${id}/follow`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         },
-    });
+    );
 };
 
 export const UnFollowingAccount = (id, token) => {
-    return axios.post(`/api/users/${id}/unfollow`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
+    return axios.post(
+        `/api/users/${id}/unfollow`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         },
-    });
+    );
 };
 
 export const SearchUserAndVideo = (q, type = 'less') => {
