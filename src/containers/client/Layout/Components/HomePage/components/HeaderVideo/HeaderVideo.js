@@ -15,10 +15,9 @@ import ModalRender from '../../../../../../../components/Popper/Modal';
 
 HeaderVideo.propTypes = {
     data: PropTypes.object.isRequired,
-    isFollow: PropTypes.bool,
 };
 
-function HeaderVideo({ data, isFollow = false }) {
+function HeaderVideo({ data }) {
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
     const [isOpen, setIsOpen] = useState(false);
@@ -104,7 +103,7 @@ function HeaderVideo({ data, isFollow = false }) {
                             </div>
                         </TippyRender>
                         <div>
-                            {!isFollow && (
+                            {!data.user.is_followed && (
                                 <Button outLine onClick={() => handleBtnFollowClick()}>
                                     Follow
                                 </Button>

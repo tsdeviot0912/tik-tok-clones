@@ -13,6 +13,7 @@ import ModalRender from '../../../components/Popper/Modal';
 import useGetToken from '../../hooks/useGetToken';
 import * as actions from '../../../store/actions';
 import _ from 'lodash';
+import { useNavigate } from 'react-router-dom';
 
 Preview.propTypes = {
     data: PropTypes.object.isRequired,
@@ -20,6 +21,7 @@ Preview.propTypes = {
 
 function Preview({ data = {} }) {
     const dispatch = useDispatch();
+    const history = useNavigate();
 
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
     const Token = useGetToken();
@@ -30,11 +32,19 @@ function Preview({ data = {} }) {
         setIsOpen(!isOpen);
     };
 
-    const handleFollowBtn = async (data) => {
-        if (isLoggedIn) {
-            console.log('check data :', data);
+    const handleClickRedirect = (nickname, id) => {
+        history(`/profile/@${nickname}/${id}`);
+    };
 
-            dispatch(actions.followingAccount(data.id ? data.id : 0, Token));
+    const handleFollowBtn = async (data, toggle) => {
+        if (isLoggedIn) {
+            if (!toggle) {
+                console.log('check data :', data);
+
+                dispatch(actions.followingAccount(data.id ? data.id : 0, Token));
+            } else {
+                handleClickRedirect(data.nickname, data.id);
+            }
         } else {
             handleToggleModal();
         }
@@ -45,12 +55,16 @@ function Preview({ data = {} }) {
             {!_.isEmpty(data) && (
                 <>
                     <header>
-                        <Image src={data.avatar} alt={data.nickname} />
-                        <Button primary onClick={() => handleFollowBtn(data)}>
+                        <Image
+                            src={data.avatar}
+                            alt={data.nickname}
+                            onClick={() => handleClickRedirect(data.nickname, data.id)}
+                        />
+                        <Button primary onClick={() => handleFollowBtn(data, data.is_followed)}>
                             {data.is_followed ? 'Xem Profile' : 'Follow'}
                         </Button>
                     </header>
-                    <div className="body">
+                    <div className="body" onClick={() => handleClickRedirect(data.nickname, data.id)}>
                         <h2>
                             {data.nickname}
                             {data.tick && <FontAwesomeIcon icon={faCheckCircle} />}

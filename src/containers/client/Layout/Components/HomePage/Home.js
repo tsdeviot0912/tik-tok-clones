@@ -15,6 +15,7 @@ function Home() {
     const listVideoLimit = useSelector((state) => state.SiteReducer.listVideoLimit);
     const MetaVideoType = useSelector((state) => state.SiteReducer.MetaVideoType);
     const detailOneVideo = useSelector((state) => state.SiteReducer.detailOneVideo);
+    const detailFollowAndUnFollow = useSelector((state) => state.SiteReducer.detailFollowAndUnFollow);
 
     const [listVideo, setListVideo] = useState([]);
     const [metaVideo, setMetaVideo] = useState({});
@@ -113,6 +114,22 @@ function Home() {
     const Skeloton = useCallback(() => {
         return <LoadingHome />;
     }, []);
+
+    useEffect(() => {
+        setListVideo((prev) => {
+            const dataBuild = prev.map((item) => {
+                if (item.user_id === detailFollowAndUnFollow.id) {
+                    item.user = detailFollowAndUnFollow;
+                }
+
+                return item;
+            });
+
+            return [...dataBuild];
+        });
+    }, [detailFollowAndUnFollow]);
+
+    console.log('check listVideo :', listVideo);
 
     return (
         <>

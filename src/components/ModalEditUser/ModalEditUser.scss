@@ -1,0 +1,78 @@
+.modal-edit-user {
+
+
+    .modal-body {
+
+        .edit-chuk {
+            padding-top   : 10px;
+            padding-bottom: 20px;
+            border-bottom : 0.5px solid rgba(22, 24, 35, 0.2);
+
+
+            .title-edit {
+                font-size  : 13px;
+                color      : #161823;
+                font-weight: 700;
+            }
+
+            .body-edit {
+                display        : flex;
+                justify-content: center;
+                align-items    : center;
+
+                .img {
+                    width        : 96px;
+                    height       : 96px;
+                    border-radius: 50%;
+                    position     : relative;
+                    flex-shrink  : 0;
+
+                    img {
+                        width          : 100%;
+                        height         : 100%;
+                        flex-shrink    : 0;
+                        border-radius  : 50%;
+                        object-fit     : cover;
+                        object-position: center center;
+                    }
+
+                    .choose-file {
+                        position        : absolute;
+                        width           : 32px;
+                        height          : 32px;
+                        border          : 1px solid rgba(22, 24, 35, 0.2);
+                        border-radius   : 50%;
+                        display         : inline-flex;
+                        justify-content : center;
+                        align-items     : center;
+                        bottom          : 2px;
+                        right           : -2px;
+                        background-color: #fff;
+                        cursor          : pointer;
+                    }
+                }
+
+                .row {
+                    width: 100%;
+
+                    label {
+                        font-size: 12px;
+                        color    : #161823;
+                    }
+
+                    span {
+                        font-size : 10px;
+                        margin-top: 2px;
+                        color     : #161823;
+                    }
+                }
+
+            }
+
+            &.end-stop {
+                border-bottom: 1px solid transparent;
+            }
+        }
+    }
+
+}

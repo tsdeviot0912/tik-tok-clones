@@ -1,5 +1,9 @@
 import axios from '../axios';
 
+export const SearchUserAndVideo = (q, type = 'less') => {
+    return axios.get(`/api/users/search?q=${q}&type=${type}`);
+};
+
 export const GetListComment = (uuid, token) => {
     return axios.get(`/api/videos/${uuid}/comments`, {
         headers: {
@@ -104,6 +108,34 @@ export const UnFollowingAccount = (id, token) => {
     );
 };
 
-export const SearchUserAndVideo = (q, type = 'less') => {
-    return axios.get(`/api/users/search?q=${q}&type=${type}`);
+export const GetUserVideo = (id, token) => {
+    return axios.get(`/api/users/${id}/videos`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
+
+export const GetOneUser = (nickName, token) => {
+    return axios.get(`/api/users/@${nickName}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
+
+export const GetListVideoLiked = (id, token) => {
+    return axios.get(`/api/users/${id}/liked-videos`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
+
+export const GetCurrentUser = (token) => {
+    return axios.get(`/api/auth/me`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 };

@@ -4,8 +4,12 @@ import {
     CreateNewComment,
     DeleteComment,
     FollowingAccount,
+    GetCurrentUser,
     GetListComment,
     GetListFollowings,
+    GetListVideoLiked,
+    GetOneUser,
+    GetUserVideo,
     LikeComment,
     LikeOneVideo,
     SearchUserAndVideo,
@@ -457,5 +461,113 @@ export const unFollowingAccountSuccess = (data) => {
 export const unFollowingAccountFailed = () => {
     return {
         type: actionTypes.FOLLOW_ONE_ACCOUNT_SUCCESS,
+    };
+};
+
+export const getUserVideo = (id, token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await GetUserVideo(id, token);
+
+            if (Res && Res.data) {
+                dispatch(getUserVideoSuccess(Res.data));
+            }
+        } catch (error) {
+            dispatch(getUserVideoFailed());
+        }
+    };
+};
+
+export const getUserVideoSuccess = (data) => {
+    return {
+        type: actionTypes.GET_USER_VIDEO_SUCCESS,
+        data,
+    };
+};
+
+export const getUserVideoFailed = () => {
+    return {
+        type: actionTypes.GET_USER_VIDEO_FAILED,
+    };
+};
+
+export const getOneUser = (nickname, token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await GetOneUser(nickname, token);
+
+            if (Res && Res.data) {
+                dispatch(getOneUserSuccess(Res.data));
+            }
+        } catch (error) {
+            dispatch(getOneUserFailed());
+        }
+    };
+};
+
+export const getOneUserSuccess = (data) => {
+    return {
+        type: actionTypes.GET_ONE_USER_SUCCESS,
+        data,
+    };
+};
+
+export const getOneUserFailed = () => {
+    return {
+        type: actionTypes.GET_ONE_USER_FAILED,
+    };
+};
+
+export const getListVideoLiked = (id, token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await GetListVideoLiked(id, token);
+
+            if (Res && Res.data) {
+                dispatch(getListVideoLikedSuccess(Res.data));
+            }
+        } catch (error) {
+            dispatch(getListVideoLikedFailed());
+        }
+    };
+};
+
+export const getListVideoLikedSuccess = (data) => {
+    return {
+        type: actionTypes.GET_LIST_VIDEO_LIKED_SUCCESS,
+        data,
+    };
+};
+
+export const getListVideoLikedFailed = () => {
+    return {
+        type: actionTypes.GET_LIST_VIDEO_LIKED_FAILED,
+    };
+};
+
+export const getCurrentUser = (token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await GetCurrentUser(token);
+
+            if (Res && Res.data) {
+                dispatch(getCurrentUserSuccess(Res.data));
+            }
+        } catch (error) {
+            dispatch(getCurrentUserFailed());
+        }
+    };
+};
+
+export const getCurrentUserSuccess = (data) => {
+    return {
+        type: actionTypes.GET_CURRENT_USER_SUCCESS,
+        data,
+    };
+};
+
+export const getCurrentUserFailed = () => {
+    return {
+        type: actionTypes.GET_CURRENT_USER_FAILED,
     };
 };

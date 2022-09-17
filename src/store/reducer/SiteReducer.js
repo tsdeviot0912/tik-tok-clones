@@ -21,6 +21,11 @@ const initialState = {
     MetaVideoTypeFollow: {},
 
     detailFollowAndUnFollow: {},
+
+    ListVideoUser: [],
+    UserProfile: {},
+    listVideoLiked: [],
+    CurrentUserProfile: {},
 };
 
 export const SiteReducer = (state = initialState, action) => {
@@ -228,6 +233,62 @@ export const SiteReducer = (state = initialState, action) => {
         }
 
         case actionTypes.FOLLOW_ONE_ACCOUNT_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.GET_USER_VIDEO_SUCCESS: {
+            const cloneStateUserVideo = { ...state };
+
+            cloneStateUserVideo.ListVideoUser = action.data;
+
+            return {
+                ...cloneStateUserVideo,
+            };
+        }
+
+        case actionTypes.GET_USER_VIDEO_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.GET_ONE_USER_SUCCESS: {
+            const cloneStateUserVideo = { ...state };
+
+            cloneStateUserVideo.UserProfile = action.data;
+
+            return {
+                ...cloneStateUserVideo,
+            };
+        }
+
+        case actionTypes.GET_ONE_USER_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.GET_LIST_VIDEO_LIKED_SUCCESS: {
+            const cloneStateListVideoLiked = { ...state };
+
+            cloneStateListVideoLiked.listVideoLiked = action.data;
+
+            return {
+                ...cloneStateListVideoLiked,
+            };
+        }
+
+        case actionTypes.GET_LIST_VIDEO_LIKED_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.GET_CURRENT_USER_SUCCESS: {
+            const cloneStateCurrentUser = { ...state };
+
+            cloneStateCurrentUser.CurrentUserProfile = action.data;
+
+            return {
+                ...cloneStateCurrentUser,
+            };
+        }
+
+        case actionTypes.GET_CURRENT_USER_FAILED: {
             return { ...state };
         }
 

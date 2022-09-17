@@ -254,3 +254,96 @@ $grid-breakpoints: (xs: 0,
         background-color: rgba(254, 44, 85, 0.1) !important;
     }
 }
+
+.custom-row {
+    display    : flex;
+    align-items: center;
+}
+
+
+.custom-row-wrapper {
+    display    : flex;
+    align-items: center;
+    flex-wrap  : wrap;
+}
+
+.customer-4 {
+    flex : 0 0 auto;
+    width: 33.33333333%;
+}
+
+.customer-8 {
+    flex : 0 0 auto;
+    width: 66.66666667%;
+}
+
+.customer-2 {
+    flex : 0 0 auto;
+    width: 16.66666667%;
+}
+
+.customer-10 {
+    flex : 0 0 auto;
+    width: 83.33333333%;
+}
+
+.customer-tippy {
+    display: none;
+}
+
+.modal-edit-user {
+
+    .modal-title {
+        width          : 100%;
+        display        : flex;
+        align-items    : center;
+        justify-content: space-between;
+
+        h2 {
+            line-height: 36px;
+            color      : rgb(22, 24, 35);
+            font-weight: 700;
+        }
+
+        button {
+            width : 24px;
+            height: 24px;
+            color : rgba(22, 24, 35, 0.75);
+        }
+    }
+}
+
+
+.btn-chuk {
+    width           : 92px;
+    height          : 33px;
+    border          : 1px solid #eee;
+    border-radius   : 4px;
+    outline         : none;
+    font-size       : 14px;
+    font-weight     : 500;
+    background-color: #fff;
+
+
+    &.btn-close-btn {
+
+        &:hover {
+            background-color: #eee;
+        }
+    }
+
+
+    &.btn-submit {
+        background-color: #fe2c55;
+        color           : #fff;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index: 100000 !important;
+}

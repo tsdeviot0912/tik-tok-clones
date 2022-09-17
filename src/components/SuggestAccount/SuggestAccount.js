@@ -17,14 +17,16 @@ SuggestAccount.defaultProps = {
     onSeeAll: () => {},
 };
 
-function SuggestAccount({ label, data, onSeeAll, isFollow = false }) {
+function SuggestAccount({ label, data, onSeeAll, isFollow = false, isHiddenTippy = false }) {
     return (
         <div className="wrapper-suggest-account">
             <div className="suggest-account">
                 <p className="title">{label}</p>
                 <div className="suggest-account-body">
                     {data && data.length > 0 ? (
-                        data.map((user, index) => <AccountItem isFollow={isFollow} key={index} item={user} />)
+                        data.map((user, index) => (
+                            <AccountItem isFollow={isFollow} key={index} item={user} isHiddenTippy={isHiddenTippy} />
+                        ))
                     ) : (
                         <>
                             <SkeLotonSlider />

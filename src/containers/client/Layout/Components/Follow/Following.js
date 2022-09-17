@@ -10,6 +10,7 @@ import { emitter } from '../../../../../utils/emitter';
 import ItemVideo from '../HomePage/ItemVideo';
 import Button from '../../../../../components/Button';
 import ModalRender from '../../../../../components/Popper/Modal';
+import { Link } from 'react-router-dom';
 class Following extends Component {
     constructor(props) {
         super(props);
@@ -160,7 +161,12 @@ class Following extends Component {
                                   </div>
                                   <div className="overlay-element">
                                       <button className="btn btn-follow mx-1">Follow</button>
-                                      <button className="btn btn-follow mx-1">xem Profile</button>
+                                      <Link
+                                          to={`/profile/@${data.nickname}/${data.id}`}
+                                          className="btn btn-follow mx-1"
+                                      >
+                                          xem Profile
+                                      </Link>
                                   </div>
                               </div>
                           </div>

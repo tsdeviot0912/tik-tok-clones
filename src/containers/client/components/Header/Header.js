@@ -79,7 +79,7 @@ function Header() {
         {
             icon: <img src={images.user} alt="LFAQ" />,
             title: 'View profile',
-            to: '/profile',
+            to: '/profile/me-tai-khoan-cua-toi',
         },
         {
             icon: <img src={images.coins} alt="LFAQ" />,
@@ -109,7 +109,7 @@ function Header() {
     return (
         <>
             <header className={cx('wrapper')}>
-                <div className={cx('container')}>
+                <div className={cx('container customize')}>
                     <div className={cx('inner')}>
                         <div className={cx('logo')}>
                             <Link to="/">
