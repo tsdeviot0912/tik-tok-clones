@@ -26,6 +26,8 @@ const initialState = {
     UserProfile: {},
     listVideoLiked: [],
     CurrentUserProfile: {},
+
+    detailUpdateUser: {},
 };
 
 export const SiteReducer = (state = initialState, action) => {
@@ -289,6 +291,20 @@ export const SiteReducer = (state = initialState, action) => {
         }
 
         case actionTypes.GET_CURRENT_USER_FAILED: {
+            return { ...state };
+        }
+
+        case actionTypes.UPDATE_USER_SUCCESS: {
+            const cloneStateUpdateCurrentUser = { ...state };
+
+            cloneStateUpdateCurrentUser.detailUpdateUser = action.data;
+
+            return {
+                ...cloneStateUpdateCurrentUser,
+            };
+        }
+
+        case actionTypes.UPDATE_USER_FAILED: {
             return { ...state };
         }
 

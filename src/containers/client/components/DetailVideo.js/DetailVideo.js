@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useDispatch, useSelector } from 'react-redux';
+import Picker from 'emoji-picker-react';
 
 import './DetailVideo.scss';
 import Video from './components/video/video';
@@ -41,6 +42,7 @@ function DetailVideo() {
     const [commentText, setCommentText] = useState('');
     const [commentDetail, setCommentDetail] = useState({});
     const [isOpen, setIsOpen] = useState(false);
+    // const [chosenEmoji, setChosenEmoji] = useState(true);
     const uuidParams = useParams();
 
     const disPatch = useDispatch();
@@ -120,6 +122,12 @@ function DetailVideo() {
         setIsOpen(!isOpen);
     };
 
+    // const onEmojiClick = (event, emojiObject) => {
+    //     setChosenEmoji(emojiObject);
+    // };
+
+    // console.log('check chosenEmoji :', chosenEmoji);
+
     return (
         <div className="detail-video-container">
             <div className="wrapper-detail-video-content">
@@ -155,16 +163,19 @@ function DetailVideo() {
                                                 }}
                                             />
                                         ) : (
-                                            <input
-                                                value={commentText}
-                                                onChange={(e) => setCommentText(e.target.value)}
-                                                placeholder="Nhập comment của bạn"
-                                                onKeyDown={(e) => {
-                                                    if (e.keyCode === 13) {
-                                                        handleSubmitComment();
-                                                    }
-                                                }}
-                                            />
+                                            <>
+                                                <input
+                                                    value={commentText}
+                                                    onChange={(e) => setCommentText(e.target.value)}
+                                                    placeholder="Nhập comment của bạn"
+                                                    onKeyDown={(e) => {
+                                                        if (e.keyCode === 13) {
+                                                            handleSubmitComment();
+                                                        }
+                                                    }}
+                                                />
+                                                {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                            </>
                                         )}
                                     </div>
                                     <div className="button-submit">

@@ -85,3 +85,15 @@ export const SkelotonFollow = () => (
         <Skeleton height={330} className="mx-2 d-block max-w-100" width={260}></Skeleton>
     </div>
 );
+
+export const SkelotonLoading = () => (
+    <div>
+        <div className="d-flex align-items-center">
+            <Skeleton height={116} width={116} className="border-radius-50"></Skeleton>
+            <div>
+                <Skeleton width={200} count={3} className="my-2 mx-3"></Skeleton>
+            </div>
+        </div>
+        <Skeleton width={400} count={2} className="my-2"></Skeleton>
+    </div>
+);

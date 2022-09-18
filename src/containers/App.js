@@ -7,6 +7,7 @@ import { path } from '../utils/constant';
 import { ToastContainer } from 'react-toastify';
 import ProfileRouter from '../routes/Clients/ProfileRouter';
 import MeProfile from './system/MeProfile';
+import UploadRouter from '../routes/Systems/UploadRouter';
 
 function App() {
     return (
@@ -15,7 +16,8 @@ function App() {
                 <Route path={path.redirect} element={<Redirect link="/customer" />} />
                 <Route path={path.default} element={<HomeCusTomer />} />
                 <Route path={path.profile} element={<ProfileRouter />} />
-                <Route path="profile/me-tai-khoan-cua-toi" element={<MeProfile />} />
+                <Route path={path.profileMe} element={<MeProfile />} />
+                <Route path={path.upLoadVideo} element={<UploadRouter />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
 

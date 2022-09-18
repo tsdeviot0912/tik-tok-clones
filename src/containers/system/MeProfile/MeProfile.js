@@ -17,6 +17,7 @@ import '../Profile/Profile.scss';
 import useGetToken from '../../../components/hooks/useGetToken';
 import { dispatch } from '../../../redux';
 import ModalEditUser from '../../../components/ModalEditUser';
+import { SkelotonLoading } from '../../../components/SkelotonLoading';
 
 function MeProfile() {
     // get Token
@@ -32,6 +33,7 @@ function MeProfile() {
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
     const userInfo = useSelector((state) => state.user.userInfo);
     const CurrentUserProfile = useSelector((state) => state.SiteReducer.CurrentUserProfile);
+    const detailUpdateUser = useSelector((state) => state.SiteReducer.detailUpdateUser);
 
     // defined state react
     const [isOpenLightBox, setIsOpenLightBox] = useState(false);
@@ -57,6 +59,10 @@ function MeProfile() {
     useEffect(() => {
         setUserCurrent(CurrentUserProfile);
     }, [CurrentUserProfile]);
+
+    useEffect(() => {
+        setUserCurrent(detailUpdateUser);
+    }, [detailUpdateUser]);
 
     useEffect(() => {
         if (!_.isEmpty(user)) {
@@ -86,7 +92,7 @@ function MeProfile() {
         history(`/customer/video-details-with-id-and-user/${uuid}`);
     };
 
-    console.log('check userCurrent :', userCurrent);
+    console.log('check detailUpdateUser :', detailUpdateUser);
 
     return (
         <div className="profile-wrapper">
@@ -98,7 +104,7 @@ function MeProfile() {
                     <Sidebar isHiddenTippy={true} classNameCustom="custom-slider" />
                 </div>
                 <div className="customer-10 body-render">
-                    {userCurrent && !_.isEmpty(userCurrent) && (
+                    {userCurrent && !_.isEmpty(userCurrent) ? (
                         <div className="up-profile">
                             <div className="header">
                                 <div className="image" onClick={() => setIsOpenLightBox(true)}>
@@ -152,6 +158,8 @@ function MeProfile() {
                                 <div className="description">{user.bio}</div>
                             </div>
                         </div>
+                    ) : (
+                        <SkelotonLoading />
                     )}
                     <div className="down-profile">
                         <div className="navigate">

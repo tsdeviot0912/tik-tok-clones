@@ -299,6 +299,12 @@ $grid-breakpoints: (xs: 0,
         align-items    : center;
         justify-content: space-between;
 
+        p {
+            line-height: 36px;
+            color      : rgb(22, 24, 35);
+            font-weight: 700;
+        }
+
         h2 {
             line-height: 36px;
             color      : rgb(22, 24, 35);
@@ -346,4 +352,27 @@ $grid-breakpoints: (xs: 0,
 
 .ReactModal__Overlay.ReactModal__Overlay--after-open {
     z-index: 100000 !important;
+}
+
+.customize-input-edit-user {
+    min-height: 36px;
+}
+
+.border-radius-50 {
+    border-radius: 50% !important;
+}
+
+.text-align-center {
+    text-align: center !important;
+}
+
+.title-upload {
+    color      : rgba(22, 24, 35, 1);
+    font-weight: 600;
+}
+
+.title-item-rule {
+    color      : #161823BF;
+    font-weight: 300;
+    font-size  : 12px;
 }

@@ -15,7 +15,7 @@ import { UploadIcon, MessageIcon } from '../../../../components/Icons';
 import Search from '../Search';
 import Image from '../../../../components/Image';
 import ModalRender from '../../../../components/Popper/Modal';
-import * as action from '../../../../store/actions';
+// import * as action from '../../../../store/actions';
 import _ from 'lodash';
 
 const cx = classNames.bind(styles);
@@ -126,9 +126,9 @@ function Header() {
                                         placement="bottom"
                                         zIndex={99999999999}
                                     >
-                                        <button className={cx('btn-currentUser')}>
+                                        <Link to="/upload/stepone" className={cx('btn-currentUser')}>
                                             <UploadIcon className="Upload" />
-                                        </button>
+                                        </Link>
                                     </Tippy>
                                     <Tippy delay={[0, 200]} content="Message" placement="bottom" zIndex={99999999999}>
                                         <button className={cx('btn-currentUser', 'btn-currentUser-2')}>

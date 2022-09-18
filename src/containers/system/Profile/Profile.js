@@ -22,6 +22,7 @@ import * as actions from '../../../store/actions';
 import './Profile.scss';
 import useGetToken from '../../../components/hooks/useGetToken';
 import ModalRender from '../../../components/Popper/Modal';
+import { SkelotonLoading } from '../../../components/SkelotonLoading';
 
 function Profile() {
     // get Token
@@ -111,7 +112,7 @@ function Profile() {
                     <Sidebar isHiddenTippy={true} classNameCustom="custom-slider" />
                 </div>
                 <div className="customer-10 body-render">
-                    {user && !_.isEmpty(user) && (
+                    {user && !_.isEmpty(user) ? (
                         <div className="up-profile">
                             <div className="header">
                                 <div className="image" onClick={() => setIsOpenLightBox(true)}>
@@ -184,6 +185,8 @@ function Profile() {
                                 <div className="description">{user.bio}</div>
                             </div>
                         </div>
+                    ) : (
+                        <SkelotonLoading />
                     )}
                     <div className="down-profile">
                         <div className="navigate">

@@ -16,6 +16,7 @@ import {
     UnFollowingAccount,
     UnLikeComment,
     UnLikeOneVideo,
+    UpdateUser,
 } from '../../services/AppServices';
 import actionType from './actionTypes';
 import actionTypes from './actionTypes';
@@ -569,5 +570,32 @@ export const getCurrentUserSuccess = (data) => {
 export const getCurrentUserFailed = () => {
     return {
         type: actionTypes.GET_CURRENT_USER_FAILED,
+    };
+};
+
+export const updateUser = (data, token) => {
+    return async (dispatch, state) => {
+        try {
+            const Res = await UpdateUser(data, token);
+
+            if (Res && Res.data) {
+                dispatch(updateUserSuccess(Res.data));
+            }
+        } catch (error) {
+            dispatch(updateUserFailed());
+        }
+    };
+};
+
+export const updateUserSuccess = (data) => {
+    return {
+        type: actionTypes.GET_CURRENT_USER_SUCCESS,
+        data,
+    };
+};
+
+export const updateUserFailed = () => {
+    return {
+        type: actionTypes.UPDATE_USER_FAILED,
     };
 };

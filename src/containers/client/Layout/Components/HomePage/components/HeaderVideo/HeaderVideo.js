@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react/headless';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../../../../../components/Button';
 import Image from '../../../../../../../components/Image';
@@ -20,6 +21,7 @@ HeaderVideo.propTypes = {
 function HeaderVideo({ data }) {
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
+    const history = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleToggleModal = () => {
@@ -52,6 +54,10 @@ function HeaderVideo({ data }) {
         }
     };
 
+    const handleRedirect = (nickname, id) => {
+        history(`/profile/@${nickname}/${id}`);
+    };
+
     return (
         <div className="header-video-container">
             <div className="container">
@@ -59,14 +65,17 @@ function HeaderVideo({ data }) {
                     <div className="d-flex justify-content-between">
                         <TippyRender>
                             <div className="d-flex">
-                                <div className="logo">
+                                <div className="logo" onClick={() => handleRedirect(data.user.nickname, data.user.id)}>
                                     <Image
                                         src={!_.isEmpty(data.user) ? data.user.avatar : ''}
                                         className="image-item-home"
                                     />
                                 </div>
                                 <div className="center">
-                                    <div className="name-nick">
+                                    <div
+                                        className="name-nick"
+                                        onClick={() => handleRedirect(data.user.nickname, data.user.id)}
+                                    >
                                         <span>
                                             <h2>{!_.isEmpty(data.user) ? data.user.nickname : ''}</h2>
                                             {!_.isEmpty(data.user) && data.user.tick && (

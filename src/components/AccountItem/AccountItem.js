@@ -15,7 +15,7 @@ AccountItem.propTypes = {
 
 function AccountItem({ data }) {
     return (
-        <Link to={`/@${data.nickname}`} className={cx('wrapper')}>
+        <Link to={`/profile/@${data.nickname}/${data.id}`} className={cx('wrapper')}>
             <span className={cx('avata')}>
                 <Image src={data.avatar} alt={data.last_name} />
             </span>

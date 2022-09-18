@@ -139,3 +139,11 @@ export const GetCurrentUser = (token) => {
         },
     });
 };
+
+export const UpdateUser = (data, token) => {
+    return axios.post(`/api/auth/me?_method=PATCH`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
