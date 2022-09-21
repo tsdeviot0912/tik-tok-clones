@@ -1,7 +1,13 @@
 import axios from '../axios';
 
-export const SearchUserAndVideo = (q, type = 'less') => {
-    return axios.get(`/api/users/search?q=${q}&type=${type}`);
+export const SearchUserAndVideo = (q, type = 'less', page = 1) => {
+    if (type === 'less') {
+        return axios.get(`/api/users/search?q=${q}&type=${type}`);
+    }
+
+    if (type === 'more') {
+        return axios.get(`/api/users/search?q=${q}&type=more&page=${page}`);
+    }
 };
 
 export const GetListComment = (uuid, token) => {
@@ -146,4 +152,26 @@ export const UpdateUser = (data, token) => {
             Authorization: `Bearer ${token}`,
         },
     });
+};
+
+export const CreateVideo = (data, token) => {
+    console.log('check data :', data);
+
+    return axios.post(`/api/videos`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
+
+export const LogoutApp = (token) => {
+    return axios.post(
+        `/api/auth/logout`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
 };

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { useSelector } from 'react-redux';
 import Cookies from 'universal-cookie';
 
 import reduxStore from '../../redux';

@@ -59,14 +59,8 @@ function AccountItem({ item = {}, isFollow = false, isHiddenTippy = false }) {
                 </div>
             ) : (
                 <div>
-                    <Tippy
-                        interactive
-                        delay={[800, 200000000]}
-                        className="customer-tippy"
-                        placement="bottom-start"
-                        render={PreviewAccount}
-                    >
-                        <div className="wrapper-item">
+                    <Tippy interactive delay={[800, 200000000]} placement="bottom-start" render={PreviewAccount}>
+                        <div className="wrapper-item" onClick={() => handleClickRedirect(item.nickname, item.id)}>
                             <Image src={item.avatar} alt={item.nickname} />
                             <div>
                                 <p>

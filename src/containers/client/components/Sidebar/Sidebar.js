@@ -14,11 +14,14 @@ import * as action from '../../../../store/actions';
 import useGetToken from '../../../../components/hooks/useGetToken';
 import { emitter } from '../../../../utils/emitter';
 import ModalRender from '../../../../components/Popper/Modal';
+import { GetSuggestedAccountLimitAction } from '../../../../services';
+import { GetListFollowings } from '../../../../services/AppServices';
 
 const cx = classNames.bind(styles);
 
 function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
     const Token = useGetToken();
+    const disPatch = useDispatch();
 
     // defined state react
     const [page, setPage] = useState(1);
@@ -51,8 +54,6 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
         });
     }, [detailFollowAndUnFollow]);
 
-    const disPatch = useDispatch();
-
     const handleSellMore = () => {
         setPage((prev) => {
             if (!_.isEmpty(MetaPage.pagination) && page === +MetaPage.pagination.total_pages) {
@@ -74,10 +75,28 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
     };
 
     useEffect(() => {
-        disPatch(action.getSuggestedAccountLimitAction(page, count, Token));
+        // disPatch(action.getSuggestedAccountLimitAction(page, 7, Token));
+        const fetCh = async () => {
+            const Res = await GetSuggestedAccountLimitAction(page, 7, Token);
 
+            if (Res && Res.data.length > 0) {
+                SetSuggestedUser((prev) => {
+                    const ArrClone = [...prev, ...Res.data];
+
+                    let data = [];
+
+                    if (ArrClone && ArrClone.length > 0) {
+                        data = ArrClone.filter((item) => !item.is_followed);
+                    }
+
+                    return data;
+                });
+            }
+        };
+
+        fetCh();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, count]);
+    }, [page]);
 
     useEffect(() => {
         emitter.on('PAGE_CURRENT_FOLLOWS', () => {
@@ -85,33 +104,42 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
         });
 
         if (isLoggedIn) {
-            disPatch(action.getListFollowings(pageFollow, Token));
+            const fetCh = async () => {
+                const Res = await GetListFollowings(pageFollow, Token);
+
+                if (Res && Res.data.length > 0) {
+                    setListFollowAccount((prev) => [...prev, ...Res.data]);
+                }
+            };
+
+            fetCh();
         }
-    }, [pageFollow, disPatch, isLoggedIn, Token]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageFollow, isLoggedIn, Token]);
 
     const handleToggleModal = useCallback(() => {
         setIsOpen(!isOpen);
     }, [isOpen]);
 
-    useEffect(() => {
-        if (listUserSuggest && listUserSuggest.length > 3) {
-            SetSuggestedUser((prev) => {
-                const ArrClone = [...prev, ...listUserSuggest];
+    // useEffect(() => {
+    //     if (listUserSuggest && listUserSuggest.length > 3) {
+    //         SetSuggestedUser((prev) => {
+    //             const ArrClone = [...prev, ...listUserSuggest];
 
-                let data = [];
+    //             let data = [];
 
-                if (ArrClone && ArrClone.length > 0) {
-                    data = ArrClone.filter((item) => !item.is_followed);
-                }
+    //             if (ArrClone && ArrClone.length > 0) {
+    //                 data = ArrClone.filter((item) => !item.is_followed);
+    //             }
 
-                return data;
-            });
-        }
-    }, [listUserSuggest]);
+    //             return data;
+    //         });
+    //     }
+    // }, [listUserSuggest]);
 
-    useEffect(() => {
-        setListFollowAccount((prev) => [...prev, ...listFollow]);
-    }, [listFollow]);
+    // useEffect(() => {
+    //     setListFollowAccount((prev) => [...prev, ...listFollow]);
+    // }, [listFollow]);
 
     useEffect(() => {
         SetMetaPage(MetaAccount);

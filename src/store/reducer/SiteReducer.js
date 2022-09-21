@@ -8,6 +8,7 @@ const initialState = {
     detailUnlikeVideo: {},
 
     listUserSearch: [],
+    MetaSearchUser: {},
 
     listComments: [],
     detailComments: {},
@@ -287,6 +288,16 @@ export const SiteReducer = (state = initialState, action) => {
 
             return {
                 ...cloneStateCurrentUser,
+            };
+        }
+
+        case actionTypes.META_SEARCH_USER_SUCCESS: {
+            const cloneStateCurrentUserMetaSearch = { ...state };
+
+            cloneStateCurrentUserMetaSearch.MetaSearchUser = action.data;
+
+            return {
+                ...cloneStateCurrentUserMetaSearch,
             };
         }
 

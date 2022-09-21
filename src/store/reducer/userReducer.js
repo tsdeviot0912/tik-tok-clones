@@ -27,10 +27,12 @@ const appReducer = (state = initialState, action) => {
                 userInfo: null,
             };
         case actionTypes.PROCESS_LOGOUT:
+            cookies.set('token', null, { path: '/' });
             return {
                 ...state,
                 isLoggedIn: false,
                 userInfo: null,
+                token: null,
             };
 
         case actionTypes.LOGIN_SAVE_COOKIE_SUCCESS: {

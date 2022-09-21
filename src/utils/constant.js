@@ -5,10 +5,11 @@ export const path = {
     home: '/home',
     follow: '/following',
     profile: '/profile/@:nickname/:id',
-    search: '/search',
     detailVideo: '/video-details-with-id-and-user/:uuid',
     upLoadVideo: '/upload/*',
     profileMe: 'profile/me-tai-khoan-cua-toi',
+    logout: '/logout',
+    search: '/search/:q',
     sliDebar: {
         follow: '/customer/following',
         live: '/customer/live',

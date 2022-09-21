@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Search.module.scss';
 import { Wrapper as PopperWrapper } from '../../../../components/Popper';
@@ -23,6 +24,7 @@ function Search() {
     const [loading, setLoading] = useState(false);
 
     const inputElementRef = useRef();
+    const history = useNavigate();
 
     // handle user nhap liên tục value chánh hiện tương bắn required liên tục lên máy chủ
     const debounceValue = useDebounce(searchText, 500);
@@ -86,6 +88,8 @@ function Search() {
 
     const handleSubmitSearch = (e) => {
         e.preventDefault();
+        setShowResult(false);
+        history(`/customer/search/${debounceValue}`);
     };
 
     return (

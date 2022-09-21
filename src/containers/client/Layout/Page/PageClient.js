@@ -8,6 +8,7 @@ import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar';
 import Home from '../Components/HomePage/Home';
 import Following from '../Components/Follow/Following';
+import SearchPage from '../Components/searchPage';
 
 function PageClient() {
     const SiderBarRender = useCallback(Sidebar, []);
@@ -29,6 +30,7 @@ function PageClient() {
                                     <Route path={path.redirect} element={<Redirect link="/customer/home" />} />
                                     <Route path={path.home} element={<Home />} />
                                     <Route path={path.follow} element={<Following />} />
+                                    <Route path={path.search} element={<SearchPage />} />
                                 </Routes>
                             </div>
                         </div>

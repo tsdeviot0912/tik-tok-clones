@@ -313,13 +313,19 @@ export const unLikeOneVideoFailed = () => {
     };
 };
 
-export const searchUserAndVideo = (q, type, token) => {
+export const searchUserAndVideo = (q, type, page) => {
     return async (dispatch, state) => {
         try {
-            const Res = await SearchUserAndVideo(q, type);
+            const Res = await SearchUserAndVideo(q, type, page);
+
+            console.log('check Res :', Res);
 
             if (Res && Res.data) {
                 dispatch(searchUserAndVideoSuccess(Res.data));
+            }
+
+            if (Res && Res.meta && Res.meta.pagination) {
+                dispatch(searchUserAndVideoMetaSuccess(Res.meta.pagination));
             }
         } catch (error) {
             console.log(error);
@@ -331,6 +337,13 @@ export const searchUserAndVideo = (q, type, token) => {
 export const searchUserAndVideoSuccess = (data) => {
     return {
         type: actionTypes.SEARCH_USER_SUCCESS,
+        data,
+    };
+};
+
+export const searchUserAndVideoMetaSuccess = (data) => {
+    return {
+        type: actionTypes.META_SEARCH_USER_SUCCESS,
         data,
     };
 };

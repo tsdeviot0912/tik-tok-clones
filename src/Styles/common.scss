@@ -376,3 +376,71 @@ $grid-breakpoints: (xs: 0,
     font-weight: 300;
     font-size  : 12px;
 }
+
+.warper-upload-input-and-label {
+    label {
+        display    : block;
+        text-align : start;
+        width      : 90%;
+        font-size  : 12px;
+        font-weight: 600;
+        color      : #161823BF;
+    }
+}
+
+.form-custom-upload {
+    height       : 42px;
+    outline      : none;
+    user-select  : text;
+    white-space  : pre-wrap;
+    overflow-wrap: break-word;
+    border       : 0.5px solid #eee;
+    border-radius: 5px;
+    display      : block;
+    font-size    : 12px;
+    width        : 90%;
+    padding-left : 20px;
+}
+
+.form-custom-upload-react-select {
+    width        : 40%;
+    border       : none;
+    outline      : none;
+    border       : 0.5px solid #eee;
+    border-radius: 5px;
+    height       : 36px;
+
+}
+
+.select-upload {
+    padding-left: 42px;
+}
+
+.form-custom-upload-react-check-box {
+    accent-color: #fe2c55;
+}
+
+.kiem-duyet-title {
+    display     : block;
+    padding-left: 42px;
+    font-size   : 12px;
+    color       : rgba(22, 24, 35, 0.7);
+    font-weight : 400;
+    font-family : system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.css-qc6sy-singleValue {
+    font-size: 12px;
+}
+
+.css-4ljt47-MenuList {
+    font-size: 12px;
+}
+
+.checkbox-upload {
+    font-size: 14px;
+}
+
+.border-radius-40 {
+    border-radius: 10px;
+}

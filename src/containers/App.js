@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import ProfileRouter from '../routes/Clients/ProfileRouter';
 import MeProfile from './system/MeProfile';
 import UploadRouter from '../routes/Systems/UploadRouter';
+import Logout from './system/logout';
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path={path.profile} element={<ProfileRouter />} />
                 <Route path={path.profileMe} element={<MeProfile />} />
                 <Route path={path.upLoadVideo} element={<UploadRouter />} />
+                <Route path={path.logout} element={<Logout />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
 

@@ -97,3 +97,16 @@ export const SkelotonLoading = () => (
         <Skeleton width={400} count={2} className="my-2"></Skeleton>
     </div>
 );
+
+export const SkeletonLoadingSearchPage = () => {
+    return (
+        <div>
+            <div className="d-flex align-items-center">
+                <Skeleton height={60} width={60} className="border-radius-50"></Skeleton>
+                <div>
+                    <Skeleton height={80} width={780} className="my-2 mx-3 border-radius-40"></Skeleton>
+                </div>
+            </div>
+        </div>
+    );
+};
