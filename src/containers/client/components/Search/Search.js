@@ -24,6 +24,7 @@ function Search() {
     const [loading, setLoading] = useState(false);
 
     const inputElementRef = useRef();
+    const button = useRef();
     const history = useNavigate();
 
     // handle user nhap liên tục value chánh hiện tương bắn required liên tục lên máy chủ
@@ -89,7 +90,7 @@ function Search() {
     const handleSubmitSearch = (e) => {
         e.preventDefault();
         setShowResult(false);
-        history(`/customer/search/${debounceValue}`);
+        history(`/customer/search/${debounceValue || searchText}`);
     };
 
     return (
@@ -112,6 +113,11 @@ function Search() {
                         spellCheck={false}
                         onChange={(e) => handleChange(e)}
                         onFocus={() => setShowResult(true)}
+                        onKeyDown={(e) => {
+                            if (e.keyCode === 13) {
+                                handleSubmitSearch(e);
+                            }
+                        }}
                     />
                     {!!searchText && !loading && (
                         <button className={cx('clear')} onClick={handleClear}>
@@ -123,7 +129,7 @@ function Search() {
                             <LoadingIcon className={cx('loading-rotate')} />
                         </div>
                     )}
-                    <button className={cx('search-btn')} onMouseDown={(e) => handleSubmitSearch(e)}>
+                    <button ref={button} className={cx('search-btn')} onMouseDown={(e) => handleSubmitSearch(e)}>
                         <SearchIcon />
                     </button>
                 </div>

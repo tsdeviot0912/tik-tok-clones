@@ -17,8 +17,6 @@ const messages = LanguageUtils.getFlattenedMessages();
 function IntlProviderWrapper({ children }) {
     const language = useSelector((state) => state.app.language);
 
-    console.log('check children :', children);
-
     return (
         <IntlProvider locale={language} messages={messages[language]} defaultLocale="vi">
             {children}

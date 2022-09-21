@@ -39,8 +39,6 @@ function Preview({ data = {} }) {
     const handleFollowBtn = async (data, toggle) => {
         if (isLoggedIn) {
             if (!toggle) {
-                console.log('check data :', data);
-
                 dispatch(actions.followingAccount(data.id ? data.id : 0, Token));
             } else {
                 handleClickRedirect(data.nickname, data.id);

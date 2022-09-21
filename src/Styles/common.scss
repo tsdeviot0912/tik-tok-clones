@@ -8,11 +8,15 @@ html {
     font-size: 62.5%;
 }
 
+html {
+    font-family: var(--font-family) !important;
+}
+
 body {
     background-image : "#fff";
     background-repeat: no-repeat;
     background-size  : cover;
-    font-family      : $fontmain;
+    font-family      : var(--font-family) !important;
     font-size        : $base-size - 2px;
     height           : 100vh;
     overflow         : hidden;
@@ -40,6 +44,32 @@ html *::-webkit-scrollbar-thumb {
 html *::-webkit-scrollbar-track {
     border-radius   : 0;
     background-color: rgba(0, 0, 0, 0);
+}
+
+
+// Fonts emmbeded
+@font-face {
+    font-family: ProximaNova;
+    src        : url('/assets/fonts/Proxima-Nova-Regular.woff2');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: ProximaNova;
+    src        : url('/assets/fonts/ProximaNova-Semibold.woff2');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: ProximaNova;
+    src        : url('/assets/fonts/Proxima-Nova-Bold.woff');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: SofiaPro;
+    src        : url('/assets/fonts/sofiapro-bold.woff');
+    font-weight: 700;
 }
 
 
@@ -443,4 +473,10 @@ $grid-breakpoints: (xs: 0,
 
 .border-radius-40 {
     border-radius: 10px;
+}
+
+.jsx-render-switch {
+    background-color: var(--primary-color);
+    color           : #fff;
+    font-weight     : 600;
 }

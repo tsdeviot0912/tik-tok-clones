@@ -71,7 +71,7 @@ function Header() {
 
     // handle logic
     function handleMenuChange(menuItem) {
-        console.log(menuItem);
+        // console.log(menuItem);
     }
 
     // when user login
@@ -103,8 +103,6 @@ function Header() {
     const handleToggleModal = useCallback(() => {
         setIsOpen(!isOpen);
     }, [isOpen]);
-
-    console.log('check :', currentUser);
 
     return (
         <>

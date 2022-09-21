@@ -27,7 +27,6 @@ function Home() {
     const [isOpenSkeloton, setIsOpenSkeloton] = useState(false);
 
     useEffect(() => {
-        console.log('check re-render use effect');
         setListVideo((prev) => [...prev, ...listVideoLimit]);
 
         return;
@@ -128,8 +127,6 @@ function Home() {
             return [...dataBuild];
         });
     }, [detailFollowAndUnFollow]);
-
-    console.log('check listVideo :', listVideo);
 
     return (
         <>

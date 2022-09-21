@@ -54,7 +54,6 @@ export const SiteReducer = (state = initialState, action) => {
         }
 
         case actionTypes.GET_LIST_VIDEO_LIMIT_FOLLOW_SUCCESS: {
-            console.log('check lot vao 1', action.data);
             const CloneStateVideoFollow = { ...state };
 
             CloneStateVideoFollow.listVideoLimitFollow = action.data;

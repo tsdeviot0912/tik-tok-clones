@@ -45,7 +45,6 @@ class CommentItem extends React.Component {
     handleHeartComment = async (id, token, uuid, toggle) => {
         const { likeComment, unLikeComment } = this.props;
 
-        console.log('check toggle :', toggle);
         if (!toggle) {
             likeComment(id, token, uuid);
         } else {
@@ -58,8 +57,6 @@ class CommentItem extends React.Component {
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const Token = useGetToken();
-
-        console.log('check state :', this.state);
 
         return (
             <div className="comment-item-wrapper">

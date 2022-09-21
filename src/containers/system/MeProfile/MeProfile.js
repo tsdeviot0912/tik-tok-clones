@@ -18,6 +18,9 @@ import useGetToken from '../../../components/hooks/useGetToken';
 import { dispatch } from '../../../redux';
 import ModalEditUser from '../../../components/ModalEditUser';
 import { SkelotonLoading } from '../../../components/SkelotonLoading';
+import Image from '../../../components/Image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 function MeProfile() {
     // get Token
@@ -92,8 +95,6 @@ function MeProfile() {
         history(`/customer/video-details-with-id-and-user/${uuid}`);
     };
 
-    console.log('check detailUpdateUser :', detailUpdateUser);
-
     return (
         <div className="profile-wrapper">
             <div className="header-profile">
@@ -108,7 +109,7 @@ function MeProfile() {
                         <div className="up-profile">
                             <div className="header">
                                 <div className="image" onClick={() => setIsOpenLightBox(true)}>
-                                    <img src={userCurrent.avatar} alt="img" />
+                                    <Image src={userCurrent.avatar} alt="img" />
                                     {isOpenLightBox && (
                                         <Lightbox
                                             onCloseRequest={() => setIsOpenLightBox(false)}
@@ -117,7 +118,10 @@ function MeProfile() {
                                     )}
                                 </div>
                                 <div className="center">
-                                    <h1>{userCurrent.nickname}</h1>
+                                    <h1>
+                                        {userCurrent.nickname}
+                                        {user.tick && <FontAwesomeIcon icon={faCheckCircle} />}
+                                    </h1>
                                     <h2>{`${userCurrent.first_name} ${userCurrent.last_name}`}</h2>
                                     <div className="btn-edit-or-follow">
                                         {isLoggedIn ? (

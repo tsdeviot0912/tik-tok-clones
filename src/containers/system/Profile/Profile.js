@@ -23,6 +23,9 @@ import './Profile.scss';
 import useGetToken from '../../../components/hooks/useGetToken';
 import ModalRender from '../../../components/Popper/Modal';
 import { SkelotonLoading } from '../../../components/SkelotonLoading';
+import Image from '../../../components/Image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 function Profile() {
     // get Token
@@ -116,7 +119,7 @@ function Profile() {
                         <div className="up-profile">
                             <div className="header">
                                 <div className="image" onClick={() => setIsOpenLightBox(true)}>
-                                    <img src={user.avatar} alt="img" />
+                                    <Image src={user.avatar} alt="img" />
                                     {isOpenLightBox && (
                                         <Lightbox
                                             onCloseRequest={() => setIsOpenLightBox(false)}
@@ -125,7 +128,10 @@ function Profile() {
                                     )}
                                 </div>
                                 <div className="center">
-                                    <h1>{user.nickname}</h1>
+                                    <h1>
+                                        {user.nickname}
+                                        {user.tick && <FontAwesomeIcon icon={faCheckCircle} />}
+                                    </h1>
                                     <h2>{`${user.first_name} ${user.last_name}`}</h2>
                                     <div className="btn-edit-or-follow">
                                         {isLoggedIn ? (

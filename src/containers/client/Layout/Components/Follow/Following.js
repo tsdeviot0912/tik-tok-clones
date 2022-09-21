@@ -43,8 +43,6 @@ class Following extends Component {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const Token = await useGetToken();
 
-        console.log('check Token :', Token);
-
         getSuggestedAccountLimitActionSite(this.state.page, 10, Token);
 
         if (isLoggedIn) {
@@ -89,6 +87,14 @@ class Following extends Component {
             this.setState({
                 MetaAccount: this.props.MetaAccount,
             });
+        }
+
+        if (prevProps.isLoggedIn !== this.props.isLoggedIn) {
+            const { getVideoLimitType } = this.props;
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const Token = useGetToken();
+
+            getVideoLimitType(this.state.type, this.state.pageVideos, Token);
         }
 
         if (prevProps.detailOneVideo !== this.props.detailOneVideo) {
@@ -160,7 +166,12 @@ class Following extends Component {
                                       <span>{`${data.first_name} ${data.last_name}`}</span>
                                   </div>
                                   <div className="overlay-element">
-                                      <button className="btn btn-follow mx-1">Follow</button>
+                                      <button
+                                          className="btn btn-follow mx-1"
+                                          onClick={() => this.handleFollowBtn(data)}
+                                      >
+                                          Follow
+                                      </button>
                                       <Link
                                           to={`/profile/@${data.nickname}/${data.id}`}
                                           className="btn btn-follow mx-1"
@@ -235,6 +246,34 @@ class Following extends Component {
         } else {
             this.props.getVideoLimitType(this.state.type, this.state.pageVideos + 1, Token);
         }
+    };
+
+    handleFollowBtn = async (data) => {
+        const { isLoggedIn, followingAccount } = this.props;
+
+        const Token = useGetToken();
+
+        if (isLoggedIn) {
+            followingAccount(data && data.id ? data.id : '', Token);
+        } else {
+            this.handleToggleModal();
+        }
+
+        const dataBuild =
+            this.state.listUserSuggest &&
+            this.state.listUserSuggest.length > 0 &&
+            // eslint-disable-next-line array-callback-return
+            this.state.listUserSuggest.map((item) => {
+                if (item.id === data.id) {
+                    item.is_followed = true;
+                }
+
+                return item;
+            });
+
+        this.setState({
+            listUserSuggest: dataBuild,
+        });
     };
 
     render() {
@@ -316,6 +355,7 @@ const mapStateToProps = (state) => {
         MetaVideoTypeFollow: state.SiteReducer.MetaVideoTypeFollow,
         detailOneVideo: state.SiteReducer.detailOneVideo,
         isLoggedIn: state.user.isLoggedIn,
+        detailFollowAndUnFollow: state.SiteReducer.detailFollowAndUnFollow,
     };
 };
 
@@ -327,6 +367,7 @@ const mapDispatchToProps = (dispatch) => {
         getVideoLimitType: (type, page, token) => dispatch(actions.getVideoLimitType(type, page, token)),
         likeOneVideo: (uuid, token, type, page) => dispatch(actions.likeOneVideo(uuid, token, type, page)),
         unLikeOneVideo: (uuid, token) => dispatch(actions.unLikeOneVideo(uuid, token)),
+        followingAccount: (id, token) => dispatch(actions.followingAccount(id, token)),
     };
 };
 

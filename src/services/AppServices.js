@@ -155,8 +155,6 @@ export const UpdateUser = (data, token) => {
 };
 
 export const CreateVideo = (data, token) => {
-    console.log('check data :', data);
-
     return axios.post(`/api/videos`, data, {
         headers: {
             Authorization: `Bearer ${token}`,

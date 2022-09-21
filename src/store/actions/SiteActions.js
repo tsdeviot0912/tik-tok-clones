@@ -189,8 +189,6 @@ export const likeComment = (id, token, uuid) => {
         try {
             const Res = await LikeComment(id, token);
 
-            console.log('check data actions :', Res);
-
             if (Res && Res.data) {
                 dispatch(likeCommentSuccess(Res.data));
             }
@@ -317,8 +315,6 @@ export const searchUserAndVideo = (q, type, page) => {
     return async (dispatch, state) => {
         try {
             const Res = await SearchUserAndVideo(q, type, page);
-
-            console.log('check Res :', Res);
 
             if (Res && Res.data) {
                 dispatch(searchUserAndVideoSuccess(Res.data));

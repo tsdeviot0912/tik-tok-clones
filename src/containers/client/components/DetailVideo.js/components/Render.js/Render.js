@@ -2,16 +2,22 @@ import { faFlag } from '@fortawesome/free-regular-svg-icons';
 import { faAngleDown, faAngleUp, faClose, faVolumeDown, faVolumeXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 import { IconLogo } from '../../../../../../components/Icons';
 
 function Render({ valueVolume, setValueVolume, handleOnchange = () => {} }) {
+    const history = useNavigate();
+
+    const handleback = () => {
+        history(-1);
+    };
+
     return (
         <div>
             <div className="header d-flex justify-content-between align-items-center">
                 <div>
-                    <button className="btn close">
+                    <button className="btn close" onClick={() => handleback()}>
                         <FontAwesomeIcon icon={faClose} />
                     </button>
                     <Link to="/customer/home" className="btn">

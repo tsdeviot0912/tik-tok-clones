@@ -11,3 +11,7 @@ export const GetSuggestedAccountLimitAction = (limit = 1, per_page = 5, token) =
 export const Login = (data) => {
     return axios.post(`/api/auth/login`, data);
 };
+
+export const Register = (data) => {
+    return axios.post(`/api/auth/register`, data);
+};

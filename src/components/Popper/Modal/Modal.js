@@ -9,7 +9,7 @@ import Cookies from 'universal-cookie';
 import './Modal.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../../store/actions';
-import { Login } from '../../../services';
+import { Login, Register } from '../../../services';
 
 ModalRender.propTypes = {
     isOpen: PropTypes.bool,
@@ -28,6 +28,8 @@ function ModalRender({ isOpen = false, className, handleToggleModal, isRequired 
     const [isShowPassWord, setIsShowPassWord] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [Confirmpassword, setConfirmPassword] = useState('');
+    const [isLogin, setIslogin] = useState(true);
 
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
     const cookies = new Cookies();
@@ -62,23 +64,50 @@ function ModalRender({ isOpen = false, className, handleToggleModal, isRequired 
             return;
         }
 
-        const dataBuild = {
-            email,
-            password,
-        };
+        if (isLogin) {
+            const dataBuild = {
+                email,
+                password,
+            };
 
-        try {
-            const Res = await Login(dataBuild);
+            try {
+                const Res = await Login(dataBuild);
 
-            if (Res && Res.data && Res.meta) {
-                disPath(actions.userLoginSuccess(Res.data));
-                disPath(actions.SaveCookieToken(Res.meta)); //
-                cookies.set('token', Res.meta.token, { path: '/' });
-            } else {
-                disPath(actions.userLoginFail());
+                if (Res && Res.data && Res.meta) {
+                    disPath(actions.userLoginSuccess(Res.data));
+                    disPath(actions.SaveCookieToken(Res.meta)); //
+                    cookies.set('token', Res.meta.token, { path: '/' });
+                } else {
+                    disPath(actions.userLoginFail());
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
+        } else {
+            if (Confirmpassword !== password) {
+                alert('Mật khẩu nhập lại của bạn không chính xác');
+                return;
+            }
+
+            const dataBuild = {
+                type: 'email',
+                email,
+                password,
+            };
+
+            try {
+                const Res = await Register(dataBuild);
+
+                if (Res && Res.data && Res.meta) {
+                    disPath(actions.userLoginSuccess(Res.data));
+                    disPath(actions.SaveCookieToken(Res.meta)); //
+                    cookies.set('token', Res.meta.token, { path: '/' });
+                } else {
+                    disPath(actions.userLoginFail());
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 
@@ -89,11 +118,11 @@ function ModalRender({ isOpen = false, className, handleToggleModal, isRequired 
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoggedIn]);
-
+    // /isRequired ? isOpen : isLoggedIn ? false : isOpen
     return (
         <div className="modal-container">
             <Modal
-                isOpen={isRequired ? isOpen : isLoggedIn ? false : isOpen}
+                isOpen={true}
                 size="md"
                 tabIndex={-1}
                 centered={true}
@@ -101,42 +130,125 @@ function ModalRender({ isOpen = false, className, handleToggleModal, isRequired 
                 className="modal-rendered"
             >
                 <ModalHeader>
-                    <strong>Bạn hãy đăng nhập tài khoản của bạn</strong>
+                    <strong>{isLogin ? 'Bạn hãy đăng nhập tài khoản của bạn' : 'Đăng ký tài khoản của bạn'}</strong>
                 </ModalHeader>
                 <ModalBody>
                     <div className="container">
-                        <div className="row">
-                            <div className="col-12 my-1">
-                                <label className="my-2">Nhập tên email của bạn</label>
-                                <input
-                                    value={email}
-                                    className="form-control"
-                                    placeholder="truongson@gmail.co"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
+                        <div>
+                            <div className="register">
+                                <button
+                                    className="btn jsx-render-switch mx-3 mb-4 mt-3"
+                                    onClick={() => setIslogin(true)}
+                                >
+                                    Đăng nhập
+                                </button>
+                                <button
+                                    className="btn jsx-render-switch mx-3 mb-4 mt-3"
+                                    onClick={() => setIslogin(false)}
+                                >
+                                    Đăng ký
+                                </button>
                             </div>
-                            <div
-                                className="col-12 my-1"
-                                style={{
-                                    position: 'relative',
-                                }}
-                            >
-                                <label className="my-2">Nhập password của bạn</label>
-                                <input
-                                    type={isShowPassWord ? 'text' : 'password'}
-                                    className="form-control"
-                                    placeholder="Your password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                                <span className="show-password" onClick={() => setIsShowPassWord(!isShowPassWord)}>
-                                    {isShowPassWord ? (
-                                        <FontAwesomeIcon icon={faEyeSlash} />
-                                    ) : (
-                                        <FontAwesomeIcon icon={faEye} />
-                                    )}
-                                </span>
-                            </div>
+                            {isLogin ? (
+                                <div className="row">
+                                    <div className="col-12 my-1">
+                                        <label className="my-2">Nhập tên email của bạn</label>
+                                        <input
+                                            value={email}
+                                            className="form-control"
+                                            placeholder="truongson@gmail.co"
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                    </div>
+                                    <div
+                                        className="col-12 my-1"
+                                        style={{
+                                            position: 'relative',
+                                        }}
+                                    >
+                                        <label className="my-2">Nhập password của bạn</label>
+                                        <input
+                                            type={isShowPassWord ? 'text' : 'password'}
+                                            className="form-control"
+                                            placeholder="Your password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                        <span
+                                            className="show-password"
+                                            onClick={() => setIsShowPassWord(!isShowPassWord)}
+                                        >
+                                            {isShowPassWord ? (
+                                                <FontAwesomeIcon icon={faEyeSlash} />
+                                            ) : (
+                                                <FontAwesomeIcon icon={faEye} />
+                                            )}
+                                        </span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="row">
+                                    <div className="col-12 my-1">
+                                        <label className="my-2">Nhập tên email của bạn</label>
+                                        <input
+                                            value={email}
+                                            className="form-control"
+                                            placeholder="truongson@gmail.co"
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                    </div>
+                                    <div
+                                        className="col-12 my-1"
+                                        style={{
+                                            position: 'relative',
+                                        }}
+                                    >
+                                        <label className="my-2">Nhập password của bạn</label>
+                                        <input
+                                            type={isShowPassWord ? 'text' : 'password'}
+                                            className="form-control"
+                                            placeholder="Your password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                        <span
+                                            className="show-password"
+                                            onClick={() => setIsShowPassWord(!isShowPassWord)}
+                                        >
+                                            {isShowPassWord ? (
+                                                <FontAwesomeIcon icon={faEyeSlash} />
+                                            ) : (
+                                                <FontAwesomeIcon icon={faEye} />
+                                            )}
+                                        </span>
+                                    </div>
+                                    <div
+                                        className="col-12 my-1"
+                                        style={{
+                                            position: 'relative',
+                                        }}
+                                    >
+                                        <label className="my-2">Nhập lại password của bạn</label>
+                                        <input
+                                            type={isShowPassWord ? 'text' : 'password'}
+                                            className="form-control"
+                                            placeholder="Your password"
+                                            value={Confirmpassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                        />
+                                        <span
+                                            className="show-password"
+                                            onClick={() => setIsShowPassWord(!isShowPassWord)}
+                                        >
+                                            {isShowPassWord ? (
+                                                <FontAwesomeIcon icon={faEyeSlash} />
+                                            ) : (
+                                                <FontAwesomeIcon icon={faEye} />
+                                            )}
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </ModalBody>

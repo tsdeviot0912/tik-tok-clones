@@ -277,7 +277,8 @@
 
 
                     .input {
-                        width: 86%;
+                        width   : 86%;
+                        position: relative;
 
                         input {
                             width           : 100%;
@@ -296,6 +297,23 @@
                         }
 
 
+                    }
+
+                    .emoij-wrapper {
+
+                        .paswerer {
+                            position: absolute;
+                            top     : 2px;
+                            right   : 10px;
+                            cursor  : pointer;
+                        }
+
+
+                        .over-emoj {
+                            position: absolute;
+                            bottom  : 40px;
+                            right   : 0;
+                        }
                     }
 
                     .button-submit {

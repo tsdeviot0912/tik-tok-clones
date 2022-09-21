@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useDispatch, useSelector } from 'react-redux';
 import Picker from 'emoji-picker-react';
+import Tippy from '@tippyjs/react';
 
 import './DetailVideo.scss';
 import Video from './components/video/video';
@@ -14,6 +15,7 @@ import Comment from '../comments/comment';
 import * as Actions from '../../../.././store/actions';
 import useGetToken from '../../../../components/hooks/useGetToken';
 import ModalRender from '../../../../components/Popper/Modal';
+import { IconEmoj } from '../../../../components/Icons';
 
 let hidden = null;
 let visibilityChange = null;
@@ -42,9 +44,10 @@ function DetailVideo() {
     const [commentText, setCommentText] = useState('');
     const [commentDetail, setCommentDetail] = useState({});
     const [isOpen, setIsOpen] = useState(false);
-    // const [chosenEmoji, setChosenEmoji] = useState(true);
-    const uuidParams = useParams();
+    const [chosenEmoji, setChosenEmoji] = useState(true);
+    const [isOpenEmoji, setIsOpenEmoji] = useState(false);
 
+    const uuidParams = useParams();
     const disPatch = useDispatch();
 
     const listComments = useSelector((state) => state.SiteReducer.listComments);
@@ -106,6 +109,7 @@ function DetailVideo() {
     }, [detailComments]);
 
     const handleSubmitComment = () => {
+        setIsOpenEmoji(false);
         if (!commentText) {
             alert('Bạn hãy nhập nội dung comments của bạn !');
             return;
@@ -122,11 +126,12 @@ function DetailVideo() {
         setIsOpen(!isOpen);
     };
 
-    // const onEmojiClick = (event, emojiObject) => {
-    //     setChosenEmoji(emojiObject);
-    // };
-
-    // console.log('check chosenEmoji :', chosenEmoji);
+    const onEmojiClick = (event, emojiObject) => {
+        setChosenEmoji(emojiObject);
+        if (chosenEmoji.emoji) {
+            setCommentText((prev) => `${prev} ${chosenEmoji.emoji}`);
+        }
+    };
 
     return (
         <div className="detail-video-container">
@@ -152,7 +157,7 @@ function DetailVideo() {
                                 </div>
                                 <div className="input-comment">
                                     <div className="input">
-                                        {!isOpen ? (
+                                        {!isLoggedIn ? (
                                             <input
                                                 placeholder="Vui lòng đăng nhập để comment"
                                                 onClick={handleToggleModal}
@@ -173,13 +178,28 @@ function DetailVideo() {
                                                             handleSubmitComment();
                                                         }
                                                     }}
+                                                    onClick={() => setIsOpenEmoji(false)}
                                                 />
-                                                {/* <Picker onEmojiClick={onEmojiClick} /> */}
+                                                <div className="emoij-wrapper">
+                                                    <Tippy content="Chọn emoji">
+                                                        <div
+                                                            className="paswerer"
+                                                            onClick={() => setIsOpenEmoji(!isOpenEmoji)}
+                                                        >
+                                                            <IconEmoj />
+                                                        </div>
+                                                    </Tippy>
+                                                    {isOpenEmoji && (
+                                                        <div className="over-emoj">
+                                                            <Picker onEmojiClick={onEmojiClick} />
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </>
                                         )}
                                     </div>
                                     <div className="button-submit">
-                                        {isOpen ? (
+                                        {isLoggedIn ? (
                                             <button className="btn" onClick={handleSubmitComment}>
                                                 Đăng
                                             </button>

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { faCheckCircle, faMusic } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react/headless';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +13,8 @@ import './HeaderVideo.scss';
 import { Wrapper } from '../../../../../../../components/Popper';
 import Preview from '../../../../../../../components/SuggestAccount/Preview';
 import ModalRender from '../../../../../../../components/Popper/Modal';
+import * as actions from '../../../../../../.././store/actions';
+import useGetToken from '../../../../../../../components/hooks/useGetToken';
 
 HeaderVideo.propTypes = {
     data: PropTypes.object.isRequired,
@@ -20,6 +22,9 @@ HeaderVideo.propTypes = {
 
 function HeaderVideo({ data }) {
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const disPatch = useDispatch();
+
+    const Token = useGetToken();
 
     const history = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +53,7 @@ function HeaderVideo({ data }) {
 
     const handleBtnFollowClick = () => {
         if (isLoggedIn) {
-            //
+            disPatch(actions.followingAccount(data && data.user && data.user.id ? data.user.id : 0, Token));
         } else {
             handleToggleModal();
         }

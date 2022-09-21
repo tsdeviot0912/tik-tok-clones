@@ -30,8 +30,6 @@ export default class LanguageUtils {
     }
 
     static getFlattenedMessages() {
-        console.log('check log :', messages);
-
         return messages;
     }
 }

@@ -71,6 +71,7 @@
                 display      : flex;
                 padding      : 16px 10px;
                 border-bottom: 1px solid #eee;
+                cursor       : pointer;
 
                 .logo {
                     width : 60px;
@@ -134,7 +135,6 @@
                 &:hover {
                     background-color: rgba(0, 0, 0, 0.03);
                     border-radius   : 6px;
-                    cursor          : pointer;
                 }
             }
 
@@ -151,6 +151,7 @@
                     background-color: var(--primary-color);
                     color           : #fff;
                     font-weight     : 600;
+                    cursor          : pointer !important;
 
 
                     &:hover {
