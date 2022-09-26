@@ -125,7 +125,7 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false
                 }/view=2`,
             );
         }
-    }, []);
+    }, [data]);
 
     return (
         <div className="wrapper-item-video">
