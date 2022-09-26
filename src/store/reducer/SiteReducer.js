@@ -2,6 +2,7 @@ import actionTypes from '../actions/actionTypes';
 
 const initialState = {
     listVideoLimit: [],
+    listVideoLimitViewCopy: [],
     MetaVideoType: {},
     detailVideo: {},
     detailOneVideo: {},
@@ -40,6 +41,16 @@ export const SiteReducer = (state = initialState, action) => {
 
             return {
                 ...CloneStateVideo,
+            };
+        }
+
+        case actionTypes.GET_VIDEO_LIMIT_VIEW_COPY_SUCCESS: {
+            const CloneStateVideoViewCopy = { ...state };
+
+            CloneStateVideoViewCopy.listVideoLimitViewCopy = action.data;
+
+            return {
+                ...CloneStateVideoViewCopy,
             };
         }
 

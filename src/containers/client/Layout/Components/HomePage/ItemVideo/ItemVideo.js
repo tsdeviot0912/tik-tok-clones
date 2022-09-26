@@ -27,6 +27,7 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false
     const userInfo = useSelector((state) => state.user.userInfo);
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
+    const [linkCopy, setLinkCopy] = useState('http://localhost:3000/customer/home');
     const [play, setPlay] = useState(false);
     const [valueVolume, setValueVolume] = useState(+0);
     const [Check, setCheck] = useState(false);
@@ -36,7 +37,7 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false
     const history = useNavigate();
 
     const PreviewAccount = () => {
-        return <Wrapper>{<Share />}</Wrapper>;
+        return <Wrapper>{<Share linkCopy={linkCopy} />}</Wrapper>;
     };
 
     useEffect(() => {
@@ -115,6 +116,16 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false
             handleToggleModal();
         }
     };
+
+    useEffect(() => {
+        if (window && window.Location && window.location.href) {
+            setLinkCopy(
+                `http://localhost:3000/customer/video-details-with-id-and-user/${
+                    data && data.uuid ? data.uuid : ''
+                }/view=2`,
+            );
+        }
+    }, []);
 
     return (
         <div className="wrapper-item-video">

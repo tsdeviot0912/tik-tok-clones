@@ -150,6 +150,8 @@ export const UpdateUser = (data, token) => {
     return axios.post(`/api/auth/me?_method=PATCH`, data, {
         headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+            Accept: 'application/json',
         },
     });
 };
@@ -158,6 +160,8 @@ export const CreateVideo = (data, token) => {
     return axios.post(`/api/videos`, data, {
         headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+            Accept: 'application/json',
         },
     });
 };

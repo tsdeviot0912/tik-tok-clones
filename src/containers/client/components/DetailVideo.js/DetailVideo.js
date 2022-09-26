@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import _ from 'lodash';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ import * as Actions from '../../../.././store/actions';
 import useGetToken from '../../../../components/hooks/useGetToken';
 import ModalRender from '../../../../components/Popper/Modal';
 import { IconEmoj } from '../../../../components/Icons';
+import Redirect from '../../../.././routes/redirect/Redirect';
 
 let hidden = null;
 let visibilityChange = null;
@@ -35,6 +36,7 @@ function DetailVideo() {
     const detailVideo = useSelector((state) => state.SiteReducer.detailVideo);
 
     const token = useGetToken();
+    const history = useNavigate();
 
     const [linkCopy, setLinkCopy] = useState('http://localhost:3000/customer/home');
     const [DetailVideoState, setDetailVideoState] = useState({});
@@ -132,6 +134,36 @@ function DetailVideo() {
             setCommentText((prev) => `${prev} ${chosenEmoji.emoji}`);
         }
     };
+
+    useEffect(() => {
+        document.body.onkeydown = (e) => {
+            if (e.keyCode === 116 || e.which === 116) {
+                // e.preventDefault();
+                history(`/customer/video-details-with-id-and-user/${uuidParams.uuid}/view=2`);
+            }
+        };
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // useEffect(() => {
+    //     window.addEventListener('unload', alertUser);
+    //     return () => {
+    //         window.removeEventListener('unload', alertUser);
+    //     };
+    // }, []);
+
+    // useEffect(() => {
+    //     if (window.performance) {
+    //         if (performance.navigation.type === 1) {
+    //             alert('page load took ');
+    //         } else {
+    //             alert('This page is not reloaded');
+    //         }
+    //     }
+    // }, []);
+
+    // console.log('check window.performance :', window.performance);
 
     return (
         <div className="detail-video-container">

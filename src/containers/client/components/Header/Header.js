@@ -55,6 +55,7 @@ function Header() {
     // user login
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
     const userInfo = useSelector((state) => state.user.userInfo);
+    const CurrentUserProfile = useSelector((state) => state.SiteReducer.CurrentUserProfile);
 
     // defined state react
     const [isOpen, setIsOpen] = useState(false);
@@ -73,6 +74,12 @@ function Header() {
     function handleMenuChange(menuItem) {
         // console.log(menuItem);
     }
+
+    useEffect(() => {
+        if (!_.isEmpty(CurrentUserProfile)) {
+            setSetUser(CurrentUserProfile);
+        }
+    }, [CurrentUserProfile]);
 
     // when user login
     const userMenu = [

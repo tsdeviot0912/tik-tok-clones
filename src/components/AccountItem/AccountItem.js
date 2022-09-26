@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import img from '../../assets/img';
 import Image from '../../components/Image';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
@@ -14,8 +15,13 @@ AccountItem.propTypes = {
 };
 
 function AccountItem({ data }) {
+    const userInfo = useSelector((state) => state.user.userInfo) || {};
+
     return (
-        <Link to={`/profile/@${data.nickname}/${data.id}`} className={cx('wrapper')}>
+        <Link
+            to={data.id === userInfo.id ? '/profile/me-tai-khoan-cua-toi' : `/profile/@${data.nickname}/${data.id}`}
+            className={cx('wrapper')}
+        >
             <span className={cx('avata')}>
                 <Image src={data.avatar} alt={data.last_name} />
             </span>

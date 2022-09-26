@@ -21,7 +21,7 @@ import {
 import actionType from './actionTypes';
 import actionTypes from './actionTypes';
 
-export const getVideoLimitType = (type, page, token) => {
+export const getVideoLimitType = (type, page, token, view) => {
     return async (dispatch, state) => {
         try {
             const Res = await GetVideoLimitType(type, page, token);
@@ -36,6 +36,10 @@ export const getVideoLimitType = (type, page, token) => {
                     dispatch(getVideoLimitTypeSuccessFollow(Res.data));
                     dispatch(getVideoLimitMetaFollow(Res.meta.pagination));
                 }
+
+                if (view === 'view-2') {
+                    dispatch(getVideoLimitViewCopyTypeSuccess(Res.data));
+                }
             } else {
                 dispatch(getVideoLimitTypeFailed());
             }
@@ -49,6 +53,13 @@ export const getVideoLimitType = (type, page, token) => {
 export const getVideoLimitTypeSuccess = (data) => {
     return {
         type: actionTypes.GET_VIDEO_LIMIT_SUCCESS,
+        data,
+    };
+};
+
+export const getVideoLimitViewCopyTypeSuccess = (data) => {
+    return {
+        type: actionTypes.GET_VIDEO_LIMIT_VIEW_COPY_SUCCESS,
         data,
     };
 };

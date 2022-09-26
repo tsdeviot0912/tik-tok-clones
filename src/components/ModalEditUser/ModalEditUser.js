@@ -84,6 +84,7 @@ function ModalEditUser({ isOpen, handleToggle, userCurrent = {} }) {
                 date_of_birth: birthDay,
                 website_url: websiteUrl,
                 facebook_url: websiteFB,
+                avatar: fileImage,
             };
 
             disPath(actions.updateUser(dataBuild, Token));

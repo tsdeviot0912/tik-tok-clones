@@ -65,6 +65,7 @@ function Menu({ items = [], children, onChange = defaultFn, hdeOnClick = false }
             offset={[14, 8]}
             hideOnClick={hdeOnClick}
             interactive
+            zIndex={999999999999999}
             placement="bottom-end"
             render={RenderResult}
             onHide={handleResetToFirstPage}
