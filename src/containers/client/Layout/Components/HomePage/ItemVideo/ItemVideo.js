@@ -120,7 +120,7 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false
     useEffect(() => {
         if (window && window.Location && window.location.href) {
             setLinkCopy(
-                `http://localhost:3000/customer/video-details-with-id-and-user/${
+                `https://www.truongsonwesite.online/customer/video-details-with-id-and-user/${
                     data && data.uuid ? data.uuid : ''
                 }/view=2`,
             );
