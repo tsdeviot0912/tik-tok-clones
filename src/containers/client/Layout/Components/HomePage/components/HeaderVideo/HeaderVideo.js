@@ -22,12 +22,13 @@ HeaderVideo.propTypes = {
 
 function HeaderVideo({ data }) {
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-    const disPatch = useDispatch();
 
+    const disPatch = useDispatch();
     const Token = useGetToken();
 
     const history = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const userInfo = useSelector((state) => state.user.userInfo) || {};
 
     const handleToggleModal = () => {
         setIsOpen(!isOpen);
@@ -60,7 +61,11 @@ function HeaderVideo({ data }) {
     };
 
     const handleRedirect = (nickname, id) => {
-        history(`/profile/@${nickname}/${id}`);
+        if (id && userInfo && id === userInfo.id) {
+            history(`/profile/me-tai-khoan-cua-toi`);
+        } else {
+            history(`/profile/@${nickname}/${id}`);
+        }
     };
 
     return (
@@ -117,10 +122,16 @@ function HeaderVideo({ data }) {
                             </div>
                         </TippyRender>
                         <div>
-                            {!data.user.is_followed && (
-                                <Button outLine onClick={() => handleBtnFollowClick()}>
-                                    Follow
+                            {userInfo.id === data.user.id ? (
+                                <Button outLine onClick={() => handleRedirect(data.user.nickname, data.id)}>
+                                    Xem Profile
                                 </Button>
+                            ) : (
+                                !data.user.is_followed && (
+                                    <Button outLine onClick={() => handleBtnFollowClick()}>
+                                        Follow
+                                    </Button>
+                                )
                             )}
                         </div>
                     </div>

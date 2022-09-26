@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Select from 'react-select';
 
 import Button from '../../../components/Button';
@@ -8,10 +9,13 @@ import { CreateVideo } from '../../../services/AppServices';
 import Header from '../../client/components/Header/Header';
 import Footer from '../Footer';
 import './upload.scss';
+import ModalRender from '../../.././components/Popper/Modal/Modal';
+import { useNavigate } from 'react-router-dom';
 
 function Upload() {
     const ref = useRef(null);
     const Token = useGetToken();
+    const history = useNavigate();
 
     const [selectedOption, setSelectedOption] = useState(null);
     const [fileVideo, setFileVideo] = useState(null);
@@ -21,6 +25,9 @@ function Upload() {
     const [Duet, setDuet] = useState(true);
     const [Stitch, setStitch] = useState(true);
     const [linkPreview, setLinkPreview] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
     const handleClickSelectFile = () => {
         const input = ref.current;
@@ -28,6 +35,10 @@ function Upload() {
         if (input) {
             input.click();
         }
+    };
+
+    const handleToggleModal = () => {
+        setIsOpen(!isOpen);
     };
 
     const options = [
@@ -76,26 +87,33 @@ function Upload() {
         return isValid;
     };
 
+    const handleback = () => {
+        // eslint-disable-next-line no-restricted-globals
+        const Check = confirm('Tiếp tục chỉnh sửa !');
+
+        if (!Check) {
+            history(-1);
+        }
+    };
+
     const handleSubmit = async () => {
-        // const Check = validate();
+        if (isLoggedIn) {
+            const Check = validate();
 
-        if (true) {
-            const formData = new FormData();
+            if (Check) {
+                const dataBuild = {
+                    description,
+                    upload_file: fileVideo,
+                    thumbnail_time: 5,
+                    music,
+                    viewable: selectedOption.value,
+                    allows: ['comment', 'duet', 'stitch'],
+                };
 
-            // formData.append('upload_file', fileVideo, 'video.mp4');
-            // formData.append('description', description);
-            // formData.append('viewable', 'public');
-
-            const dataBuild = {
-                description,
-                upload_file: fileVideo,
-                thumbnail_time: 5,
-                music,
-                viewable: selectedOption.value,
-                allows: ['comment', 'duet', 'stitch'],
-            };
-
-            await CreateVideo(dataBuild, Token);
+                await CreateVideo(dataBuild, Token);
+            }
+        } else {
+            setIsOpen(true);
         }
     };
 
@@ -114,7 +132,11 @@ function Upload() {
                         <div className="row">
                             <div className="col-3 left">
                                 <div
-                                    className="container-item-upload d-flex justify-content-center align-items-center"
+                                    className={
+                                        fileVideo
+                                            ? 'container-item-upload border-color-none d-flex justify-content-center align-items-center'
+                                            : 'container-item-upload d-flex justify-content-center align-items-center'
+                                    }
                                     onClick={handleClickSelectFile}
                                 >
                                     {!fileVideo ? (
@@ -243,7 +265,9 @@ function Upload() {
                                         </span>
                                     </div>
                                     <div className="button-submit">
-                                        <button className="close-upload">Hủy bỏ</button>
+                                        <button className="close-upload" onClick={handleback}>
+                                            Hủy bỏ
+                                        </button>
                                         <button className="submit-upload" onClick={handleSubmit}>
                                             Đăng
                                         </button>
@@ -255,6 +279,7 @@ function Upload() {
                 </div>
             </div>
             <Footer />
+            <ModalRender isOpen={isOpen} handleToggleModal={handleToggleModal} />
         </>
     );
 }

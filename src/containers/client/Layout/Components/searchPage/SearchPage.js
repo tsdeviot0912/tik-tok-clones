@@ -15,6 +15,7 @@ function SearchPage() {
     const listUserSearch = useSelector((state) => state.SiteReducer.listUserSearch);
     const MetaSearchUser = useSelector((state) => state.SiteReducer.MetaSearchUser);
     const history = useNavigate();
+    const userInfo = useSelector((state) => state.user.userInfo) || {};
 
     const [isUser, setIsUser] = useState(true);
     const [isTop, setIsTop] = useState(false);
@@ -54,7 +55,11 @@ function SearchPage() {
     }, [MetaSearchUser, page]);
 
     const handleRedirect = (data) => {
-        history(`/profile/@${data.nickname}/${data.id} `);
+        if (userInfo.id === data.id) {
+            history(`/profile/me-tai-khoan-cua-toi`);
+        } else {
+            history(`/profile/@${data.nickname}/${data.id} `);
+        }
     };
 
     const handleClickSeeMore = () => {

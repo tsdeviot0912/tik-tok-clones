@@ -1,6 +1,8 @@
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Component } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 import {
     IconDip,
     IconEmail,
@@ -19,11 +21,24 @@ class Share extends Component {
         super(props);
         this.state = {
             isOpen: false,
+            value: this.props.linkCopy,
+            copied: false,
         };
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.linkCopy !== this.props.linkCopy) {
+            this.setState({
+                value: this.props.linkCopy,
+            });
+        }
+    }
+
     render() {
-        const { isOpen } = this.state;
+        const { isOpen, value } = this.state;
+
+        console.log('check value :', value);
+        console.log('check this.props.linkCopy :', this.props.linkCopy);
 
         return (
             <div className={`${isOpen ? 'share-wrapper-container max-height-item' : 'share-wrapper-container'}`}>
@@ -39,10 +54,18 @@ class Share extends Component {
                     <IconWhat />
                     Chia sẻ với WhatsApp
                 </a>
-                <a href="/">
-                    <IconLink />
-                    Sao Chép liên kết
-                </a>
+                <CopyToClipboard text={this.state.value} onCopy={() => this.setState({ copied: true })}>
+                    <a
+                        href="/"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            alert('Copy link to dasbosh');
+                        }}
+                    >
+                        <IconLink />
+                        Sao Chép liên kết
+                    </a>
+                </CopyToClipboard>
                 {!isOpen && (
                     <a
                         href="/"

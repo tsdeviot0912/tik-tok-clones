@@ -122,7 +122,7 @@ function ModalRender({ isOpen = false, className, handleToggleModal, isRequired 
     return (
         <div className="modal-container">
             <Modal
-                isOpen={true}
+                isOpen={isRequired ? isOpen : isLoggedIn ? false : isOpen}
                 size="md"
                 tabIndex={-1}
                 centered={true}

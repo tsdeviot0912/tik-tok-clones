@@ -9,6 +9,7 @@ import useGetToken from '../../../../../components/hooks/useGetToken';
 import ModalRender from '../../../../../components/Popper/Modal';
 import { LoadingHome } from '../../../../../components/SkelotonLoading';
 import { useCallback } from 'react';
+import { GetVideoLimitType } from '../../../../../services';
 
 function Home() {
     const disPatch = useDispatch();
@@ -26,12 +27,12 @@ function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenSkeloton, setIsOpenSkeloton] = useState(false);
 
-    useEffect(() => {
-        setListVideo((prev) => [...prev, ...listVideoLimit]);
+    // useEffect(() => {
+    //     setListVideo((prev) => [...prev, ...listVideoLimit]);
 
-        return;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [listVideoLimit]);
+    //     return;
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [listVideoLimit]);
 
     useEffect(() => {
         if (listVideo && listVideo.length > 0) {
@@ -63,7 +64,17 @@ function Home() {
     const token = useGetToken();
 
     useEffect(() => {
-        disPatch(actions.getVideoLimitType(type, page, token));
+        // disPatch(actions.getVideoLimitType(type, page, token));
+
+        const fetch = async () => {
+            const Res = await GetVideoLimitType(type, page, token);
+
+            if (Res && Res.data && Res.data.length > 0) {
+                setListVideo((prev) => [...prev, ...Res.data]);
+            }
+        };
+
+        fetch();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);

@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 
-import { useEffect } from 'react';
-
 import Button from '../../../components/Button';
 import './Preview.scss';
 import Image from '../../../components/Image';
@@ -24,6 +22,8 @@ function Preview({ data = {} }) {
     const history = useNavigate();
 
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const userInfo = useSelector((state) => state.user.userInfo) || {};
+
     const Token = useGetToken();
 
     const [isOpen, setIsOpen] = useState(false);
@@ -48,6 +48,10 @@ function Preview({ data = {} }) {
         }
     };
 
+    const handleRedirect = () => {
+        history(`/profile/me-tai-khoan-cua-toi`);
+    };
+
     return (
         <div className="preview-wrapper" tabIndex={-1}>
             {!_.isEmpty(data) && (
@@ -58,9 +62,15 @@ function Preview({ data = {} }) {
                             alt={data.nickname}
                             onClick={() => handleClickRedirect(data.nickname, data.id)}
                         />
-                        <Button primary onClick={() => handleFollowBtn(data, data.is_followed)}>
-                            {data.is_followed ? 'Xem Profile' : 'Follow'}
-                        </Button>
+                        {userInfo.id === data.id ? (
+                            <Button primary onClick={() => handleRedirect(data.nickname, data.id)}>
+                                Xem Profile
+                            </Button>
+                        ) : (
+                            <Button primary onClick={() => handleFollowBtn(data, data.is_followed)}>
+                                {data.is_followed ? 'Xem Profile' : 'Follow'}
+                            </Button>
+                        )}
                     </header>
                     <div className="body" onClick={() => handleClickRedirect(data.nickname, data.id)}>
                         <h2>

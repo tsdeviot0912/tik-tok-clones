@@ -130,10 +130,10 @@ function RenderRightConent({ DetailVideoState = {}, linkCopy }) {
                     <div className="copPy-link container">
                         <div className="d-flex align-items-center">
                             <div className="text-render-coppy">
-                                <span>{linkCopy}</span>
+                                <span>{linkCopy.concat('/view=2')}</span>
                             </div>
                             <CopyToClipboard
-                                text={linkCopy}
+                                text={linkCopy.concat('/view=2')}
                                 onCopy={() => {
                                     setCopied(true);
                                 }}
