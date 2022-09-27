@@ -13,6 +13,10 @@ html {
 }
 
 body {
+    overscroll-behavior: contain;
+}
+
+body {
     background-image : "#fff";
     background-repeat: no-repeat;
     background-size  : cover;

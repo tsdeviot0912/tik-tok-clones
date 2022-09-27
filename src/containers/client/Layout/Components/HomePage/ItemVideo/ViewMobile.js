@@ -90,7 +90,7 @@ function ViewMobile({
         };
 
         Player();
-    }, [Check]);
+    }, [Check, setIsShowParents]);
 
     useEffect(() => {
         window.addEventListener('visibilitychange', () => {
