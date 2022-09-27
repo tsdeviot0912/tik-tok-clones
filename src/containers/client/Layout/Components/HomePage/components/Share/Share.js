@@ -37,9 +37,6 @@ class Share extends Component {
     render() {
         const { isOpen, value } = this.state;
 
-        console.log('check value :', value);
-        console.log('check this.props.linkCopy :', this.props.linkCopy);
-
         return (
             <div className={`${isOpen ? 'share-wrapper-container max-height-item' : 'share-wrapper-container'}`}>
                 <a href="/">

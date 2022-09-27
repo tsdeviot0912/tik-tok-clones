@@ -32,6 +32,8 @@ class Comment extends Component {
         const { comment } = this.state;
         const { uuid } = this.props;
 
+        console.log('check  comment :', comment);
+
         return (
             <div className="comment-wrapper">
                 <div className="comment-body">

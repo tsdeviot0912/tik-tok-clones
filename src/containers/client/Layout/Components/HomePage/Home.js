@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import _ from 'lodash';
+import { BrowserView, MobileView } from 'react-device-detect';
+import Slider from 'react-slick';
 
 import ItemVideo from './ItemVideo';
 import './Home.scss';
@@ -10,8 +12,36 @@ import ModalRender from '../../../../../components/Popper/Modal';
 import { LoadingHome } from '../../../../../components/SkelotonLoading';
 import { useCallback } from 'react';
 import { GetVideoLimitType } from '../../../../../services';
+import {
+    IconHomeMobile,
+    IconSearch,
+    IconsUserUnFollow,
+    IconUploadMobile,
+    MessageIcon,
+} from '../../../../../components/Icons';
 
 function Home() {
+    const settings = {
+        dots: true,
+        infinite: false,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        vertical: true,
+        verticalSwiping: true,
+        arrow: false,
+        beforeChange: (currentIndex, nextIndex) => {
+            if (currentIndex === nextIndex) {
+                if (!_.isEmpty(metaVideo) && page === metaVideo.total_pages) {
+                    setPage((prev) => prev);
+                } else {
+                    setPage((prev) => prev + 1);
+                }
+            }
+        },
+    };
+
+    const ref = useRef(null);
+
     const disPatch = useDispatch();
     const listVideoLimit = useSelector((state) => state.SiteReducer.listVideoLimit);
     const MetaVideoType = useSelector((state) => state.SiteReducer.MetaVideoType);
@@ -26,6 +56,7 @@ function Home() {
     const [page, setPage] = useState(1);
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenSkeloton, setIsOpenSkeloton] = useState(false);
+    const [isShow, setIsShow] = useState(true);
 
     // useEffect(() => {
     //     setListVideo((prev) => [...prev, ...listVideoLimit]);
@@ -141,20 +172,76 @@ function Home() {
 
     return (
         <>
-            <div className="home-page-container">
-                {listVideo &&
-                    listVideo.length > 0 &&
-                    listVideo.map((data, index) => (
-                        <ItemVideo
-                            handleToggleModal={handleToggleModal}
-                            data={data}
-                            handleClickHeart={handleClickHeart}
-                            key={!_.isEqual(data) && !_.isEqual(data.user) && index}
-                        />
-                    ))}
-            </div>
-            {isOpenSkeloton && <Skeloton />}
-            {isOpen && <ModalRender handleToggleModal={handleToggleModal} isOpen={isOpen} />}
+            <BrowserView>
+                <div className="home-page-container">
+                    {listVideo &&
+                        listVideo.length > 0 &&
+                        listVideo.map((data, index) => (
+                            <ItemVideo
+                                handleToggleModal={handleToggleModal}
+                                data={data}
+                                handleClickHeart={handleClickHeart}
+                                key={!_.isEqual(data) && !_.isEqual(data.user) && index}
+                            />
+                        ))}
+                </div>
+                {isOpenSkeloton && <Skeloton />}
+                {isOpen && <ModalRender handleToggleModal={handleToggleModal} isOpen={isOpen} />}
+            </BrowserView>
+            <MobileView>
+                <div className="home-page-container-mobile">
+                    <Slider {...settings} ref={ref}>
+                        {listVideo &&
+                            listVideo.length > 0 &&
+                            listVideo.map((data, index) => (
+                                <ItemVideo
+                                    setIsShow={setIsShow}
+                                    handleToggleModal={handleToggleModal}
+                                    data={data}
+                                    handleClickHeart={handleClickHeart}
+                                    key={!_.isEqual(data) && !_.isEqual(data.user) && index}
+                                />
+                            ))}
+                    </Slider>
+                </div>
+                {isShow && (
+                    <div className="nav-fixed-mobile">
+                        <div className="container">
+                            <div className="parents-nav-mobile">
+                                <div className="item-nav-mobile">
+                                    <IconHomeMobile />
+                                </div>
+                                <div className="item-nav-mobile">
+                                    <IconSearch />
+                                </div>
+                                <div className="item-nav-mobile">
+                                    <IconUploadMobile />
+                                </div>
+                                <div className="item-nav-mobile">
+                                    <MessageIcon />
+                                </div>
+                                <div className="item-nav-mobile">
+                                    <IconsUserUnFollow />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                <div className="nav-fixed-mobile-top">
+                    <div className="container">
+                        <div className="parents-nav-mobile-top">
+                            <div className="item-nav-mobile-top">
+                                <span>Đang Follow</span>
+                            </div>
+                            <div className="item-nav-mobile-top active">
+                                <span>Dành Cho Bạn</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {isOpenSkeloton && <Skeloton />}
+                {isOpen && <ModalRender handleToggleModal={handleToggleModal} isOpen={isOpen} />}
+            </MobileView>
         </>
     );
 }
