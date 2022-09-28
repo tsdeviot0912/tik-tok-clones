@@ -121,14 +121,16 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false
     };
 
     useEffect(() => {
-        if (window && window.Location && window.location.href) {
+        if (window && window.location && window.location.href) {
             setLinkCopy(
-                `https://www.truongsonwesite.online/customer/video-details-with-id-and-user/${
+                `${window.location.host}/customer/video-details-with-id-and-user/${
                     data && data.uuid ? data.uuid : ''
                 }/view=2`,
             );
         }
     }, [data]);
+
+    console.log('check window :', window);
 
     return (
         <>

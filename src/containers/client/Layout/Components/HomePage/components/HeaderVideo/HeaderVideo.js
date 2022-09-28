@@ -123,7 +123,7 @@ function HeaderVideo({ data }) {
                         </TippyRender>
                         <div>
                             {userInfo.id === data.user.id ? (
-                                <Button outLine onClick={() => handleRedirect(data.user.nickname, data.id)}>
+                                <Button outLine onClick={() => handleRedirect(data.user.nickname, data.user.id)}>
                                     Xem Profile
                                 </Button>
                             ) : (

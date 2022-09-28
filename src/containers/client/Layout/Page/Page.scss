@@ -1,3 +1,52 @@
 .page-wrapper-container {
     padding-top: var(--default-layout-header-height);
+
+
+    @media (min-width: 794px) and (max-width: 992px) {
+        .container {
+            width    : 100% !important;
+            max-width: 100% !important;
+            padding  : 0 10px;
+
+
+            .col-4 {
+                width: 72px !important;
+            }
+
+            .col-8 {
+                flex: 1;
+            }
+
+            .home-page-container {
+                padding: 0 40px;
+            }
+
+            .header-video-container {
+                margin-left: 54px;
+            }
+        }
+    }
+
+
+    @media (max-width: 640px) {
+        .container {
+            width    : 100% !important;
+            max-width: 100% !important;
+            padding  : 0 10px;
+
+
+            .col-4 {
+                width: 72px !important;
+            }
+
+            .col-8 {
+                flex: 1;
+            }
+
+            .home-page-container {}
+
+            .header-video-container {}
+        }
+    }
+
 }

@@ -32,7 +32,7 @@ function AccountItem({ item = {}, isFollow = false, isHiddenTippy = false }) {
             {isFollow ? (
                 <div className="wrapper-item" onClick={() => handleClickRedirect(item.nickname, item.id)}>
                     <Image src={item.avatar} alt={item.nickname} />
-                    <div>
+                    <div className="jsx-ds-er-ser-account-item">
                         <p>
                             <strong>
                                 {item.nickname}
@@ -46,7 +46,7 @@ function AccountItem({ item = {}, isFollow = false, isHiddenTippy = false }) {
                 <div>
                     <div className="wrapper-item" onClick={() => handleClickRedirect(item.nickname, item.id)}>
                         <Image src={item.avatar} alt={item.nickname} />
-                        <div>
+                        <div className="jsx-ds-er-ser-account-item">
                             <p>
                                 <strong>
                                     {item.nickname}
@@ -62,7 +62,7 @@ function AccountItem({ item = {}, isFollow = false, isHiddenTippy = false }) {
                     <Tippy interactive delay={[800, 200000000]} placement="bottom-start" render={PreviewAccount}>
                         <div className="wrapper-item" onClick={() => handleClickRedirect(item.nickname, item.id)}>
                             <Image src={item.avatar} alt={item.nickname} />
-                            <div>
+                            <div className="jsx-ds-er-ser-account-item">
                                 <p>
                                     <strong>
                                         {item.nickname}

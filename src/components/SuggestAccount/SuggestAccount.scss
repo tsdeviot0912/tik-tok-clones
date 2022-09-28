@@ -2,6 +2,15 @@
     border-top: 1px solid #eee;
     padding   : 8px;
 
+    .pc-max-lg {
+        display: block;
+    }
+
+
+    .pc-min-lg {
+        display: none;
+    }
+
     .suggest-account {
 
 
@@ -67,6 +76,38 @@
             padding    : 0 8px;
             margin-top : 8px;
             cursor     : pointer;
+        }
+    }
+
+
+    @media (max-width: 992px) {
+        & {
+            text-align: center;
+
+            .title {
+                display: none;
+            }
+
+            .see-more {
+                display: none;
+            }
+
+            img {
+                flex-shrink: 0;
+            }
+
+            .jsx-ds-er-ser-account-item {
+                display: none;
+            }
+
+            .pc-max-lg {
+                display: none;
+            }
+
+
+            .pc-min-lg {
+                display: block;
+            }
         }
     }
 }

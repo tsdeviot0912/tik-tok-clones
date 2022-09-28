@@ -4,49 +4,50 @@
 }
 
 .search {
-    padding: 0 0 0 16px;
-    background: rgba(22, 24, 35, 0.06);
+    padding      : 0 0 0 16px;
+    background   : rgba(22, 24, 35, 0.06);
     border-radius: var(--border-radius-header);
-    overflow: hidden;
-    display: flex;
-    overflow-y: hidden;
-    position: relative;
-    height: 46px;
-    border: 1.5px solid transparent;
+    overflow     : hidden;
+    display      : flex;
+    overflow-y   : hidden;
+    position     : relative;
+    height       : 46px;
+    border       : 0.8px solid transparent;
 
     input {
-        font-family: sans-serif;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 22px;
-        border: none;
+        font-family     : sans-serif;
+        font-weight     : 400;
+        font-size       : 16px;
+        line-height     : 22px;
+        border          : none;
         background-color: transparent;
-        outline: none;
-        padding: 0;
-        width: 292px;
-        color: var(--black);
-        padding-right: 30px;
-        caret-color: var(--primary);
-        font-family: var(--font-family);
+        outline         : none;
+        padding         : 0;
+        width           : 292px;
+        color           : var(--black);
+        padding-right   : 30px;
+        caret-color     : var(--primary);
+        font-family     : var(--font-family);
+        font-size       : 14px;
     }
 
     .search-btn {
         color: rgba(22, 24, 35, 0.34);
     }
 
-    input:not(:placeholder-shown) ~ .search-btn {
+    input:not(:placeholder-shown)~.search-btn {
         color: rgba(22, 24, 35, 0.75);
     }
 
     &::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        height: 28px;
-        width: 1px;
-        right: 52px;
+        content         : '';
+        position        : absolute;
+        top             : 50%;
+        height          : 28px;
+        width           : 1px;
+        right           : 52px;
         background-color: rgba(22, 24, 35, 0.12);
-        transform: translateY(-50%);
+        transform       : translateY(-50%);
     }
 
     &:focus-within {
@@ -56,24 +57,25 @@
 
 .clear,
 .loading {
-    border: none;
+    border          : none;
     background-color: transparent;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(22, 24, 35, 0.34);
-    right: 66px;
+    position        : absolute;
+    display         : flex;
+    align-items     : center;
+    top             : 50%;
+    transform       : translateY(-50%);
+    color           : rgba(22, 24, 35, 0.34);
+    right           : 66px;
+
     svg {
         color: rgba(22, 24, 35, 0.34);
     }
 }
 
 .loading {
-    display: flex;
+    display    : flex;
     align-items: center;
-    right: 62px;
+    right      : 62px;
     // top: 10%;
 }
 
@@ -92,14 +94,14 @@
 }
 
 .search-btn {
-    border: none;
-    background-color: transparent;
-    padding: 11px 16px 11px 12px;
-    display: flex;
-    align-items: center;
-    border-top-right-radius: var(--border-radius-header);
+    border                    : none;
+    background-color          : transparent;
+    padding                   : 11px 16px 11px 12px;
+    display                   : flex;
+    align-items               : center;
+    border-top-right-radius   : var(--border-radius-header);
     border-bottom-right-radius: var(--border-radius-header);
-    fill: rgba(22, 24, 35, 0.34);
+    fill                      : rgba(22, 24, 35, 0.34);
 
     &:focus-within {
         border-color: transparent;
@@ -107,7 +109,7 @@
 
     &:hover {
         background-color: rgba(22, 24, 35, 0.03);
-        cursor: pointer;
+        cursor          : pointer;
     }
 
     &:active {
@@ -116,11 +118,18 @@
 }
 
 .search-account-title {
-    height: 30px;
-    padding: 5px 12px;
-    font-size: 1.4rem;
+    height     : 30px;
+    padding    : 5px 12px;
+    font-size  : 1.4rem;
     line-height: 20px;
     font-weight: 600;
-    color: rgba(22, 24, 35, 0.5);
-    cursor: default;
+    color      : rgba(22, 24, 35, 0.5);
+    cursor     : default;
+}
+
+
+@media (max-width: 640px) {
+    .search {
+        display: none;
+    }
 }

@@ -1013,3 +1013,39 @@ $grid-breakpoints: (xs: 0,
 
     }
 }
+
+.p-8-px {
+    padding: 12px;
+}
+
+.sidebar-global {
+
+
+    .d-pc-bl-lg {
+        display: none;
+    }
+
+    @media (max-width: 992px) {
+        & {
+            width: 72px;
+
+
+            .d-pc-bl {
+                display: none;
+            }
+
+
+            .d-pc-bl-lg {
+                display: block;
+
+
+                a {
+                    padding        : 0;
+                    display        : inline-flex;
+                    justify-content: center;
+                    padding-left   : 19px;
+                }
+            }
+        }
+    }
+}

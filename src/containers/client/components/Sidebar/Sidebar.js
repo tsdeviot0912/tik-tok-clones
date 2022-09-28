@@ -160,7 +160,7 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
 
     return (
         <>
-            <aside className={cx('wrapper', `${classNameCustom}`)}>
+            <aside className={cx('wrapper', `${classNameCustom}`, 'sidebar-global')}>
                 <Scrollbars
                     styles={{
                         height: '100vh',
@@ -168,26 +168,50 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
                     autoHide={true}
                     // onAnimationStart="none"
                 >
-                    <Menu>
-                        <MenuItem
-                            title="For You"
-                            to="/customer/home"
-                            icon={<HomeIcon />}
-                            activeIcon={<HomeActiveIcon />}
-                        />
-                        <MenuItem
-                            title="Following"
-                            to={path.sliDebar.follow}
-                            icon={<UserGroupIcon />}
-                            activeIcon={<UserGroupActiveIcon />}
-                        />
-                        <MenuItem
-                            title="Live"
-                            to={path.sliDebar.live}
-                            icon={<LiveIcon />}
-                            activeIcon={<LiveActiveIcon />}
-                        />
-                    </Menu>
+                    <div className="d-pc-bl">
+                        <Menu>
+                            <MenuItem
+                                title="For You"
+                                to="/customer/home"
+                                icon={<HomeIcon />}
+                                activeIcon={<HomeActiveIcon />}
+                            />
+                            <MenuItem
+                                title="Following"
+                                to={path.sliDebar.follow}
+                                icon={<UserGroupIcon />}
+                                activeIcon={<UserGroupActiveIcon />}
+                            />
+                            <MenuItem
+                                title="Live"
+                                to={path.sliDebar.live}
+                                icon={<LiveIcon />}
+                                activeIcon={<LiveActiveIcon />}
+                            />
+                        </Menu>
+                    </div>
+                    <div className="d-pc-bl-lg">
+                        <Menu>
+                            <MenuItem
+                                // title="For You"
+                                to="/customer/home"
+                                icon={<HomeIcon />}
+                                activeIcon={<HomeActiveIcon />}
+                            />
+                            <MenuItem
+                                // title="Following"
+                                to={path.sliDebar.follow}
+                                icon={<UserGroupIcon />}
+                                activeIcon={<UserGroupActiveIcon />}
+                            />
+                            <MenuItem
+                                // title="Live"
+                                to={path.sliDebar.live}
+                                icon={<LiveIcon />}
+                                activeIcon={<LiveActiveIcon />}
+                            />
+                        </Menu>
+                    </div>
                     <SuggestAccount
                         label="Tài khoản được đề xuất"
                         data={suggestedUser}
@@ -204,7 +228,7 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
                     ) : (
                         <>
                             <p className="my-2 text-center no-login-title">Tài khoản theo dõi</p>
-                            <div className="d-flex justify-content-center my-2">
+                            <div className="d-flex justify-content-center my-2 p-8-px">
                                 <button className="btn no-login-btn" onClick={handleToggleModal}>
                                     Đăng nhập để xem những tài khoản theo dõi
                                 </button>

@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, CSSProperties } from 'react';
 import { useSelector } from 'react-redux';
 import Select from 'react-select';
+import { ClimbingBoxLoader } from 'react-spinners';
 
 import Button from '../../../components/Button';
 import useGetToken from '../../../components/hooks/useGetToken';
@@ -11,6 +12,13 @@ import Footer from '../Footer';
 import './upload.scss';
 import ModalRender from '../../.././components/Popper/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+const override: CSSProperties = {
+    display: 'block',
+    margin: '0 auto',
+    borderColor: 'red',
+};
 
 function Upload() {
     const ref = useRef(null);
@@ -26,6 +34,7 @@ function Upload() {
     const [Stitch, setStitch] = useState(true);
     const [linkPreview, setLinkPreview] = useState('');
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
@@ -107,10 +116,25 @@ function Upload() {
                     thumbnail_time: 5,
                     music,
                     viewable: selectedOption.value,
-                    allows: ['comment', 'duet', 'stitch'],
+                    allows: [comment ? 'comment' : '', Duet ? 'duet' : '', Stitch ? 'stitch' : ''],
                 };
-
+                setIsLoading(true);
                 await CreateVideo(dataBuild, Token);
+                setIsLoading(false);
+                toast('🦄 Bạn đã đăng video thành công', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                setSelectedOption(null);
+                setFileVideo(null);
+                setDescription('');
+                setMusic('');
+                setLinkPreview('');
             }
         } else {
             setIsOpen(true);
@@ -280,6 +304,15 @@ function Upload() {
             </div>
             <Footer />
             <ModalRender isOpen={isOpen} handleToggleModal={handleToggleModal} />
+            {isLoading && (
+                <div className="loading-upload">
+                    <div className="overlay-loading"></div>
+                    <div className="parents-upload-loading">
+                        <ClimbingBoxLoader loading={isLoading} color="#36d7b7" />
+                        <span className="tex-message">Đang xử lí hành động của bạn</span>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
