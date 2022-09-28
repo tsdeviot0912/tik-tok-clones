@@ -130,7 +130,15 @@
 
         &.mobile {
             position: absolute;
-            right   : 6px;
+
+            @media (max-width: 400px) {
+                right: 8px;
+            }
+
+
+            @media (min-width: 430px) and (max-width: 991.98px) {
+                right: 30px;
+            }
         }
     }
 }

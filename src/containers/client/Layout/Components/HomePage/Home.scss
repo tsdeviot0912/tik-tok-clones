@@ -19,11 +19,12 @@
     .container {
 
         .parents-nav-mobile {
-            display    : flex;
-            align-items: center;
+            display        : flex;
+            align-items    : center;
+            justify-content: space-around;
 
             .item-nav-mobile {
-                width          : 75px;
+                height         : 50px !important;
                 height         : 100%;
                 display        : inline-flex;
                 justify-content: center;

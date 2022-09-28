@@ -39,6 +39,8 @@ function ViewCopy() {
     const [page, setPage] = useState(1);
     const [isRender, setIsRender] = useState(false);
     const [detailFollow, setDetailFollow] = useState({});
+    const [heightPage, setHeightPage] = useState(+0);
+    const [WindowScollY, setWindowScollY] = useState(+0);
 
     const paramUuid = useParams();
 
@@ -113,6 +115,36 @@ function ViewCopy() {
         disPatch(Actions.createNewComment(dataBuild, paramUuid.uuid, token));
     };
 
+    const listenScrollEvent = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            setWindowScollY(Math.floor(window.innerHeight + window.scrollY));
+        }
+
+        if (heightPage !== document.documentElement.scrollHeight) {
+            setHeightPage(Math.floor(document.documentElement.scrollHeight));
+        }
+    };
+
+    useEffect(() => {
+        if (WindowScollY === heightPage || WindowScollY === heightPage - 1) {
+            if (!_.isEmpty(metaVideo) && page === metaVideo.total_pages) {
+                setPage((prev) => prev);
+            } else {
+                setPage((prev) => prev + 1);
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [WindowScollY, heightPage]);
+
+    useEffect(() => {
+        window.addEventListener('scroll', listenScrollEvent);
+
+        return () => {
+            window.removeEventListener('scroll', listenScrollEvent);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const handleToggleModal = () => {
         setIsOpen(!isOpen);
     };
@@ -135,6 +167,10 @@ function ViewCopy() {
     useEffect(() => {
         setDetailFollow(detailFollowAndUnFollow);
     }, [detailFollowAndUnFollow]);
+
+    console.log('check page :', page);
+    console.log('check heightPage :', heightPage);
+    console.log('check WindowScollY :', WindowScollY);
 
     return (
         <div className="view-copy-link-wrapper">
