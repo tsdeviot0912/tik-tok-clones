@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import _ from 'lodash';
 import { BrowserView, MobileView } from 'react-device-detect';
 import Slider from 'react-slick';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { useCallback } from 'react';
 
 import ItemVideo from './ItemVideo';
 import './Home.scss';
@@ -10,7 +13,6 @@ import * as actions from '../../../../.././store/actions';
 import useGetToken from '../../../../../components/hooks/useGetToken';
 import ModalRender from '../../../../../components/Popper/Modal';
 import { LoadingHome } from '../../../../../components/SkelotonLoading';
-import { useCallback } from 'react';
 import { GetVideoLimitType } from '../../../../../services';
 import {
     IconHomeMobile,
@@ -57,6 +59,7 @@ function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenSkeloton, setIsOpenSkeloton] = useState(false);
     const [isShow, setIsShow] = useState(true);
+    const [view, setView] = useState('');
 
     // useEffect(() => {
     //     setListVideo((prev) => [...prev, ...listVideoLimit]);
@@ -111,6 +114,12 @@ function Home() {
     }, [page]);
 
     const listenScrollEvent = () => {
+        if (window.scrollY <= 70) {
+            setView('');
+        } else if (window.scrollY >= 70) {
+            setView('view__slide__down');
+        }
+
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
             setWindowScollY(Math.floor(window.innerHeight + window.scrollY));
         }
@@ -170,6 +179,17 @@ function Home() {
         });
     }, [detailFollowAndUnFollow]);
 
+    const handleScroll = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    };
+
+    useEffect(() => {
+        document.title = 'TikTok - Make Your Day';
+    }, []);
+
     return (
         <>
             <BrowserView>
@@ -187,6 +207,11 @@ function Home() {
                 </div>
                 {isOpenSkeloton && <Skeloton />}
                 {isOpen && <ModalRender handleToggleModal={handleToggleModal} isOpen={isOpen} />}
+                <div className={view ? 'scroll-top animation-btn' : 'scroll-top'} onClick={handleScroll}>
+                    <button type="submit">
+                        <FontAwesomeIcon icon={faAngleUp} />
+                    </button>
+                </div>
             </BrowserView>
             <MobileView>
                 <div className="home-page-container-mobile">

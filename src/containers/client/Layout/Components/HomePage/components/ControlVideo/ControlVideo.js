@@ -1,6 +1,7 @@
 import { faPause, faPlay, faVolumeXmark, faVolumeDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
+import { IconMuteVolume, IconNoMuteVolume } from '../../../../../../../components/Icons';
 
 import './ControlVideo.scss';
 
@@ -30,9 +31,15 @@ function ControlVideo({ play, handleToggle, handleOnchange, valueVolume, setValu
                         value={valueVolume}
                     />
                     {valueVolume === 0 ? (
-                        <FontAwesomeIcon icon={faVolumeXmark} onClick={() => setValueVolume(0.3)} />
+                        <span onClick={() => setValueVolume(0.3)}>
+                            <IconMuteVolume />
+                        </span>
                     ) : (
-                        <FontAwesomeIcon icon={faVolumeDown} onClick={() => setValueVolume(0)} />
+                        <span onClick={() => setValueVolume(0)}>
+                            <IconNoMuteVolume />
+                        </span>
+                        // // <FontAwesomeIcon icon={faVolumeXmark}  />
+                        // <FontAwesomeIcon icon={faVolumeDown} onClick={() => setValueVolume(0)} />
                     )}
                 </div>
             </div>

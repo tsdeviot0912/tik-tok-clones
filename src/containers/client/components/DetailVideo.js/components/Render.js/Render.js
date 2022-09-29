@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-import { IconLogo } from '../../../../../../components/Icons';
+import { IconLogo, IconMuteVolume, IconNoMuteVolume } from '../../../../../../components/Icons';
 
 function Render({ valueVolume, setValueVolume, handleOnchange = () => {} }) {
     const history = useNavigate();
@@ -49,9 +49,13 @@ function Render({ valueVolume, setValueVolume, handleOnchange = () => {} }) {
                         value={valueVolume}
                     />
                     {valueVolume === 0 ? (
-                        <FontAwesomeIcon icon={faVolumeXmark} onClick={() => setValueVolume(0.3)} />
+                        <span onClick={() => setValueVolume(0.3)}>
+                            <IconMuteVolume />
+                        </span>
                     ) : (
-                        <FontAwesomeIcon icon={faVolumeDown} onClick={() => setValueVolume(0)} />
+                        <span onClick={() => setValueVolume(0)}>
+                            <IconNoMuteVolume />
+                        </span>
                     )}
                 </div>
             </div>

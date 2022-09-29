@@ -46,9 +46,37 @@
         justify-content: center;
 
         input {
-            margin-right: 10px;
-            width       : 30%;
-            height      : 3px;
+            margin-right      : 10px;
+            width             : 30%;
+            height            : 3px;
+            background-color  : #ccc;
+            border            : 1px solid #ddd;
+            -webkit-appearance: none;
+
+
+            &::-webkit-slider-thumb {
+                -webkit-appearance   : none;
+                background-color     : #fff;
+                width                : 14px;
+                height               : 14px;
+                border-radius        : 50%;
+                border               : 0.2px solid#ccc;
+                // position          : absolute;
+                right                : -1px;
+                bottom               : -3.7px;
+            }
+
+            &::-moz-range-track {
+                background-color: #fff;
+            }
+
+            &::-ms-fill-lower {
+                background-color: #fff;
+            }
+
+            &::-ms-fill-upper {
+                background-color: #fff;
+            }
         }
 
         span {

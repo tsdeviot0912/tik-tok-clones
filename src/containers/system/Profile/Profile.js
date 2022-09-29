@@ -105,6 +105,12 @@ function Profile() {
         }
     };
 
+    useEffect(() => {
+        if (!_.isEmpty(user)) {
+            document.title = `${user.first_name} ${user.last_name} ${user.nickname}`;
+        }
+    }, [user]);
+
     return (
         <div className="profile-wrapper">
             <div className="header-profile">

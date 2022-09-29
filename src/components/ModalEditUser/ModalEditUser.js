@@ -11,6 +11,7 @@ import { IconsEdit } from '../Icons';
 import './ModalEditUser.scss';
 import * as actions from '../../store/actions';
 import useGetToken from '../hooks/useGetToken';
+import { toast } from 'react-toastify';
 
 function ModalEditUser({ isOpen, handleToggle, userCurrent = {} }) {
     const Token = useGetToken();
@@ -88,9 +89,10 @@ function ModalEditUser({ isOpen, handleToggle, userCurrent = {} }) {
             };
 
             disPath(actions.updateUser(dataBuild, Token));
+            toast('Bạn đã sửa thành công trang cá nhân! Chúng tôi sẽ sớm cập nhật ');
             setTimeout(() => {
                 handleToggle();
-            }, 1000);
+            }, 2000);
         }
     };
 

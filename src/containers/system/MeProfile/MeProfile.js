@@ -95,6 +95,10 @@ function MeProfile() {
         history(`/customer/video-details-with-id-and-user/${uuid}`);
     };
 
+    useEffect(() => {
+        document.title = 'Tài khoản của tôi';
+    }, [user]);
+
     return (
         <div className="profile-wrapper">
             <div className="header-profile">

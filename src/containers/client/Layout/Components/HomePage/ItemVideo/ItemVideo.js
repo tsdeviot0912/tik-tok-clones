@@ -6,7 +6,7 @@ import _ from 'lodash';
 import Tippy from '@tippyjs/react/headless';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { faComment, faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import { BrowserView, MobileView } from 'react-device-detect';
 
 import ControlVideo from '../components/ControlVideo';
@@ -130,8 +130,6 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false
         }
     }, [data]);
 
-    console.log('check window :', window);
-
     return (
         <>
             <BrowserView>
@@ -143,52 +141,59 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false
                             </div>
                             <div className="d-flex">
                                 <div className="video-container">
-                                    <video ref={ref} onClick={() => handleClickRedirect(data)} loop>
-                                        <source src={data.file_url} />
-                                    </video>
-                                    <div className="hover">
-                                        <ControlVideo
-                                            play={play}
-                                            handleToggle={handleToggle}
-                                            handleOnchange={handleOnchange}
-                                            valueVolume={valueVolume}
-                                            setValueVolume={setValueVolume}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="heart-and-share-video">
-                                    <div>
-                                        <button
-                                            onClick={() => {
-                                                if (isLoggedIn) {
-                                                    handleClickHeart(data.uuid, Token, data.is_liked);
-                                                } else {
-                                                    handleToggleModal();
-                                                }
-                                            }}
-                                        >
-                                            {data.is_liked ? (
-                                                <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
-                                            ) : (
-                                                <FontAwesomeIcon icon={faHeart} />
-                                            )}
-                                        </button>
-                                        <strong>{data.likes_count}</strong>
-                                    </div>
-                                    <div>
-                                        <button onClick={() => handleClickCommentBtn(data.uuid, Token)}>
-                                            <FontAwesomeIcon icon={faComment} />
-                                        </button>
-                                        <strong>{data.comments_count}</strong>
-                                    </div>
-                                    <TippyRender>
-                                        <div>
-                                            <button>
-                                                <FontAwesomeIcon icon={faShare} />
-                                            </button>
-                                            <strong>{data.shares_count}</strong>
+                                    <div
+                                        className="backgroundImage-video-wrapper"
+                                        style={{
+                                            backgroundImage: `url(${data.thumb_url})`,
+                                        }}
+                                    >
+                                        <video ref={ref} onClick={() => handleClickRedirect(data)} loop>
+                                            <source src={data.file_url} />
+                                        </video>
+                                        <div className="hover">
+                                            <ControlVideo
+                                                play={play}
+                                                handleToggle={handleToggle}
+                                                handleOnchange={handleOnchange}
+                                                valueVolume={valueVolume}
+                                                setValueVolume={setValueVolume}
+                                            />
                                         </div>
-                                    </TippyRender>
+                                    </div>
+                                    <div className="heart-and-share-video">
+                                        <div>
+                                            <button
+                                                onClick={() => {
+                                                    if (isLoggedIn) {
+                                                        handleClickHeart(data.uuid, Token, data.is_liked);
+                                                    } else {
+                                                        handleToggleModal();
+                                                    }
+                                                }}
+                                            >
+                                                {data.is_liked ? (
+                                                    <FontAwesomeIcon className="heart-with-me" icon={faHeartSolid} />
+                                                ) : (
+                                                    <FontAwesomeIcon icon={faHeartSolid} />
+                                                )}
+                                            </button>
+                                            <strong className="information-number">{data.likes_count}</strong>
+                                        </div>
+                                        <div>
+                                            <button onClick={() => handleClickCommentBtn(data.uuid, Token)}>
+                                                <FontAwesomeIcon icon={faCommentDots} />
+                                            </button>
+                                            <strong className="information-number">{data.comments_count}</strong>
+                                        </div>
+                                        <TippyRender>
+                                            <div>
+                                                <button>
+                                                    <FontAwesomeIcon icon={faShare} />
+                                                </button>
+                                                <strong className="information-number">{data.shares_count}</strong>
+                                            </div>
+                                        </TippyRender>
+                                    </div>
                                 </div>
                             </div>
                         </>

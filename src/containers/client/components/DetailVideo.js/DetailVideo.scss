@@ -9,13 +9,13 @@
 
 
         .left-content {
-            width        : 68%;
+            width           : 68%;
             // padding   : 68px;
-            padding      : 26px;
-            height       : 100%;
-            position     : relative;
-            background   : rgb(0, 0, 0);
-            overflow     : hidden;
+            // padding      : 26px;
+            height          : 100%;
+            position        : relative;
+            background      : rgba(0, 0, 0, 0.85);
+            overflow        : hidden;
 
 
             .header {
@@ -114,15 +114,53 @@
                     flex-direction: row;
                     align-items   : center;
 
+                    svg {
+                        left    : 6px;
+                        position: absolute;
+                        top     : 0;
+                    }
+
                     input {
-                        left: -23px;
-                        top : -40px;
+                        left              : 0px;
+                        top               : -44px;
+                        -webkit-appearance: none;
+
+
+                        &::-webkit-slider-thumb {
+                            -webkit-appearance   : none;
+                            background-color     : #fff;
+                            width                : 14px;
+                            height               : 14px;
+                            border-radius        : 50%;
+                            border               : 0.2px solid#ccc;
+                            // position          : absolute;
+                            right                : -1px;
+                            bottom               : -3.7px;
+                        }
+
+                        &::-moz-range-track {
+                            background-color: #fff;
+                        }
+
+                        &::-ms-fill-lower {
+                            background-color: #fff;
+                        }
+
+                        &::-ms-fill-upper {
+                            background-color: #fff;
+                        }
                     }
 
 
                     svg {
                         margin-right : 0px;
                         margin-bottom: 2px;
+                    }
+                }
+
+                &.volume {
+                    &:hover {
+                        display: none;
                     }
                 }
             }

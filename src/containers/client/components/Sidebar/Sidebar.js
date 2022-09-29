@@ -33,6 +33,7 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
     const [isOpen, setIsOpen] = useState(false);
     const detailFollowAndUnFollow = useSelector((state) => state.SiteReducer.detailFollowAndUnFollow);
     const [count, setCount] = useState(5);
+    const [followEnded, setFollowEnded] = useState(false);
 
     const listUserSuggest = useSelector((state) => state.AccountReducer.listUserSuggest);
     const MetaAccount = useSelector((state) => state.AccountReducer.MetaAccount);
@@ -64,15 +65,27 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
         });
     };
 
-    const handleSellMoreFollow = () => {
-        setPageFollow((prev) => {
-            if (!_.isEmpty(MetaPageFollow.pagination) && pageFollow === +MetaPageFollow.pagination.total_pages) {
-                return prev;
-            } else {
-                return prev + 1;
+    useEffect(() => {
+        if (!_.isEmpty(MetaPageFollow)) {
+            if (pageFollow === +MetaPageFollow.pagination.total_pages) {
+                setFollowEnded(true);
             }
-        });
+        }
+    }, [followEnded, MetaPageFollow, pageFollow]);
+
+    const handleSellMoreFollow = () => {
+        if (!_.isEmpty(MetaPageFollow.pagination) && pageFollow === +MetaPageFollow.pagination.total_pages) {
+            setFollowEnded(true);
+        } else {
+            setPageFollow((prev) => {
+                return prev + 1;
+            });
+        }
     };
+
+    if (!_.isEmpty(MetaPageFollow)) {
+        console.log('check conditions :', pageFollow === +MetaPageFollow.pagination.total_pages);
+    }
 
     useEffect(() => {
         // disPatch(action.getSuggestedAccountLimitAction(page, 7, Token));
@@ -109,6 +122,7 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
 
                 if (Res && Res.data.length > 0) {
                     setListFollowAccount((prev) => [...prev, ...Res.data]);
+                    disPatch(action.getMetaFollowList(Res.meta));
                 }
             };
 
@@ -157,6 +171,8 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    console.log('check followEnded :', followEnded);
 
     return (
         <>
@@ -224,6 +240,7 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
                             data={listFollowAccount}
                             onSeeAll={handleSellMoreFollow}
                             isFollow={true}
+                            followEnded={followEnded}
                         />
                     ) : (
                         <>

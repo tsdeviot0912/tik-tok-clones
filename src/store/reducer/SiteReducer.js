@@ -9,6 +9,7 @@ const initialState = {
     detailUnlikeVideo: {},
 
     listUserSearch: [],
+    nodataSearch: '',
     MetaSearchUser: {},
 
     listComments: [],
@@ -327,6 +328,16 @@ export const SiteReducer = (state = initialState, action) => {
 
         case actionTypes.UPDATE_USER_FAILED: {
             return { ...state };
+        }
+
+        case actionTypes.SEARCH_USER_NO_DATA_SUCCESS: {
+            const cloneStateSearchNodataUser = { ...state };
+
+            cloneStateSearchNodataUser.nodataSearch = action.data;
+
+            return {
+                ...cloneStateSearchNodataUser,
+            };
         }
 
         default:

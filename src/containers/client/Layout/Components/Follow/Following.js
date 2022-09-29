@@ -39,6 +39,8 @@ class Following extends Component {
     }
 
     async componentDidMount() {
+        document.title = 'TikTok - Following';
+
         const { getSuggestedAccountLimitActionSite, getVideoLimitType, isLoggedIn } = this.props;
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const Token = await useGetToken();

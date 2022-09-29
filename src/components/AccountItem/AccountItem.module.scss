@@ -32,10 +32,11 @@
 }
 
 .username {
-    font-size    : 1.6rem;
+    font-size    : 1.4rem;
     font-weight  : 600;
     text-overflow: ellipsis;
     white-space  : nowrap;
+
 
     img {
         margin-left: 6px;
@@ -43,7 +44,7 @@
 }
 
 .name {
-    font-size    : 1.4rem;
+    font-size    : 1.2rem;
     line-height  : 20px;
     font-weight  : 400;
     overflow     : hidden;

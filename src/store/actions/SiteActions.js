@@ -327,8 +327,10 @@ export const searchUserAndVideo = (q, type, page) => {
         try {
             const Res = await SearchUserAndVideo(q, type, page);
 
-            if (Res && Res.data) {
+            if (Res && Res.data.length > 0) {
                 dispatch(searchUserAndVideoSuccess(Res.data));
+            } else {
+                dispatch(searchUserAndVideoNodataSuccess('Xin lỗi chúng tôi không tìm thấy kết quả tìm kiếm nào ?'));
             }
 
             if (Res && Res.meta && Res.meta.pagination) {
@@ -344,6 +346,13 @@ export const searchUserAndVideo = (q, type, page) => {
 export const searchUserAndVideoSuccess = (data) => {
     return {
         type: actionTypes.SEARCH_USER_SUCCESS,
+        data,
+    };
+};
+
+export const searchUserAndVideoNodataSuccess = (data) => {
+    return {
+        type: actionTypes.SEARCH_USER_NO_DATA_SUCCESS,
         data,
     };
 };
@@ -598,8 +607,11 @@ export const updateUser = (data, token) => {
         try {
             const Res = await UpdateUser(data, token);
 
+            console.log('check Res :', Res.data);
+
             if (Res && Res.data) {
                 dispatch(updateUserSuccess(Res.data));
+                dispatch(updateUserInfoSuccess(Res.data));
             }
         } catch (error) {
             dispatch(updateUserFailed());
@@ -617,5 +629,12 @@ export const updateUserSuccess = (data) => {
 export const updateUserFailed = () => {
     return {
         type: actionTypes.UPDATE_USER_FAILED,
+    };
+};
+
+export const updateUserInfoSuccess = (data) => {
+    return {
+        type: actionTypes.UPDATE_USER_SUCCESS,
+        data,
     };
 };

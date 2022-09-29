@@ -13,6 +13,7 @@ import { SkeletonLoadingSearchPage } from '../../../../../components/SkelotonLoa
 function SearchPage() {
     const disPatch = useDispatch();
     const listUserSearch = useSelector((state) => state.SiteReducer.listUserSearch);
+    const nodataSearch = useSelector((state) => state.SiteReducer.nodataSearch);
     const MetaSearchUser = useSelector((state) => state.SiteReducer.MetaSearchUser);
     const history = useNavigate();
     const userInfo = useSelector((state) => state.user.userInfo) || {};
@@ -25,12 +26,17 @@ function SearchPage() {
     const [meta, setMeta] = useState({});
     const [page, setPage] = useState(1);
     const [isOpenBtnMore, setIsOpenMore] = useState(true);
+    const [nodata, setNodata] = useState('');
 
     const params = useParams();
 
     useEffect(() => {
         setIsUser(true);
     }, []);
+
+    useEffect(() => {
+        setNodata(nodataSearch);
+    }, [nodataSearch]);
 
     useEffect(() => {
         disPatch(actions.searchUserAndVideo(params.q, 'more', page));
@@ -69,6 +75,12 @@ function SearchPage() {
             setIsOpenMore(false);
         }
     };
+
+    useEffect(() => {
+        if (params.q) {
+            document.title = `Tìm kiếm ${params.q} trên Tik Tok`;
+        }
+    }, [params.q]);
 
     return (
         <div className="search-wrapper-page">
@@ -113,31 +125,35 @@ function SearchPage() {
             <div className="body">
                 {isUser && (
                     <div className="content-user">
-                        {listUser && listUser.length > 0 ? (
-                            listUser.map((item) => (
-                                <div className="item-user" key={item.id} onClick={() => handleRedirect(item)}>
-                                    <div className="logo">
-                                        <Image src={item.avatar ? item.avatar : ''} alt="" />
+                        {!nodata ? (
+                            listUser && listUser.length > 0 ? (
+                                listUser.map((item) => (
+                                    <div className="item-user" key={item.id} onClick={() => handleRedirect(item)}>
+                                        <div className="logo">
+                                            <Image src={item.avatar ? item.avatar : ''} alt="" />
+                                        </div>
+                                        <div className="content-and-title">
+                                            <p className="top">
+                                                <strong>{item.nickname}</strong>
+                                                {item.tick && <FontAwesomeIcon icon={faCheckCircle} />}
+                                            </p>
+                                            <p className="center">
+                                                <span>{`${item.first_name} ${item.last_name}`}</span>
+                                                <span>
+                                                    <b>{item.followers_count}</b> Follow
+                                                </span>
+                                            </p>
+                                            <p className="bottom">
+                                                <span>{item.bio || 'Đang cập nhật'}</span>
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className="content-and-title">
-                                        <p className="top">
-                                            <strong>{item.nickname}</strong>
-                                            {item.tick && <FontAwesomeIcon icon={faCheckCircle} />}
-                                        </p>
-                                        <p className="center">
-                                            <span>{`${item.first_name} ${item.last_name}`}</span>
-                                            <span>
-                                                <b>{item.followers_count}</b> Follow
-                                            </span>
-                                        </p>
-                                        <p className="bottom">
-                                            <span>{item.bio || 'Đang cập nhật'}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            ))
+                                ))
+                            ) : (
+                                <SkeletonLoadingSearchPage />
+                            )
                         ) : (
-                            <SkeletonLoadingSearchPage />
+                            <p>{nodata}</p>
                         )}
 
                         {isOpenBtnMore && (

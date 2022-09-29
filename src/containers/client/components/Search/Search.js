@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './Search.module.scss';
@@ -12,6 +13,7 @@ import { useDebounce } from '../../../../components/hooks';
 // import * as searchService from '../../../services/searchService';
 import Renderresult from './RenderResult';
 import { SearchUserAndVideo } from '../../../../services/AppServices';
+import * as actions from '../../../../store/actions';
 
 const cx = className.bind(styles);
 
@@ -26,6 +28,7 @@ function Search() {
     const inputElementRef = useRef();
     const button = useRef();
     const history = useNavigate();
+    const dispatch = useDispatch();
 
     // handle user nhap liên tục value chánh hiện tương bắn required liên tục lên máy chủ
     const debounceValue = useDebounce(searchText, 500);
@@ -91,6 +94,7 @@ function Search() {
         e.preventDefault();
         setShowResult(false);
         history(`/customer/search/${debounceValue || searchText}`);
+        dispatch(actions.searchUserAndVideoNodataSuccess(''));
     };
 
     return (

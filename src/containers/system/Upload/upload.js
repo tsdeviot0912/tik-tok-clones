@@ -14,12 +14,6 @@ import ModalRender from '../../.././components/Popper/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const override: CSSProperties = {
-    display: 'block',
-    margin: '0 auto',
-    borderColor: 'red',
-};
-
 function Upload() {
     const ref = useRef(null);
     const Token = useGetToken();

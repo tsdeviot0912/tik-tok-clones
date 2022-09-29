@@ -6,6 +6,7 @@ import ReactLoading from 'react-loading';
 import { useDispatch, useSelector } from 'react-redux';
 import Picker from 'emoji-picker-react';
 import Tippy from '@tippyjs/react';
+import { HashLoader } from 'react-spinners';
 
 import './DetailVideo.scss';
 import Video from './components/video/video';
@@ -146,6 +147,10 @@ function DetailVideo() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        document.title = `TikTok - Make Your Day`;
+    }, []);
+
     // useEffect(() => {
     //     window.addEventListener('unload', alertUser);
     //     return () => {
@@ -249,13 +254,9 @@ function DetailVideo() {
                 )}
             </div>
             {isLoading && (
-                <ReactLoading
-                    type={'bubbles'}
-                    color={'blue'}
-                    className="loading-fixed"
-                    height={'100vh'}
-                    width={'100%'}
-                />
+                <div className="item-loading-detail">
+                    <HashLoader color="#36d7b7" />
+                </div>
             )}
         </div>
     );

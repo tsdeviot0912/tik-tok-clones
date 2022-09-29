@@ -20,6 +20,11 @@ const appReducer = (state = initialState, action) => {
                 userInfo: action.userInfo,
                 // userPersist: action.userInfo,
             };
+        case actionTypes.UPDATE_USER_SUCCESS:
+            return {
+                ...state,
+                userInfo: action.data,
+            };
         case actionTypes.USER_LOGIN_FAIL:
             return {
                 ...state,

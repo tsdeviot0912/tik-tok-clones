@@ -3,45 +3,56 @@ import Skeleton from 'react-loading-skeleton';
 export const LoadingHome = () => {
     return (
         <div className="height-100vh overflow-hidden">
-            <Skeleton height={60}></Skeleton>
+            <Skeleton height={50}></Skeleton>
             <div className="d-flex overflow-hidden mt-2">
-                <Skeleton height={220} width={300}></Skeleton>
+                <Skeleton height={220} width={700}></Skeleton>
                 <Skeleton
                     height={220}
-                    width={500}
+                    width={100}
                     style={{
                         marginLeft: 14,
                     }}
                 ></Skeleton>
             </div>
-            <Skeleton height={60}></Skeleton>
+            <Skeleton height={50}></Skeleton>
             <div className="d-flex overflow-hidden mt-2">
-                <Skeleton height={220} width={300}></Skeleton>
+                <Skeleton height={220} width={700}></Skeleton>
                 <Skeleton
                     height={220}
-                    width={500}
+                    width={100}
                     style={{
                         marginLeft: 14,
                     }}
                 ></Skeleton>
             </div>
-            <Skeleton height={60}></Skeleton>
+            <Skeleton height={50}></Skeleton>
             <div className="d-flex overflow-hidden mt-2">
-                <Skeleton height={220} width={300}></Skeleton>
+                <Skeleton height={220} width={700}></Skeleton>
                 <Skeleton
                     height={220}
-                    width={500}
+                    width={100}
                     style={{
                         marginLeft: 14,
                     }}
                 ></Skeleton>
             </div>
-            <Skeleton height={60} className="mt-4"></Skeleton>
+            <Skeleton height={50}></Skeleton>
             <div className="d-flex overflow-hidden mt-2">
-                <Skeleton height={220} width={300}></Skeleton>
+                <Skeleton height={220} width={700}></Skeleton>
                 <Skeleton
                     height={220}
-                    width={500}
+                    width={100}
+                    style={{
+                        marginLeft: 14,
+                    }}
+                ></Skeleton>
+            </div>
+            <Skeleton height={50}></Skeleton>
+            <div className="d-flex overflow-hidden mt-2">
+                <Skeleton height={220} width={700}></Skeleton>
+                <Skeleton
+                    height={220}
+                    width={100}
                     style={{
                         marginLeft: 14,
                     }}

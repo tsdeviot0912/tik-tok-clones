@@ -11,7 +11,7 @@ import Button from '../../../../components/Button/Button';
 import styles from './Header.module.scss';
 import images from '../../../.././assets/img';
 import { Menu } from '../../../../components/Popper';
-import { UploadIcon, MessageIcon } from '../../../../components/Icons';
+import { UploadIcon, MessageIcon, IconAddUpload } from '../../../../components/Icons';
 import Search from '../Search';
 import Image from '../../../../components/Image';
 import ModalRender from '../../../../components/Popper/Modal';
@@ -131,8 +131,12 @@ function Header() {
                                         placement="bottom"
                                         zIndex={99999999999}
                                     >
-                                        <Link to="/upload/stepone" className={cx('btn-currentUser')}>
-                                            <UploadIcon className="Upload" />
+                                        <Link
+                                            to="/upload/stepone"
+                                            className={cx('btn-currentUser', 'chuk-jsx-npc-s-add-upload')}
+                                        >
+                                            <IconAddUpload />
+                                            <span>Tải lên</span>
                                         </Link>
                                     </Tippy>
                                     <Tippy delay={[0, 200]} content="Message" placement="bottom" zIndex={99999999999}>
@@ -149,7 +153,10 @@ function Header() {
                             ) : (
                                 <>
                                     <Button text to="/upload">
-                                        Upload
+                                        <span className="chuk-jsx-npc-s-add-upload">
+                                            <IconAddUpload />
+                                            Tải lên
+                                        </span>
                                     </Button>
                                     <Button
                                         primary
