@@ -98,6 +98,7 @@ function ItemVideo({ data, handleClickHeart, handleToggleModal, isFollow = false
                 }
             } else {
                 if (video) {
+                    setValueVolume(0);
                     setPlay(false);
                     await video.pause();
                 }

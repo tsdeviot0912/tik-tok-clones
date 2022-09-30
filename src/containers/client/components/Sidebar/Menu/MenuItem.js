@@ -7,7 +7,7 @@ import styles from './Menu.module.scss';
 const cx = classNames.bind(styles);
 
 MenuItem.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     to: PropTypes.string.isRequired,
     icon: PropTypes.node.isRequired,
 };

@@ -172,8 +172,6 @@ function Sidebar({ classNameCustom = '', isHiddenTippy = false }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log('check followEnded :', followEnded);
-
     return (
         <>
             <aside className={cx('wrapper', `${classNameCustom}`, 'sidebar-global')}>

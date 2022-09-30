@@ -37,7 +37,7 @@ function SuggestAccount({ label, data, onSeeAll, isFollow = false, isHiddenTippy
                 <div className="suggest-account-body">
                     {data && data.length > 0 ? (
                         data.map((user, index) => (
-                            <>
+                            <div key={index}>
                                 <div className="pc-max-lg">
                                     <AccountItem
                                         isFollow={isFollow}
@@ -49,7 +49,7 @@ function SuggestAccount({ label, data, onSeeAll, isFollow = false, isHiddenTippy
                                 <div className="pc-min-lg">
                                     <AccountItem isFollow={isFollow} key={index} item={user} isHiddenTippy={true} />
                                 </div>
-                            </>
+                            </div>
                         ))
                     ) : (
                         <>

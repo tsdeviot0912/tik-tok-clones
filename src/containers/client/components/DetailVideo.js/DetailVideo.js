@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
-import _ from 'lodash';
-import { useNavigate, useParams } from 'react-router-dom';
+import _, { replace } from 'lodash';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useDispatch, useSelector } from 'react-redux';
 import Picker from 'emoji-picker-react';
 import Tippy from '@tippyjs/react';
 import { HashLoader } from 'react-spinners';
+import { useBeforeunload } from 'react-beforeunload';
 
 import './DetailVideo.scss';
 import Video from './components/video/video';
@@ -18,6 +19,7 @@ import useGetToken from '../../../../components/hooks/useGetToken';
 import ModalRender from '../../../../components/Popper/Modal';
 import { IconEmoj } from '../../../../components/Icons';
 import Redirect from '../../../.././routes/redirect/Redirect';
+import { useRef } from 'react';
 
 let hidden = null;
 let visibilityChange = null;
@@ -33,11 +35,17 @@ if (typeof document.hidden !== 'undefined') {
     visibilityChange = 'webkitvisibilitychange';
 }
 
+const handlePushReload = (uuidParams) => {
+    window.location.href = `/customer/video-details-with-id-and-user/${uuidParams.uuid}/view=2`;
+    window.location.replace(`/customer/video-details-with-id-and-user/b3b57b14-eff1-4d3b-af13-fe9714156b80/view=2`);
+};
+
 function DetailVideo() {
     const detailVideo = useSelector((state) => state.SiteReducer.detailVideo);
 
     const token = useGetToken();
     const history = useNavigate();
+    const ref = useRef(null);
 
     const [linkCopy, setLinkCopy] = useState('http://localhost:3000/customer/home');
     const [DetailVideoState, setDetailVideoState] = useState({});
@@ -151,27 +159,23 @@ function DetailVideo() {
         document.title = `TikTok - Make Your Day`;
     }, []);
 
-    // useEffect(() => {
-    //     window.addEventListener('unload', alertUser);
-    //     return () => {
-    //         window.removeEventListener('unload', alertUser);
-    //     };
-    // }, []);
+    useEffect(() => {
+        window.onload = (e) => {
+            history(`/customer/video-details-with-id-and-user/${uuidParams.uuid}/view=2`);
+        };
 
-    // useEffect(() => {
-    //     if (window.performance) {
-    //         if (performance.navigation.type === 1) {
-    //             alert('page load took ');
-    //         } else {
-    //             alert('This page is not reloaded');
-    //         }
-    //     }
-    // }, []);
+        return () => (window.onload = null);
+    }, []);
 
-    // console.log('check window.performance :', window.performance);
+    window.onload = (e) => {
+        history(`/customer/video-details-with-id-and-user/${uuidParams.uuid}/view=2`);
+    };
 
     return (
         <div className="detail-video-container">
+            <a href="/" hidden ref={ref}>
+                click
+            </a>
             <div className="wrapper-detail-video-content">
                 {DetailVideoState && !_.isEmpty(DetailVideoState) && (
                     <>
