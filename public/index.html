@@ -17,23 +17,30 @@
         <link rel="apple-touch-icon" href="./logo.png" />
         <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
         <link rel="shortcut icon" href="./logo.png" />
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-K06BQ2VF56"></script>
         <title>TikTok - Make Your Day</title>
     </head>
     <body>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-K06BQ2VF56');
+        </script>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
-
         <div id="fb-root"></div>
-
         <!-- Your Plugin chat code -->
         <div id="fb-customer-chat" class="fb-customerchat"></div>
-
         <script>
             var chatbox = document.getElementById('fb-customer-chat');
             chatbox.setAttribute('page_id', '103117089169248');
             chatbox.setAttribute('attribution', 'biz_inbox');
         </script>
-
         <!-- Your SDK code -->
         <script>
             window.fbAsyncInit = function () {
@@ -42,7 +49,6 @@
                     version: 'v14.0',
                 });
             };
-
             (function (d, s, id) {
                 var js,
                     fjs = d.getElementsByTagName(s)[0];
